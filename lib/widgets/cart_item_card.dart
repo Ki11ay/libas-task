@@ -35,21 +35,42 @@ class CartItemCard extends StatelessWidget {
                 width: 80,
                 height: 80,
                 fit: BoxFit.cover,
+                // Enhanced caching for cart items
+                cacheKey: 'cart_item_${item.id}',
+                maxWidthDiskCache: 200,
+                maxHeightDiskCache: 200,
                 placeholder: (context, url) => Container(
                   width: 80,
                   height: 80,
                   color: AppColors.divider,
                   child: const Center(
-                    child: CircularProgressIndicator(strokeWidth: 2),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: AppColors.primary,
+                    ),
                   ),
                 ),
                 errorWidget: (context, url, error) => Container(
                   width: 80,
                   height: 80,
                   color: AppColors.divider,
-                  child: Icon(
-                    Icons.image_not_supported_outlined,
-                    color: AppColors.textSecondary,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.image_not_supported_outlined,
+                        color: AppColors.textSecondary,
+                        size: 24,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        'No image',
+                        style: TextStyle(
+                          fontSize: 8,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

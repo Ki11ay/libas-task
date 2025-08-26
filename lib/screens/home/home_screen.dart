@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/cart_provider.dart';
 import '../../utils/constants.dart';
-import '../product/product_list_screen.dart';
+import '../products/products_screen.dart';
 import '../cart/cart_screen.dart';
 import '../profile/profile_screen.dart';
 import '../search/search_screen.dart';
@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late PageController _pageController;
 
   final List<Widget> _screens = [
-    const ProductListScreen(),
+    const ProductsScreen(),
     const SearchScreen(),
     const CartScreen(),
     const ProfileScreen(),
@@ -100,11 +100,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: _testNotifications,
-        backgroundColor: AppColors.primary,
-        child: const Icon(Icons.notifications, color: Colors.white),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: _testNotifications,
+      //   backgroundColor: AppColors.primary,
+      //   child: const Icon(Icons.notifications, color: Colors.white),
+      // ),
       body: PageView(
         controller: _pageController,
         onPageChanged: (index) {

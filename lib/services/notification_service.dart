@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();
@@ -12,7 +13,7 @@ class NotificationService {
   Future<void> initialize() async {
     try {
       // Request permission for iOS
-      final settings = await _firebaseMessaging.requestPermission(
+      await _firebaseMessaging.requestPermission(
         alert: true,
         announcement: false,
         badge: true,

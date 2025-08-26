@@ -78,7 +78,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           onPressed: () {
                             _searchController.clear();
                             final productProvider = Provider.of<ProductProvider>(context, listen: false);
-                            productProvider.loadProducts();
+                            productProvider.refreshProducts();
                           },
                         )
                       : null,
@@ -92,7 +92,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 onChanged: (value) {
                   if (value.isEmpty) {
                     final productProvider = Provider.of<ProductProvider>(context, listen: false);
-                    productProvider.loadProducts();
+                    productProvider.refreshProducts();
                   }
                 },
               ),
@@ -168,7 +168,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                         const SizedBox(height: AppSizes.lg),
                         ElevatedButton(
-                          onPressed: () => productProvider.refresh(),
+                          onPressed: () => productProvider.refreshProducts(),
                           child: Text(AppStrings.retry),
                         ),
                       ],

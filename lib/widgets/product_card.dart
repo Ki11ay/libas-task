@@ -6,26 +6,21 @@ import '../utils/constants.dart';
 class ProductCard extends StatelessWidget {
   final ProductModel product;
   final VoidCallback? onTap;
-  final bool showRating;
-  final bool showDiscount;
 
   const ProductCard({
     super.key,
     required this.product,
     this.onTap,
-    this.showRating = true,
-    this.showDiscount = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(AppSizes.radiusLg),
-          boxShadow: AppSizes.shadowSm,
+      child: Card(
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSizes.radiusMd),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,95 +30,79 @@ class ProductCard extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(AppSizes.radiusLg),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(AppSizes.radiusMd),
                   ),
+                  color: AppColors.surface,
                 ),
-                child: Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(AppSizes.radiusLg),
-                      ),
-                      child: CachedNetworkImage(
-                        imageUrl: product.images.isNotEmpty ? product.images.first : '',
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                        placeholder: (context, url) => Container(
-                          color: AppColors.divider,
-                          child: const Center(
-                            child: CircularProgressIndicator(
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(AppSizes.radiusMd),
+                  ),
+                  child: CachedNetworkImage(
+                    imageUrl: product.imageUrl,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                    // Enhanced caching options
+                    cacheKey: 'product_${product.id}',
+                    maxWidthDiskCache: 800,
+                    maxHeightDiskCache: 800,
+                    // Better placeholder with shimmer effect
+                    placeholder: (context, url) => Container(
+                      color: AppColors.surface,
+                      child: const Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(
+                              color: AppColors.primary,
                               strokeWidth: 2,
                             ),
-                          ),
+                            SizedBox(height: 8),
+                            Text(
+                              'Loading...',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppColors.textSecondary,
+                              ),
+                            ),
+                          ],
                         ),
-                        errorWidget: (context, url, error) => Container(
-                          color: AppColors.divider,
-                          child: Icon(
+                      ),
+                    ),
+                    // Enhanced error handling
+                    errorWidget: (context, url, error) => Container(
+                      color: AppColors.surface,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
                             Icons.image_not_supported_outlined,
                             color: AppColors.textSecondary,
                             size: 32,
                           ),
-                        ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Image unavailable',
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: AppColors.textSecondary,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       ),
                     ),
-                    
-                    // Discount Badge
-                    if (showDiscount && product.hasDiscount)
-                      Positioned(
-                        top: AppSizes.sm,
-                        left: AppSizes.sm,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppSizes.sm,
-                            vertical: AppSizes.xs,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.error,
-                            borderRadius: BorderRadius.circular(AppSizes.radiusSm),
-                          ),
-                          child: Text(
-                            '-${product.discountPercentage.toInt()}%',
-                            style: AppTextStyles.caption.copyWith(
-                              color: AppColors.surface,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    
-                    // Out of Stock Badge
-                    if (!product.isAvailable)
-                      Positioned(
-                        top: AppSizes.sm,
-                        right: AppSizes.sm,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppSizes.sm,
-                            vertical: AppSizes.xs,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.textSecondary,
-                            borderRadius: BorderRadius.circular(AppSizes.radiusSm),
-                          ),
-                          child: Text(
-                            AppStrings.outOfStock,
-                            style: AppTextStyles.caption.copyWith(
-                              color: AppColors.surface,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                  ],
+
+                  ),
                 ),
               ),
             ),
             
             // Product Info
             Padding(
-              padding: const EdgeInsets.all(AppSizes.md),
+              padding: const EdgeInsets.all(AppSizes.sm),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -131,8 +110,8 @@ class ProductCard extends StatelessWidget {
                   Text(
                     product.name,
                     style: AppTextStyles.bodyMedium.copyWith(
-                      color: AppColors.textPrimary,
                       fontWeight: FontWeight.w600,
+                      color: AppColors.textPrimary,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -140,63 +119,91 @@ class ProductCard extends StatelessWidget {
                   
                   const SizedBox(height: AppSizes.xs),
                   
-                  // Category
-                  Text(
-                    product.category,
-                    style: AppTextStyles.caption.copyWith(
-                      color: AppColors.textSecondary,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  // Rating
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.star,
+                        size: 16,
+                        color: Colors.amber,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        product.rating.toString(),
+                        style: AppTextStyles.bodySmall.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        '(${product.reviewCount})',
+                        style: AppTextStyles.bodySmall.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ],
                   ),
                   
-                  const SizedBox(height: AppSizes.sm),
+                  const SizedBox(height: AppSizes.xs),
                   
-                  // Price and Rating Row
+                  // Price
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // Price
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (product.hasDiscount)
-                            Text(
-                              '\$${product.originalPrice!.toStringAsFixed(2)}',
-                              style: AppTextStyles.bodySmall.copyWith(
-                                color: AppColors.textTertiary,
-                                decoration: TextDecoration.lineThrough,
-                              ),
-                            ),
-                          Text(
-                            '\$${product.price.toStringAsFixed(2)}',
-                            style: AppTextStyles.bodyMedium.copyWith(
-                              color: AppColors.primary,
+                      Text(
+                        '\$${product.price.toStringAsFixed(2)}',
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      if (product.isOnSale) ...[
+                        const SizedBox(width: AppSizes.xs),
+                        Text(
+                          '\$${product.originalPrice!.toStringAsFixed(2)}',
+                          style: AppTextStyles.bodySmall.copyWith(
+                            decoration: TextDecoration.lineThrough,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                        const SizedBox(width: AppSizes.xs),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.error,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            '-${product.discountPercentage?.toStringAsFixed(0)}%',
+                            style: AppTextStyles.caption.copyWith(
+                              color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ],
-                      ),
-                      
-                      // Rating
-                      if (showRating && product.rating > 0)
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.star,
-                              size: 16,
-                              color: AppColors.accent,
-                            ),
-                            const SizedBox(width: AppSizes.xs),
-                            Text(
-                              product.rating.toString(),
-                              style: AppTextStyles.caption.copyWith(
-                                color: AppColors.textSecondary,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
                         ),
+                      ],
+                    ],
+                  ),
+                  
+                  const SizedBox(height: AppSizes.xs),
+                  
+                  // Stock Status
+                  Row(
+                    children: [
+                      Icon(
+                        product.isAvailable ? Icons.check_circle : Icons.cancel,
+                        size: 16,
+                        color: product.isAvailable ? Colors.green : AppColors.error,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        product.isAvailable ? 'In Stock' : 'Out of Stock',
+                        style: AppTextStyles.bodySmall.copyWith(
+                          color: product.isAvailable ? Colors.green : AppColors.error,
+                        ),
+                      ),
                     ],
                   ),
                 ],

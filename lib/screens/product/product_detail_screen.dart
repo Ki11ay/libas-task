@@ -190,16 +190,57 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       return CachedNetworkImage(
                         imageUrl: _product!.images[index],
                         fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
+                        // Enhanced caching for product detail images
+                        cacheKey: 'product_detail_${_product!.id}_$index',
+                        maxWidthDiskCache: 1200,
+                        maxHeightDiskCache: 1200,
+                        // Better placeholder
                         placeholder: (context, url) => Container(
                           color: AppColors.divider,
                           child: const Center(
-                            child: CircularProgressIndicator(),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CircularProgressIndicator(
+                                  color: AppColors.primary,
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  'Loading image...',
+                                  style: TextStyle(
+                                    color: AppColors.textSecondary,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
+                        // Enhanced error handling
                         errorWidget: (context, url, error) => Container(
                           color: AppColors.divider,
-                          child: const Icon(Icons.image_not_supported_outlined),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.image_not_supported_outlined,
+                                color: AppColors.textSecondary,
+                                size: 48,
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Image unavailable',
+                                style: TextStyle(
+                                  color: AppColors.textSecondary,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
+
                       );
                     },
                   ),
@@ -293,11 +334,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   // Price
                   Row(
                     children: [
-                      if (_product!.hasDiscount) ...[
+                      if (_product!.isOnSale) ...[
                         Text(
                           '\$${_product!.originalPrice!.toStringAsFixed(2)}',
                           style: AppTextStyles.h3.copyWith(
-                            color: AppColors.textTertiary,
+                            color: AppColors.textSecondary,
                             decoration: TextDecoration.lineThrough,
                           ),
                         ),
@@ -310,7 +351,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      if (_product!.hasDiscount) ...[
+                      if (_product!.isOnSale) ...[
                         const SizedBox(width: AppSizes.md),
                         Container(
                           padding: const EdgeInsets.symmetric(
@@ -322,7 +363,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             borderRadius: BorderRadius.circular(AppSizes.radiusSm),
                           ),
                           child: Text(
-                            '-${_product!.discountPercentage.toInt()}%',
+                            '-${_product!.discountPercentage?.toStringAsFixed(0)}%',
                             style: AppTextStyles.caption.copyWith(
                               color: AppColors.surface,
                               fontWeight: FontWeight.bold,

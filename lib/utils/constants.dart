@@ -135,6 +135,9 @@ class AppTextStyles {
     letterSpacing: 0.0,
   );
   
+  // Body Text (alias for compatibility)
+  static const TextStyle body1 = bodyMedium;
+  
   // Caption
   static const TextStyle caption = TextStyle(
     fontSize: 12,
@@ -169,6 +172,7 @@ class AppStrings {
   // Navigation
   static const String home = 'Home';
   static const String search = 'Search';
+  static const String products = 'Products';
   static const String cart = 'Cart';
   static const String profile = 'Profile';
   static const String orders = 'Orders';
