@@ -12,7 +12,20 @@
           "package_name": "com.example.libas"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "744195389184-faj6lvbe5h3n6g407qg3r20q2f0ojlas.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.libas",
+            "certificate_hash": "2d92b5eded9479e43281b563a10ee8b5b949d3b9"
+          }
+        },
+        {
+          "client_id": "744195389184-5p6f492detok53snqbk5imi2q06h2vfq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAbgLkBSBD9P4qHOuNyW2Kc-fmr9SYj_2w"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "744195389184-5p6f492detok53snqbk5imi2q06h2vfq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "744195389184-4m3q0b45vfd5aesc0pqur25e139qriia.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.libas"
+              }
+            }
+          ]
         }
       }
     }
