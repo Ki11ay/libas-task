@@ -66,6 +66,9 @@ dependencies:
   # Reviews
   in_app_review: ^2.0.0
   
+  # Local Notifications
+  flutter_local_notifications: ^18.0.0
+  
   # JSON Serialization
   json_annotation: ^4.9.0
 

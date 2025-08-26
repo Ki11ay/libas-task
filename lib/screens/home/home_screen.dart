@@ -30,7 +30,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: _currentIndex);
-    _loadUserData();
+    
+    // Use addPostFrameCallback to avoid calling providers during build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadUserData();
+    });
   }
 
   void _loadUserData() {
@@ -39,6 +43,40 @@ class _HomeScreenState extends State<HomeScreen> {
     
     if (authProvider.isAuthenticated) {
       cartProvider.loadUserCart(authProvider.user!.uid);
+    }
+  }
+
+  void _testNotifications() {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    
+    // Test different notification types
+    if (authProvider.userProfile != null) {
+      // Test welcome back notification
+      authProvider.sendWelcomeBackNotification();
+      
+      // Test discount notification
+      authProvider.sendDiscountNotification(
+        authProvider.user!.uid,
+        'TEST123',
+        25.0,
+      );
+      
+      // Test periodic discount notification
+      authProvider.sendPeriodicDiscountNotification();
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Test notifications sent! Check your notification panel.'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please sign in first to test notifications.'),
+          backgroundColor: Colors.orange,
+        ),
+      );
     }
   }
 
@@ -62,6 +100,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: _testNotifications,
+        backgroundColor: AppColors.primary,
+        child: const Icon(Icons.notifications, color: Colors.white),
+      ),
       body: PageView(
         controller: _pageController,
         onPageChanged: (index) {

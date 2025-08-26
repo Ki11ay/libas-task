@@ -6,6 +6,9 @@ import 'providers/auth_provider.dart';
 import 'providers/product_provider.dart';
 import 'providers/cart_provider.dart';
 import 'screens/splash_screen.dart';
+import 'screens/home/home_screen.dart';
+import 'screens/auth/auth_screen.dart';
+import 'services/notification_service.dart';
 import 'utils/constants.dart';
 
 void main() async {
@@ -13,6 +16,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  
+  // Initialize notification service
+  await NotificationService().initialize();
+  
   runApp(const MyApp());
 }
 
@@ -95,6 +102,10 @@ class MyApp extends StatelessWidget {
           ),
         ),
         home: const SplashScreen(),
+        routes: {
+          '/home': (context) => const HomeScreen(),
+          '/auth': (context) => const AuthScreen(),
+        },
       ),
     );
   }

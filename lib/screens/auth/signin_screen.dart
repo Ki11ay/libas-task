@@ -33,13 +33,18 @@ class _SignInScreenState extends State<SignInScreen> {
         _passwordController.text,
       );
       
-      if (!success && mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(authProvider.error ?? 'Sign in failed'),
-            backgroundColor: AppColors.error,
-          ),
-        );
+      if (mounted) {
+        if (success) {
+          // Navigate to home screen on successful sign in
+          Navigator.of(context).pushReplacementNamed('/home');
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(authProvider.error ?? 'Sign in failed'),
+              backgroundColor: AppColors.error,
+            ),
+          );
+        }
       }
     }
   }
@@ -48,13 +53,18 @@ class _SignInScreenState extends State<SignInScreen> {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final success = await authProvider.signInWithGoogle();
     
-    if (!success && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(authProvider.error ?? 'Google sign in failed'),
-          backgroundColor: AppColors.error,
-        ),
-      );
+    if (mounted) {
+      if (success) {
+        // Navigate to home screen on successful Google sign in
+        Navigator.of(context).pushReplacementNamed('/home');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(authProvider.error ?? 'Google sign in failed'),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
     }
   }
 

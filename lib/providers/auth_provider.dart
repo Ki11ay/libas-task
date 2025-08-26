@@ -1,9 +1,11 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import '../models/user_model.dart';
 import '../services/firebase_service.dart';
+import '../services/notification_service.dart';
 
 class AuthProvider extends ChangeNotifier {
   final FirebaseService _firebaseService = FirebaseService();
@@ -53,6 +55,11 @@ class AuthProvider extends ChangeNotifier {
       );
 
       if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+        // For iOS, wait a bit for APNS token to be available
+        if (Platform.isIOS) {
+          await Future.delayed(const Duration(seconds: 3));
+        }
+        
         // Get FCM token
         final token = await messaging.getToken();
         if (token != null && _user != null) {
@@ -63,19 +70,20 @@ class AuthProvider extends ChangeNotifier {
           });
           
           // Send welcome back notification
-          _sendWelcomeBackNotification();
+          sendWelcomeBackNotification();
         }
       }
     } catch (e) {
       print('Error capturing FCM token: $e');
+      // Don't fail the entire auth process if FCM token capture fails
     }
   }
 
-  Future<void> _sendWelcomeBackNotification() async {
+  Future<void> sendWelcomeBackNotification() async {
     try {
-      // This would typically be sent from your backend
-      // For now, we'll just log it
-      print('Welcome back notification should be sent to user: ${_user?.email}');
+      if (_userProfile?.displayName != null) {
+        await NotificationService().sendWelcomeBackNotification(_userProfile!.displayName!);
+      }
     } catch (e) {
       print('Error sending welcome back notification: $e');
     }
@@ -84,9 +92,31 @@ class AuthProvider extends ChangeNotifier {
   Future<void> _loadUserProfile() async {
     if (_user != null) {
       try {
+        print('Loading user profile for: ${_user!.uid}');
         _userProfile = await _firebaseService.getUserProfile(_user!.uid);
+        
+        // If profile doesn't exist, create a default one
+        if (_userProfile == null) {
+          print('User profile not found, creating default profile');
+          _userProfile = UserModel(
+            id: _user!.uid,
+            email: _user!.email ?? '',
+            displayName: _user!.displayName ?? 'User',
+            photoURL: _user!.photoURL,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+            isEmailVerified: _user!.emailVerified,
+          );
+          
+          await _firebaseService.createUserProfile(_userProfile!);
+          print('Default user profile created');
+        } else {
+          print('User profile loaded: ${_userProfile?.displayName}');
+        }
+        
         notifyListeners();
       } catch (e) {
+        print('Error loading user profile: $e');
         _error = e.toString();
         notifyListeners();
       }
@@ -99,6 +129,12 @@ class AuthProvider extends ChangeNotifier {
       _clearError();
       
       await _firebaseService.signInWithEmailAndPassword(email, password);
+      
+      // Load user profile after successful sign in
+      if (_user != null) {
+        await _loadUserProfile();
+      }
+      
       return true;
     } catch (e) {
       _setError(e.toString());
@@ -131,10 +167,15 @@ class AuthProvider extends ChangeNotifier {
           );
 
           if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+            // For iOS, wait a bit for APNS token to be available
+            if (Platform.isIOS) {
+              await Future.delayed(const Duration(seconds: 3));
+            }
             fcmToken = await messaging.getToken();
           }
         } catch (e) {
           print('Error getting FCM token during signup: $e');
+          // Don't fail the entire signup process if FCM token capture fails
         }
 
         // Create user profile
@@ -158,7 +199,7 @@ class AuthProvider extends ChangeNotifier {
         }
         
         // Send welcome notification
-        _sendWelcomeNotification(email, displayName);
+        sendWelcomeNotification(email, displayName);
         
         return true;
       }
@@ -171,11 +212,9 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> _sendWelcomeNotification(String email, String displayName) async {
+  Future<void> sendWelcomeNotification(String email, String displayName) async {
     try {
-      // This would typically be sent from your backend
-      // For now, we'll just log it
-      print('Welcome notification should be sent to new user: $email ($displayName)');
+      await NotificationService().sendWelcomeNotification(displayName);
     } catch (e) {
       print('Error sending welcome notification: $e');
     }
@@ -184,24 +223,38 @@ class AuthProvider extends ChangeNotifier {
   // Method to send discount notifications (can be called from other parts of the app)
   Future<void> sendDiscountNotification(String userId, String discountCode, double discountPercent) async {
     try {
-      if (_userProfile != null && _userProfile!.fcmToken != null) {
-        // This would typically be sent from your backend
-        print('Discount notification should be sent to user: ${_userProfile!.email}');
-        print('Discount: $discountPercent% off with code: $discountCode');
-      }
+      await NotificationService().sendDiscountNotification(discountCode, discountPercent);
     } catch (e) {
       print('Error sending discount notification: $e');
+    }
+  }
+
+  // Method to send periodic discount notifications (can be called from a timer or background task)
+  Future<void> sendPeriodicDiscountNotification() async {
+    try {
+      if (_userProfile != null) {
+        // Generate a random discount code
+        final discountCode = 'SAVE${DateTime.now().millisecondsSinceEpoch % 1000}';
+        final discountPercent = 15.0 + (DateTime.now().millisecondsSinceEpoch % 20); // 15-35% off
+        
+        // Send local notification
+        await NotificationService().sendDiscountNotification(discountCode, discountPercent);
+        
+        // Save to Firestore for tracking
+        await _firebaseService.updateUserProfile(_user!.uid, {
+          'lastDiscountNotification': DateTime.now().toIso8601String(),
+          'lastDiscountCode': discountCode,
+        });
+      }
+    } catch (e) {
+      print('Error sending periodic discount notification: $e');
     }
   }
 
   // Method to send purchase completion notification
   Future<void> sendPurchaseCompletionNotification(String userId, String orderId, double totalAmount) async {
     try {
-      if (_userProfile != null && _userProfile!.fcmToken != null) {
-        // This would typically be sent from your backend
-        print('Purchase completion notification should be sent to user: ${_userProfile!.email}');
-        print('Order: $orderId completed with total: \$${totalAmount.toStringAsFixed(2)}');
-      }
+      await NotificationService().sendPurchaseCompletionNotification(orderId, totalAmount);
     } catch (e) {
       print('Error sending purchase completion notification: $e');
     }

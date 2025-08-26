@@ -13,8 +13,8 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
   photoURL: json['photoURL'] as String?,
   phoneNumber: json['phoneNumber'] as String?,
   address: json['address'] as String?,
-  createdAt: DateTime.parse(json['createdAt'] as String),
-  updatedAt: DateTime.parse(json['updatedAt'] as String),
+  createdAt: UserModel._timestampFromJson(json['createdAt']),
+  updatedAt: UserModel._timestampFromJson(json['updatedAt']),
   isEmailVerified: json['isEmailVerified'] as bool,
   favoriteProducts:
       (json['favoriteProducts'] as List<dynamic>?)
@@ -22,6 +22,8 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
           .toList() ??
       const [],
   preferences: json['preferences'] as Map<String, dynamic>?,
+  fcmToken: json['fcmToken'] as String?,
+  lastLoginAt: UserModel._timestampFromJson(json['lastLoginAt']),
 );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
@@ -31,9 +33,11 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
   'photoURL': instance.photoURL,
   'phoneNumber': instance.phoneNumber,
   'address': instance.address,
-  'createdAt': instance.createdAt.toIso8601String(),
-  'updatedAt': instance.updatedAt.toIso8601String(),
+  'createdAt': UserModel._timestampToJson(instance.createdAt),
+  'updatedAt': UserModel._timestampToJson(instance.updatedAt),
   'isEmailVerified': instance.isEmailVerified,
   'favoriteProducts': instance.favoriteProducts,
   'preferences': instance.preferences,
+  'fcmToken': instance.fcmToken,
+  'lastLoginAt': UserModel._timestampToJson(instance.lastLoginAt),
 };

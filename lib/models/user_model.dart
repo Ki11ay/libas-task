@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 part 'user_model.g.dart';
 
@@ -10,12 +11,15 @@ class UserModel {
   final String? photoURL;
   final String? phoneNumber;
   final String? address;
+  @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson)
   final DateTime createdAt;
+  @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson)
   final DateTime updatedAt;
   final bool isEmailVerified;
   final List<String> favoriteProducts;
   final Map<String, dynamic>? preferences;
   final String? fcmToken;
+  @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson)
   final DateTime? lastLoginAt;
 
   UserModel({
@@ -30,6 +34,8 @@ class UserModel {
     required this.isEmailVerified,
     this.favoriteProducts = const [],
     this.preferences,
+    this.fcmToken,
+    this.lastLoginAt,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
@@ -47,6 +53,8 @@ class UserModel {
     bool? isEmailVerified,
     List<String>? favoriteProducts,
     Map<String, dynamic>? preferences,
+    String? fcmToken,
+    DateTime? lastLoginAt,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -60,6 +68,25 @@ class UserModel {
       isEmailVerified: isEmailVerified ?? this.isEmailVerified,
       favoriteProducts: favoriteProducts ?? this.favoriteProducts,
       preferences: preferences ?? this.preferences,
+      fcmToken: fcmToken ?? this.fcmToken,
+      lastLoginAt: lastLoginAt ?? this.lastLoginAt,
     );
+  }
+
+  // Helper methods for Firestore Timestamp conversion
+  static DateTime _timestampFromJson(dynamic timestamp) {
+    if (timestamp is Timestamp) {
+      return timestamp.toDate();
+    } else if (timestamp is String) {
+      return DateTime.parse(timestamp);
+    } else if (timestamp is DateTime) {
+      return timestamp;
+    }
+    return DateTime.now();
+  }
+
+  static dynamic _timestampToJson(DateTime? dateTime) {
+    if (dateTime == null) return null;
+    return Timestamp.fromDate(dateTime);
   }
 }

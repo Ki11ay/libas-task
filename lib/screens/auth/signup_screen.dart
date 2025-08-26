@@ -39,13 +39,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _displayNameController.text.trim(),
       );
       
-      if (!success && mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(authProvider.error ?? 'Sign up failed'),
-            backgroundColor: AppColors.error,
-          ),
-        );
+      if (mounted) {
+        if (success) {
+          // Navigate to home screen on successful sign up
+          Navigator.of(context).pushReplacementNamed('/home');
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(authProvider.error ?? 'Sign up failed'),
+              backgroundColor: AppColors.error,
+            ),
+          );
+        }
       }
     }
   }
