@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import '../models/user_model.dart';
 import '../services/firebase_service.dart';
 import '../services/notification_service.dart';
+import '../services/location_service.dart'; // Added import for LocationService
 
 class AuthProvider extends ChangeNotifier {
   final FirebaseService _firebaseService = FirebaseService();
@@ -27,6 +28,14 @@ class AuthProvider extends ChangeNotifier {
   }
 
   void _initializeAuth() {
+    // Check if user is already signed in
+    _user = FirebaseAuth.instance.currentUser;
+    if (_user != null) {
+      _loadUserProfile();
+      _captureFCMToken();
+    }
+    
+    // Listen for auth state changes
     _firebaseService.authStateChanges.listen((User? user) {
       _user = user;
       if (user != null) {
@@ -178,7 +187,16 @@ class AuthProvider extends ChangeNotifier {
           // Don't fail the entire signup process if FCM token capture fails
         }
 
-        // Create user profile
+        // Capture location data
+        Map<String, dynamic>? locationData;
+        try {
+          locationData = await LocationService.getLocationData();
+        } catch (e) {
+          print('Error capturing location during signup: $e');
+          // Don't fail the entire signup process if location capture fails
+        }
+
+        // Create user profile with location data
         final userModel = UserModel(
           id: userCredential.user!.uid,
           email: email,
@@ -186,6 +204,16 @@ class AuthProvider extends ChangeNotifier {
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
           isEmailVerified: false,
+          // Location data
+          latitude: locationData?['latitude'],
+          longitude: locationData?['longitude'],
+          city: locationData?['city'],
+          state: locationData?['state'],
+          zipCode: locationData?['zipCode'],
+          country: locationData?['country'],
+          streetName: locationData?['streetName'],
+          streetNumber: locationData?['streetNumber'],
+          formattedAddress: locationData?['formattedAddress'],
         );
         
         await _firebaseService.createUserProfile(userModel);
@@ -280,6 +308,15 @@ class AuthProvider extends ChangeNotifier {
         // Check if user profile exists, if not create one
         var profile = await _firebaseService.getUserProfile(userCredential.user!.uid);
         if (profile == null) {
+          // Capture location data for new user
+          Map<String, dynamic>? locationData;
+          try {
+            locationData = await LocationService.getLocationData();
+          } catch (e) {
+            print('Error capturing location during Google signin: $e');
+            // Don't fail the entire signin process if location capture fails
+          }
+
           profile = UserModel(
             id: userCredential.user!.uid,
             email: userCredential.user!.email ?? '',
@@ -288,6 +325,16 @@ class AuthProvider extends ChangeNotifier {
             createdAt: DateTime.now(),
             updatedAt: DateTime.now(),
             isEmailVerified: userCredential.user!.emailVerified,
+            // Location data
+            latitude: locationData?['latitude'],
+            longitude: locationData?['longitude'],
+            city: locationData?['city'],
+            state: locationData?['state'],
+            zipCode: locationData?['zipCode'],
+            country: locationData?['country'],
+            streetName: locationData?['streetName'],
+            streetNumber: locationData?['streetNumber'],
+            formattedAddress: locationData?['formattedAddress'],
           );
           await _firebaseService.createUserProfile(profile);
         }

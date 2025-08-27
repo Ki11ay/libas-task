@@ -149,37 +149,46 @@ class ProductCard extends StatelessWidget {
                   // Price
                   Row(
                     children: [
-                      Text(
-                        '\$${product.price.toStringAsFixed(2)}',
-                        style: AppTextStyles.bodyMedium.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
+                      Expanded(
+                        child: Text(
+                          '\$${product.price.toStringAsFixed(2)}',
+                          style: AppTextStyles.bodyMedium.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primary,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       if (product.isOnSale) ...[
                         const SizedBox(width: AppSizes.xs),
-                        Text(
-                          '\$${product.originalPrice!.toStringAsFixed(2)}',
-                          style: AppTextStyles.bodySmall.copyWith(
-                            decoration: TextDecoration.lineThrough,
-                            color: AppColors.textSecondary,
+                        Flexible(
+                          child: Text(
+                            '\$${product.originalPrice!.toStringAsFixed(2)}',
+                            style: AppTextStyles.bodySmall.copyWith(
+                              decoration: TextDecoration.lineThrough,
+                              color: AppColors.textSecondary,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         const SizedBox(width: AppSizes.xs),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.error,
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            '-${product.discountPercentage?.toStringAsFixed(0)}%',
-                            style: AppTextStyles.caption.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                        Flexible(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 4,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.error,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              '-${product.discountPercentage?.toStringAsFixed(0)}%',
+                              style: AppTextStyles.caption.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
                           ),
                         ),

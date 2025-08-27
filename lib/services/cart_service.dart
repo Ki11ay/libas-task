@@ -40,9 +40,13 @@ class CartService {
   // Create or update user's cart
   Future<void> saveCart(Cart cart) async {
     try {
-      if (_auth.currentUser == null) return;
+      if (_auth.currentUser == null) {
+        return;
+      }
 
-      await _userCartRef.set(cart.toJson());
+      final cartData = cart.toJson();
+      
+      await _userCartRef.set(cartData);
     } catch (e) {
       print('Error saving cart: $e');
       rethrow;

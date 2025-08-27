@@ -11,6 +11,16 @@ class UserModel {
   final String? photoURL;
   final String? phoneNumber;
   final String? address;
+  // Location fields
+  final double? latitude;
+  final double? longitude;
+  final String? city;
+  final String? state;
+  final String? zipCode;
+  final String? country;
+  final String? streetName;
+  final String? streetNumber;
+  final String? formattedAddress;
   @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson)
   final DateTime createdAt;
   @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson)
@@ -29,6 +39,15 @@ class UserModel {
     this.photoURL,
     this.phoneNumber,
     this.address,
+    this.latitude,
+    this.longitude,
+    this.city,
+    this.state,
+    this.zipCode,
+    this.country,
+    this.streetName,
+    this.streetNumber,
+    this.formattedAddress,
     required this.createdAt,
     required this.updatedAt,
     required this.isEmailVerified,
@@ -48,6 +67,15 @@ class UserModel {
     String? photoURL,
     String? phoneNumber,
     String? address,
+    double? latitude,
+    double? longitude,
+    String? city,
+    String? state,
+    String? zipCode,
+    String? country,
+    String? streetName,
+    String? streetNumber,
+    String? formattedAddress,
     DateTime? createdAt,
     DateTime? updatedAt,
     bool? isEmailVerified,
@@ -63,6 +91,15 @@ class UserModel {
       photoURL: photoURL ?? this.photoURL,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       address: address ?? this.address,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+      city: city ?? this.city,
+      state: state ?? this.state,
+      zipCode: zipCode ?? this.zipCode,
+      country: country ?? this.country,
+      streetName: streetName ?? this.streetName,
+      streetNumber: streetNumber ?? this.streetNumber,
+      formattedAddress: formattedAddress ?? this.formattedAddress,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       isEmailVerified: isEmailVerified ?? this.isEmailVerified,

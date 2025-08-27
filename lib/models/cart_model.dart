@@ -81,7 +81,17 @@ class Cart {
   });
 
   factory Cart.fromJson(Map<String, dynamic> json) => _$CartFromJson(json);
-  Map<String, dynamic> toJson() => _$CartToJson(this);
+  
+  // Custom toJson method to properly serialize the items list
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'userId': userId,
+      'items': items.map((item) => item.toJson()).toList(),
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt.toIso8601String(),
+    };
+  }
 
   Cart copyWith({
     String? userId,

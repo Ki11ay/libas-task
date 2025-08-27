@@ -308,7 +308,16 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     itemCount: products.length,
                     itemBuilder: (context, index) {
                       final product = products[index];
-                      return ProductCard(product: product);
+                      return ProductCard(
+                        product: product,
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/product-detail',
+                            arguments: product.id,
+                          );
+                        },
+                      );
                     },
                   ),
                 );

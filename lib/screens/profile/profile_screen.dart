@@ -4,6 +4,7 @@ import '../../providers/auth_provider.dart';
 import '../../utils/constants.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/profile_menu_item.dart';
+import '../../l10n/app_localizations.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -185,6 +186,14 @@ class ProfileScreen extends StatelessWidget {
                         },
                       ),
                       ProfileMenuItem(
+                        icon: Icons.language_outlined,
+                        title: 'Language',
+                        subtitle: 'Choose your preferred language',
+                        onTap: () {
+                          _showLanguageSelectionDialog(context);
+                        },
+                      ),
+                      ProfileMenuItem(
                         icon: Icons.privacy_tip_outlined,
                         title: AppStrings.privacy,
                         subtitle: 'Privacy and security settings',
@@ -256,6 +265,48 @@ class ProfileScreen extends StatelessWidget {
             child: Text(AppStrings.signOut),
           ),
         ],
+      ),
+    );
+  }
+
+  void _showLanguageSelectionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Select Language'),
+        content: const Text('Please select your preferred language.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(AppStrings.cancel),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              _changeLanguage(context, 'English');
+            },
+            child: const Text('English'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              _changeLanguage(context, 'Arabic');
+            },
+            child: const Text('العربية'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _changeLanguage(BuildContext context, String language) {
+    // TODO: Implement language change logic
+    // This would typically involve updating the app's locale
+    // For now, we'll just show a message
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Language changed to $language'),
+        backgroundColor: AppColors.success,
       ),
     );
   }
