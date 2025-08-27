@@ -389,6 +389,45 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paymentComingSoon => 'Payment functionality coming soon!';
 
   @override
+  String get payment => 'Payment';
+
+  @override
+  String get paymentDetails => 'Payment Details';
+
+  @override
+  String get orderSummary => 'Order Summary';
+
+  @override
+  String get cardholderName => 'Cardholder Name';
+
+  @override
+  String get cardNumber => 'Card Number';
+
+  @override
+  String get expiryDate => 'Expiry Date';
+
+  @override
+  String get cvv => 'CVV';
+
+  @override
+  String get payNow => 'Pay Now';
+
+  @override
+  String get processing => 'Processing...';
+
+  @override
+  String get pleaseEnterCardholderName => 'Please enter cardholder name';
+
+  @override
+  String get pleaseEnterCardNumber => 'Please enter card number';
+
+  @override
+  String get pleaseEnterExpiryDate => 'Please enter expiry date';
+
+  @override
+  String get pleaseEnterCvv => 'Please enter CVV';
+
+  @override
   String get pleaseSignInToAddToCart => 'Please sign in to add items to cart';
 
   @override

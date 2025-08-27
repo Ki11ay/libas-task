@@ -56,7 +56,7 @@ dependencies:
   geolocator: ^11.0.0
   
   # Payments
-  flutter_stripe: ^10.0.0
+  flutter_stripe: ^12.0.2
   
   # Localization
   intl: ^0.20.2

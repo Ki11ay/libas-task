@@ -815,6 +815,84 @@ abstract class AppLocalizations {
   /// **'Payment functionality coming soon!'**
   String get paymentComingSoon;
 
+  /// No description provided for @payment.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment'**
+  String get payment;
+
+  /// No description provided for @paymentDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Details'**
+  String get paymentDetails;
+
+  /// No description provided for @orderSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Order Summary'**
+  String get orderSummary;
+
+  /// No description provided for @cardholderName.
+  ///
+  /// In en, this message translates to:
+  /// **'Cardholder Name'**
+  String get cardholderName;
+
+  /// No description provided for @cardNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Card Number'**
+  String get cardNumber;
+
+  /// No description provided for @expiryDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Expiry Date'**
+  String get expiryDate;
+
+  /// No description provided for @cvv.
+  ///
+  /// In en, this message translates to:
+  /// **'CVV'**
+  String get cvv;
+
+  /// No description provided for @payNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay Now'**
+  String get payNow;
+
+  /// No description provided for @processing.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing...'**
+  String get processing;
+
+  /// No description provided for @pleaseEnterCardholderName.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter cardholder name'**
+  String get pleaseEnterCardholderName;
+
+  /// No description provided for @pleaseEnterCardNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter card number'**
+  String get pleaseEnterCardNumber;
+
+  /// No description provided for @pleaseEnterExpiryDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter expiry date'**
+  String get pleaseEnterExpiryDate;
+
+  /// No description provided for @pleaseEnterCvv.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter CVV'**
+  String get pleaseEnterCvv;
+
   /// No description provided for @pleaseSignInToAddToCart.
   ///
   /// In en, this message translates to:

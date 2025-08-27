@@ -389,6 +389,45 @@ class AppLocalizationsAr extends AppLocalizations {
   String get paymentComingSoon => 'وظيفة الدفع قادمة قريباً!';
 
   @override
+  String get payment => 'الدفع';
+
+  @override
+  String get paymentDetails => 'تفاصيل الدفع';
+
+  @override
+  String get orderSummary => 'ملخص الطلب';
+
+  @override
+  String get cardholderName => 'اسم حامل البطاقة';
+
+  @override
+  String get cardNumber => 'رقم البطاقة';
+
+  @override
+  String get expiryDate => 'تاريخ الانتهاء';
+
+  @override
+  String get cvv => 'رمز الأمان';
+
+  @override
+  String get payNow => 'ادفع الآن';
+
+  @override
+  String get processing => 'جاري المعالجة...';
+
+  @override
+  String get pleaseEnterCardholderName => 'يرجى إدخال اسم حامل البطاقة';
+
+  @override
+  String get pleaseEnterCardNumber => 'يرجى إدخال رقم البطاقة';
+
+  @override
+  String get pleaseEnterExpiryDate => 'يرجى إدخال تاريخ الانتهاء';
+
+  @override
+  String get pleaseEnterCvv => 'يرجى إدخال رمز الأمان';
+
+  @override
   String get pleaseSignInToAddToCart => 'يرجى تسجيل الدخول لإضافة العناصر إلى السلة';
 
   @override

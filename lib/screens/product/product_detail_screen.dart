@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../models/product_model.dart';
+import '../../models/cart_model.dart';
 import '../../providers/product_provider.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/auth_provider.dart';
@@ -106,8 +107,24 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       return;
     }
     
-    // Navigate to checkout
-    // You can implement checkout navigation here
+      // Navigate to payment screen with single item
+  Navigator.pushNamed(
+    context, 
+    '/payment',
+    arguments: {
+      'items': [
+        CartItem(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          productId: _product!.id,
+          productName: _product!.name,
+          productImage: _product!.images.isNotEmpty ? _product!.images[0] : '',
+          price: _product!.price,
+          quantity: _quantity,
+        ),
+      ],
+      'total': _product!.price * _quantity,
+    },
+  );
   }
 
   @override

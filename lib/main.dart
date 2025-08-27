@@ -14,12 +14,19 @@ import 'screens/cart/cart_screen.dart';
 import 'screens/product/product_detail_screen.dart';
 import 'services/notification_service.dart';
 import 'utils/constants.dart';
+import 'screens/payment/payment_screen.dart';
+import 'screens/payment/payment_success_screen.dart';
+import 'services/stripe_service.dart';
+import 'models/cart_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  
+  // Initialize Stripe
+  await StripeService.initialize();
   
   // Initialize notification service
   await NotificationService().initialize();
@@ -111,11 +118,19 @@ class MyApp extends StatelessWidget {
                 ),
               ),
             ),
-            home: const SplashScreen(),
             routes: {
+              '/': (context) => const SplashScreen(),
               '/home': (context) => const HomeScreen(),
               '/auth': (context) => const AuthScreen(),
               '/cart': (context) => const CartScreen(),
+              '/payment': (context) {
+                final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+                return PaymentScreen(
+                  items: (args['items'] as List<dynamic>).cast<CartItem>(),
+                  total: args['total'] as double,
+                );
+              },
+              '/payment-success': (context) => const PaymentSuccessScreen(),
               '/product-detail': (context) => ProductDetailScreen(
                     productId: ModalRoute.of(context)!.settings.arguments as String,
                   ),
