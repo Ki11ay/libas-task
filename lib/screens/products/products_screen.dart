@@ -175,40 +175,40 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     const SizedBox(width: AppSizes.sm),
                     
                     // Sort Dropdown
-                    Expanded(
-                      child: DropdownButtonFormField<String>(
-                        value: _selectedSort,
-                        decoration: InputDecoration(
-                          labelText: 'Sort By',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(AppSizes.radiusMd),
-                          ),
-                        ),
-                        items: const [
-                          DropdownMenuItem(
-                            value: 'newest',
-                            child: Text('Newest'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'price_low',
-                            child: Text('Price: Low to High'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'price_high',
-                            child: Text('Price: High to Low'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'rating',
-                            child: Text('Highest Rated'),
-                          ),
-                        ],
-                        onChanged: (value) {
-                          if (value != null) {
-                            _onSortChanged(value);
-                          }
-                        },
-                      ),
-                    ),
+                    // Expanded(
+                    //   child: DropdownButtonFormField<String>(
+                    //     value: _selectedSort,
+                    //     decoration: InputDecoration(
+                    //       labelText: 'Sort By',
+                    //       border: OutlineInputBorder(
+                    //         borderRadius: BorderRadius.circular(AppSizes.radiusMd),
+                    //       ),
+                    //     ),
+                    //     items: const [
+                    //       DropdownMenuItem(
+                    //         value: 'newest',
+                    //         child: Text('Newest'),
+                    //       ),
+                    //       DropdownMenuItem(
+                    //         value: 'price_low',
+                    //         child: Text('Price: Low to High'),
+                    //       ),
+                    //       DropdownMenuItem(
+                    //         value: 'price_high',
+                    //         child: Text('Price: High to Low'),
+                    //       ),
+                    //       DropdownMenuItem(
+                    //         value: 'rating',
+                    //         child: Text('Highest Rated'),
+                    //       ),
+                    //     ],
+                    //     onChanged: (value) {
+                    //       if (value != null) {
+                    //         _onSortChanged(value);
+                    //       }
+                    //     },
+                    //   ),
+                    // ),
                   ],
                 ),
               ],

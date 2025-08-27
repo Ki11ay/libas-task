@@ -9,6 +9,7 @@ class CartProvider with ChangeNotifier {
   Cart? _cart;
   bool _isLoading = false;
   String? _error;
+  bool _isUpdating = false;
 
   // Getters
   Cart? get cart => _cart;
@@ -23,6 +24,8 @@ class CartProvider with ChangeNotifier {
 
   // Initialize cart
   Future<void> initializeCart() async {
+    if (_isUpdating) return;
+    
     try {
       _setLoading(true);
       _clearError();
@@ -31,8 +34,10 @@ class CartProvider with ChangeNotifier {
       
       // Listen to cart changes
       _cartService.cartStream.listen((updatedCart) {
-        _cart = updatedCart;
-        notifyListeners();
+        if (_cart != updatedCart) {
+          _cart = updatedCart;
+          notifyListeners();
+        }
       });
       
     } catch (e) {
@@ -44,65 +49,73 @@ class CartProvider with ChangeNotifier {
 
   // Add product to cart
   Future<void> addToCart(ProductModel product, {int quantity = 1, String? size, String? color}) async {
+    if (_isUpdating) return;
+    
     try {
-      _setLoading(true);
+      _setUpdating(true);
       _clearError();
       
       await _cartService.addToCart(product, quantity: quantity, size: size, color: color);
       
-      // Cart will be updated via stream
+      // Don't call notifyListeners here - let the stream handle updates
     } catch (e) {
       _setError(e.toString());
     } finally {
-      _setLoading(false);
+      _setUpdating(false);
     }
   }
 
   // Update item quantity
   Future<void> updateItemQuantity(String itemId, int newQuantity) async {
+    if (_isUpdating) return;
+    
     try {
-      _setLoading(true);
+      _setUpdating(true);
       _clearError();
       
       await _cartService.updateItemQuantity(itemId, newQuantity);
       
-      // Cart will be updated via stream
+      // Don't call notifyListeners here - let the stream handle updates
     } catch (e) {
       _setError(e.toString());
     } finally {
-      _setLoading(false);
+      _setUpdating(false);
     }
   }
 
   // Remove item from cart
   Future<void> removeFromCart(String itemId) async {
+    if (_isUpdating) return;
+    
     try {
-      _setLoading(true);
+      _setUpdating(true);
       _clearError();
       
       await _cartService.removeFromCart(itemId);
       
-      // Cart will be updated via stream
+      // Don't call notifyListeners here - let the stream handle updates
     } catch (e) {
       _setError(e.toString());
     } finally {
-      _setLoading(false);
+      _setUpdating(false);
     }
   }
 
   // Clear cart
   Future<void> clearCart() async {
+    if (_isUpdating) return;
+    
     try {
-      _setLoading(true);
+      _setUpdating(true);
       _clearError();
       
       await _cartService.clearCart();
       
-      // Cart will be updated via stream
+      // Don't call notifyListeners here - let the stream handle updates
     } catch (e) {
       _setError(e.toString());
     } finally {
-      _setLoading(false);
+      _setUpdating(false);
     }
   }
 
@@ -148,23 +161,37 @@ class CartProvider with ChangeNotifier {
 
   // Private methods
   void _setLoading(bool loading) {
-    _isLoading = loading;
-    notifyListeners();
+    if (_isLoading != loading) {
+      _isLoading = loading;
+      notifyListeners();
+    }
+  }
+
+  void _setUpdating(bool updating) {
+    _isUpdating = updating;
+    // Only notify if this changes the overall loading state
+    if (_isLoading != (_isLoading || updating)) {
+      notifyListeners();
+    }
   }
 
   void _setError(String error) {
-    _error = error;
-    notifyListeners();
+    if (_error != error) {
+      _error = error;
+      notifyListeners();
+    }
   }
 
   void _clearError() {
-    _error = null;
+    if (_error != null) {
+      _error = null;
+      notifyListeners();
+    }
   }
 
   // Clear error manually
   void clearError() {
     _clearError();
-    notifyListeners();
   }
 
   // Refresh cart

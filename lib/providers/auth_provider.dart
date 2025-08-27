@@ -308,15 +308,6 @@ class AuthProvider extends ChangeNotifier {
         // Check if user profile exists, if not create one
         var profile = await _firebaseService.getUserProfile(userCredential.user!.uid);
         if (profile == null) {
-          // Capture location data for new user
-          Map<String, dynamic>? locationData;
-          try {
-            locationData = await LocationService.getLocationData();
-          } catch (e) {
-            print('Error capturing location during Google signin: $e');
-            // Don't fail the entire signin process if location capture fails
-          }
-
           profile = UserModel(
             id: userCredential.user!.uid,
             email: userCredential.user!.email ?? '',
@@ -325,18 +316,25 @@ class AuthProvider extends ChangeNotifier {
             createdAt: DateTime.now(),
             updatedAt: DateTime.now(),
             isEmailVerified: userCredential.user!.emailVerified,
-            // Location data
-            latitude: locationData?['latitude'],
-            longitude: locationData?['longitude'],
-            city: locationData?['city'],
-            state: locationData?['state'],
-            zipCode: locationData?['zipCode'],
-            country: locationData?['country'],
-            streetName: locationData?['streetName'],
-            streetNumber: locationData?['streetNumber'],
-            formattedAddress: locationData?['formattedAddress'],
           );
           await _firebaseService.createUserProfile(profile);
+          
+          // Capture location data for new user
+          try {
+            await LocationService.captureAndSaveUserLocation(userCredential.user!.uid);
+          } catch (e) {
+            print('Error capturing location during Google signin: $e');
+            // Don't fail the entire signin process if location capture fails
+          }
+        } else {
+          // For existing users, try to update location if not already set
+          if (profile.latitude == null || profile.longitude == null) {
+            try {
+              await LocationService.captureAndSaveUserLocation(userCredential.user!.uid);
+            } catch (e) {
+              print('Error updating location for existing user: $e');
+            }
+          }
         }
         return true;
       }
