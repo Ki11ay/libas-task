@@ -56,16 +56,20 @@ class LocationService {
   }
 
   /// Get address from coordinates using Google Maps Geocoding API
-  static Future<Map<String, String>?> getAddressFromCoordinates(
+  static Future<Map<String, dynamic>?> getAddressFromCoordinates(
     double latitude, 
     double longitude,
   ) async {
     try {
+      print('🌍 Starting geocoding for coordinates: $latitude, $longitude');
+      
       // Check if API key is configured
       if (!AppConfig.isGoogleMapsConfigured) {
-        print('Warning: Google Maps API key not configured. Please update the API key in config.dart');
+        print('❌ Warning: Google Maps API key not configured. Please update the API key in config.dart');
         return null;
       }
+
+      print('🔑 Using API key: ${_googleMapsApiKey.substring(0, 10)}...');
 
       final url = Uri.parse(
         'https://maps.googleapis.com/maps/api/geocode/json?'
@@ -73,7 +77,12 @@ class LocationService {
         '&key=$_googleMapsApiKey'
       );
 
+      print('🌐 Making request to: ${url.toString().replaceAll(_googleMapsApiKey, 'API_KEY_HIDDEN')}');
+
       final response = await http.get(url);
+      
+      print('📡 Response status: ${response.statusCode}');
+      print('📡 Response body: ${response.body.substring(0, 200)}...');
       
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -103,10 +112,11 @@ class LocationService {
             }
           }
           
-          // Add formatted address
-          addressData['formattedAddress'] = result['formatted_address'];
-          
-          return addressData;
+                     // Add formatted address
+           addressData['formattedAddress'] = result['formatted_address'];
+           
+           print('✅ Geocoding successful: $addressData');
+           return addressData;
         } else if (data['status'] == 'REQUEST_DENIED') {
           print('Error: Google Maps API request denied. Check your API key and billing.');
           return null;
@@ -169,6 +179,8 @@ class LocationService {
         return false;
       }
       
+      print('✅ Location permission granted');
+      
       // Get location data
       final locationData = await getLocationData();
       if (locationData == null) {
@@ -177,28 +189,63 @@ class LocationService {
       }
       
       print('📍 Location captured: ${locationData['latitude']}, ${locationData['longitude']}');
+      print('📍 Location data keys: ${locationData.keys.toList()}');
       
       // Update user profile in Firebase
       final firebaseService = FirebaseService();
-      await firebaseService.updateUserProfile(userId, {
+      
+      // Prepare the data to update
+      final updateData = <String, dynamic>{
         'latitude': locationData['latitude'],
         'longitude': locationData['longitude'],
         'accuracy': locationData['accuracy'],
-        'city': locationData['city'],
-        'state': locationData['state'],
-        'zipCode': locationData['zipCode'],
-        'country': locationData['country'],
-        'streetName': locationData['streetName'],
-        'streetNumber': locationData['streetNumber'],
-        'formattedAddress': locationData['formattedAddress'],
         'updatedAt': DateTime.now().toIso8601String(),
-      });
+      };
+      
+      // Add address fields if available
+      if (locationData['city'] != null) updateData['city'] = locationData['city'];
+      if (locationData['state'] != null) updateData['state'] = locationData['state'];
+      if (locationData['zipCode'] != null) updateData['zipCode'] = locationData['zipCode'];
+      if (locationData['country'] != null) updateData['country'] = locationData['country'];
+      if (locationData['streetName'] != null) updateData['streetName'] = locationData['streetName'];
+      if (locationData['streetNumber'] != null) updateData['streetNumber'] = locationData['streetNumber'];
+      if (locationData['formattedAddress'] != null) {
+        updateData['formattedAddress'] = locationData['formattedAddress'];
+        updateData['address'] = locationData['formattedAddress']; // Also update the main address field
+      }
+      
+      print('📝 Updating user profile with data: $updateData');
+      
+      await firebaseService.updateUserProfile(userId, updateData);
       
       print('✅ Location data saved to Firebase successfully');
       return true;
       
     } catch (e) {
       print('❌ Error capturing and saving location: $e');
+      return false;
+    }
+  }
+
+  /// Manually trigger location capture for existing users
+  static Future<bool> refreshUserLocation(String userId) async {
+    try {
+      print('🔄 Refreshing location for existing user: $userId');
+      return await captureAndSaveUserLocation(userId);
+    } catch (e) {
+      print('❌ Error refreshing user location: $e');
+      return false;
+    }
+  }
+
+  /// Check if user has location data
+  static Future<bool> hasLocationData(String userId) async {
+    try {
+      final firebaseService = FirebaseService();
+      final user = await firebaseService.getUserProfile(userId);
+      return user?.latitude != null && user?.longitude != null;
+    } catch (e) {
+      print('❌ Error checking location data: $e');
       return false;
     }
   }

@@ -183,7 +183,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get gettingLocation => 'Getting your location...';
 
   @override
-  String get locationCaptured => 'Location captured successfully';
+  String locationCaptured(Object latitude, Object longitude) {
+    return 'Location captured: $latitude, $longitude';
+  }
 
   @override
   String get locationError => 'Error getting location';
@@ -244,4 +246,109 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get arabic => 'Arabic';
+
+  @override
+  String get updateLocation => 'Update Location';
+
+  @override
+  String get refreshLocation => 'Refresh your current location';
+
+  @override
+  String get updatingLocation => 'Updating location...';
+
+  @override
+  String get locationUpdateSuccess => 'Location updated successfully!';
+
+  @override
+  String get locationUpdateFailed => 'Failed to update location. Please check permissions.';
+
+  @override
+  String locationUpdateError(Object error) {
+    return 'Failed to update location: $error';
+  }
+
+  @override
+  String get locationPermissionDenied => 'Location permission denied';
+
+  @override
+  String get locationCaptureFailed => 'Failed to get location data';
+
+  @override
+  String get locationDataSaved => 'Location data saved to Firebase successfully';
+
+  @override
+  String locationCaptureError(Object error) {
+    return 'Error capturing and saving location: $error';
+  }
+
+  @override
+  String refreshingLocation(Object userId) {
+    return 'Refreshing location for existing user: $userId';
+  }
+
+  @override
+  String refreshingLocationError(Object error) {
+    return 'Error refreshing user location: $error';
+  }
+
+  @override
+  String checkingLocationData(Object error) {
+    return 'Error checking location data: $error';
+  }
+
+  @override
+  String startingLocationCapture(Object userId) {
+    return 'Starting location capture for user: $userId';
+  }
+
+  @override
+  String updatingUserProfile(Object data) {
+    return 'Updating user profile with data: $data';
+  }
+
+  @override
+  String get userProfileUpdateSuccess => 'User profile updated successfully';
+
+  @override
+  String userProfileUpdateError(Object error) {
+    return 'Failed to update user profile: $error';
+  }
+
+  @override
+  String get signOutConfirmation => 'Are you sure you want to sign out?';
+
+  @override
+  String languageChanged(Object language) {
+    return 'Language changed to $language';
+  }
+
+  @override
+  String get pleaseSignInToViewProfile => 'Please sign in to view your profile';
+
+  @override
+  String get user => 'User';
+
+  @override
+  String get viewOrderHistory => 'View your order history';
+
+  @override
+  String get savedProducts => 'Your saved products';
+
+  @override
+  String get manageDeliveryAddresses => 'Manage delivery addresses';
+
+  @override
+  String get savedPaymentMethods => 'Saved payment methods';
+
+  @override
+  String get manageNotificationPreferences => 'Manage notification preferences';
+
+  @override
+  String get privacyAndSecuritySettings => 'Privacy and security settings';
+
+  @override
+  String get getHelpAndSupport => 'Get help and support';
+
+  @override
+  String get appInformationAndVersion => 'App information and version';
 }

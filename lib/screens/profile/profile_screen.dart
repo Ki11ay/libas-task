@@ -5,6 +5,8 @@ import '../../utils/constants.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/profile_menu_item.dart';
 import '../../l10n/app_localizations.dart';
+import '../../services/location_service.dart'; // Added import for LocationService
+import '../../providers/locale_provider.dart'; // Added import for LocaleProvider
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -40,7 +42,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: AppSizes.lg),
                   Text(
-                    'Please sign in to view your profile',
+                    AppLocalizations.of(context)!.pleaseSignInToViewProfile,
                     style: AppTextStyles.h3.copyWith(
                       color: AppColors.textPrimary,
                     ),
@@ -101,7 +103,7 @@ class ProfileScreen extends StatelessWidget {
                       
                       // User Name
                       Text(
-                        user.displayName ?? 'User',
+                        user.displayName ?? AppLocalizations.of(context)!.user,
                         style: AppTextStyles.h2.copyWith(
                           color: AppColors.textPrimary,
                         ),
@@ -148,7 +150,7 @@ class ProfileScreen extends StatelessWidget {
                       ProfileMenuItem(
                         icon: Icons.shopping_bag_outlined,
                         title: AppStrings.orders,
-                        subtitle: 'View your order history',
+                        subtitle: AppLocalizations.of(context)!.viewOrderHistory,
                         onTap: () {
                           // Navigate to orders
                         },
@@ -156,7 +158,7 @@ class ProfileScreen extends StatelessWidget {
                       ProfileMenuItem(
                         icon: Icons.favorite_outline,
                         title: AppStrings.favorites,
-                        subtitle: 'Your saved products',
+                        subtitle: AppLocalizations.of(context)!.savedProducts,
                         onTap: () {
                           // Navigate to favorites
                         },
@@ -167,6 +169,49 @@ class ProfileScreen extends StatelessWidget {
                         subtitle: 'Manage delivery addresses',
                         onTap: () {
                           // Navigate to shipping address
+                        },
+                      ),
+                      ProfileMenuItem(
+                        icon: Icons.my_location,
+                        title: AppLocalizations.of(context)!.updateLocation,
+                        subtitle: AppLocalizations.of(context)!.refreshLocation,
+                        onTap: () async {
+                          final authProvider = Provider.of<AuthProvider>(context, listen: false);
+                          if (authProvider.user != null) {
+                            // Show loading indicator
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(AppLocalizations.of(context)!.updatingLocation),
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
+                            
+                            try {
+                              final success = await LocationService.refreshUserLocation(authProvider.user!.uid);
+                              if (success) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(AppLocalizations.of(context)!.locationUpdateSuccess),
+                                    backgroundColor: Colors.green,
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(AppLocalizations.of(context)!.locationUpdateFailed),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                              }
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(AppLocalizations.of(context)!.locationUpdateError(e.toString())),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            }
+                          }
                         },
                       ),
                       ProfileMenuItem(
@@ -187,8 +232,8 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       ProfileMenuItem(
                         icon: Icons.language_outlined,
-                        title: 'Language',
-                        subtitle: 'Choose your preferred language',
+                        title: AppLocalizations.of(context)!.language,
+                        subtitle: AppLocalizations.of(context)!.languageSelection,
                         onTap: () {
                           _showLanguageSelectionDialog(context);
                         },
@@ -246,8 +291,8 @@ class ProfileScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Sign Out'),
-        content: const Text('Are you sure you want to sign out?'),
+        title: Text(AppLocalizations.of(context)!.signOut),
+        content: Text(AppLocalizations.of(context)!.signOutConfirmation),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -273,8 +318,8 @@ class ProfileScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Select Language'),
-        content: const Text('Please select your preferred language.'),
+        title: Text(AppLocalizations.of(context)!.language),
+        content: Text(AppLocalizations.of(context)!.languageSelection),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -285,14 +330,14 @@ class ProfileScreen extends StatelessWidget {
               Navigator.pop(context);
               _changeLanguage(context, 'English');
             },
-            child: const Text('English'),
+            child: Text(AppLocalizations.of(context)!.english),
           ),
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
               _changeLanguage(context, 'Arabic');
             },
-            child: const Text('العربية'),
+            child: Text(AppLocalizations.of(context)!.arabic),
           ),
         ],
       ),
@@ -300,12 +345,16 @@ class ProfileScreen extends StatelessWidget {
   }
 
   void _changeLanguage(BuildContext context, String language) {
-    // TODO: Implement language change logic
-    // This would typically involve updating the app's locale
-    // For now, we'll just show a message
+    // Get the LocaleProvider and change the language
+    final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
+    final languageCode = language == 'English' ? 'en' : 'ar';
+    
+    localeProvider.setLanguage(languageCode);
+    
+    // Show confirmation message
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Language changed to $language'),
+        content: Text(AppLocalizations.of(context)!.languageChanged(language)),
         backgroundColor: AppColors.success,
       ),
     );

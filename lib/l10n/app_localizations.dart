@@ -446,8 +446,8 @@ abstract class AppLocalizations {
   /// No description provided for @locationCaptured.
   ///
   /// In en, this message translates to:
-  /// **'Location captured successfully'**
-  String get locationCaptured;
+  /// **'Location captured: {latitude}, {longitude}'**
+  String locationCaptured(Object latitude, Object longitude);
 
   /// No description provided for @locationError.
   ///
@@ -568,6 +568,180 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Arabic'**
   String get arabic;
+
+  /// No description provided for @updateLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Location'**
+  String get updateLocation;
+
+  /// No description provided for @refreshLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh your current location'**
+  String get refreshLocation;
+
+  /// No description provided for @updatingLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating location...'**
+  String get updatingLocation;
+
+  /// No description provided for @locationUpdateSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Location updated successfully!'**
+  String get locationUpdateSuccess;
+
+  /// No description provided for @locationUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update location. Please check permissions.'**
+  String get locationUpdateFailed;
+
+  /// No description provided for @locationUpdateError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update location: {error}'**
+  String locationUpdateError(Object error);
+
+  /// No description provided for @locationPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission denied'**
+  String get locationPermissionDenied;
+
+  /// No description provided for @locationCaptureFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to get location data'**
+  String get locationCaptureFailed;
+
+  /// No description provided for @locationDataSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Location data saved to Firebase successfully'**
+  String get locationDataSaved;
+
+  /// No description provided for @locationCaptureError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error capturing and saving location: {error}'**
+  String locationCaptureError(Object error);
+
+  /// No description provided for @refreshingLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Refreshing location for existing user: {userId}'**
+  String refreshingLocation(Object userId);
+
+  /// No description provided for @refreshingLocationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error refreshing user location: {error}'**
+  String refreshingLocationError(Object error);
+
+  /// No description provided for @checkingLocationData.
+  ///
+  /// In en, this message translates to:
+  /// **'Error checking location data: {error}'**
+  String checkingLocationData(Object error);
+
+  /// No description provided for @startingLocationCapture.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting location capture for user: {userId}'**
+  String startingLocationCapture(Object userId);
+
+  /// No description provided for @updatingUserProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating user profile with data: {data}'**
+  String updatingUserProfile(Object data);
+
+  /// No description provided for @userProfileUpdateSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'User profile updated successfully'**
+  String get userProfileUpdateSuccess;
+
+  /// No description provided for @userProfileUpdateError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update user profile: {error}'**
+  String userProfileUpdateError(Object error);
+
+  /// No description provided for @signOutConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to sign out?'**
+  String get signOutConfirmation;
+
+  /// No description provided for @languageChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Language changed to {language}'**
+  String languageChanged(Object language);
+
+  /// No description provided for @pleaseSignInToViewProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign in to view your profile'**
+  String get pleaseSignInToViewProfile;
+
+  /// No description provided for @user.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get user;
+
+  /// No description provided for @viewOrderHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'View your order history'**
+  String get viewOrderHistory;
+
+  /// No description provided for @savedProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'Your saved products'**
+  String get savedProducts;
+
+  /// No description provided for @manageDeliveryAddresses.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage delivery addresses'**
+  String get manageDeliveryAddresses;
+
+  /// No description provided for @savedPaymentMethods.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved payment methods'**
+  String get savedPaymentMethods;
+
+  /// No description provided for @manageNotificationPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage notification preferences'**
+  String get manageNotificationPreferences;
+
+  /// No description provided for @privacyAndSecuritySettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy and security settings'**
+  String get privacyAndSecuritySettings;
+
+  /// No description provided for @getHelpAndSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Get help and support'**
+  String get getHelpAndSupport;
+
+  /// No description provided for @appInformationAndVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'App information and version'**
+  String get appInformationAndVersion;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

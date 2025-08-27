@@ -183,7 +183,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get gettingLocation => 'جاري الحصول على موقعك...';
 
   @override
-  String get locationCaptured => 'تم التقاط الموقع بنجاح';
+  String locationCaptured(Object latitude, Object longitude) {
+    return 'تم التقاط الموقع: $latitude, $longitude';
+  }
 
   @override
   String get locationError => 'خطأ في الحصول على الموقع';
@@ -244,4 +246,109 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get arabic => 'العربية';
+
+  @override
+  String get updateLocation => 'تحديث الموقع';
+
+  @override
+  String get refreshLocation => 'تحديث موقعك الحالي';
+
+  @override
+  String get updatingLocation => 'جاري تحديث الموقع...';
+
+  @override
+  String get locationUpdateSuccess => 'تم تحديث الموقع بنجاح!';
+
+  @override
+  String get locationUpdateFailed => 'فشل في تحديث الموقع. يرجى التحقق من الأذونات.';
+
+  @override
+  String locationUpdateError(Object error) {
+    return 'فشل في تحديث الموقع: $error';
+  }
+
+  @override
+  String get locationPermissionDenied => 'تم رفض إذن الموقع';
+
+  @override
+  String get locationCaptureFailed => 'فشل في الحصول على بيانات الموقع';
+
+  @override
+  String get locationDataSaved => 'تم حفظ بيانات الموقع في Firebase بنجاح';
+
+  @override
+  String locationCaptureError(Object error) {
+    return 'خطأ في التقاط وحفظ الموقع: $error';
+  }
+
+  @override
+  String refreshingLocation(Object userId) {
+    return 'جاري تحديث الموقع للمستخدم الحالي: $userId';
+  }
+
+  @override
+  String refreshingLocationError(Object error) {
+    return 'خطأ في تحديث موقع المستخدم: $error';
+  }
+
+  @override
+  String checkingLocationData(Object error) {
+    return 'خطأ في التحقق من بيانات الموقع: $error';
+  }
+
+  @override
+  String startingLocationCapture(Object userId) {
+    return 'بدء التقاط الموقع للمستخدم: $userId';
+  }
+
+  @override
+  String updatingUserProfile(Object data) {
+    return 'جاري تحديث ملف المستخدم بالبيانات: $data';
+  }
+
+  @override
+  String get userProfileUpdateSuccess => 'تم تحديث ملف المستخدم بنجاح';
+
+  @override
+  String userProfileUpdateError(Object error) {
+    return 'فشل في تحديث ملف المستخدم: $error';
+  }
+
+  @override
+  String get signOutConfirmation => 'هل أنت متأكد من أنك تريد تسجيل الخروج؟';
+
+  @override
+  String languageChanged(Object language) {
+    return 'تم تغيير اللغة إلى $language';
+  }
+
+  @override
+  String get pleaseSignInToViewProfile => 'يرجى تسجيل الدخول لعرض ملفك الشخصي';
+
+  @override
+  String get user => 'المستخدم';
+
+  @override
+  String get viewOrderHistory => 'عرض سجل الطلبات';
+
+  @override
+  String get savedProducts => 'المنتجات المحفوظة';
+
+  @override
+  String get manageDeliveryAddresses => 'إدارة عناوين التوصيل';
+
+  @override
+  String get savedPaymentMethods => 'طرق الدفع المحفوظة';
+
+  @override
+  String get manageNotificationPreferences => 'إدارة تفضيلات الإشعارات';
+
+  @override
+  String get privacyAndSecuritySettings => 'إعدادات الخصوصية والأمان';
+
+  @override
+  String get getHelpAndSupport => 'الحصول على المساعدة والدعم';
+
+  @override
+  String get appInformationAndVersion => 'معلومات التطبيق والإصدار';
 }
