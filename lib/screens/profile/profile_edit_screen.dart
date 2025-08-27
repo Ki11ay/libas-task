@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
-// import 'package:image_cropper/image_cropper.dart';  // Temporarily disabled
+import 'package:image_cropper/image_cropper.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../../providers/auth_provider.dart';
 import '../../utils/constants.dart';
@@ -65,45 +65,43 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
       );
 
       if (pickedFile != null) {
-        setState(() {
-          _selectedImage = File(pickedFile.path);
-        });
+        await _cropImage(File(pickedFile.path));
       }
     } catch (e) {
       _showErrorSnackBar(AppLocalizations.of(context)!.errorUpdatingPicture);
     }
   }
 
-  // Future<void> _cropImage(File imageFile) async { // Temporarily disabled
-  //   try {
-  //     final croppedFile = await ImageCropper().cropImage(
-  //       sourcePath: imageFile.path,
-  //       aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
-  //       uiSettings: [
-  //         AndroidUiSettings(
-  //           toolbarTitle: AppLocalizations.of(context)!.cropImage,
-  //           toolbarColor: AppColors.primary,
-  //           toolbarWidgetColor: Colors.white,
-  //           initAspectRatio: CropAspectRatioPreset.square,
-  //           lockAspectRatio: true,
-  //         ),
-  //         IOSUiSettings(
-  //           title: AppLocalizations.of(context)!.cropImage,
-  //           aspectRatioLockEnabled: true,
-  //           aspectRatioPickerButtonHidden: true,
-  //         ),
-  //       ],
-  //     );
+  Future<void> _cropImage(File imageFile) async {
+    try {
+      final croppedFile = await ImageCropper().cropImage(
+        sourcePath: imageFile.path,
+        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: AppLocalizations.of(context)!.cropImage,
+            toolbarColor: AppColors.primary,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.square,
+            lockAspectRatio: true,
+          ),
+          IOSUiSettings(
+            title: AppLocalizations.of(context)!.cropImage,
+            aspectRatioLockEnabled: true,
+            aspectRatioPickerButtonHidden: true,
+          ),
+        ],
+      );
 
-  //     if (croppedFile != null) {
-  //       setState(() {
-  //         _selectedImage = File(croppedFile.path);
-  //       });
-  //     }
-  //   } catch (e) {
-  //     _showErrorSnackBar(AppLocalizations.of(context)!.errorUpdatingPicture);
-  //   }
-  // }
+      if (croppedFile != null) {
+        setState(() {
+          _selectedImage = File(croppedFile.path);
+        });
+      }
+    } catch (e) {
+      _showErrorSnackBar(AppLocalizations.of(context)!.errorUpdatingPicture);
+    }
+  }
 
   Future<void> _removeProfilePicture() async {
     final confirmed = await showDialog<bool>(

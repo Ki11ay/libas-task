@@ -49,7 +49,7 @@ dependencies:
   # Authentication
   google_sign_in: ^6.2.0
   image_picker: ^1.0.7
-  # image_cropper: ^5.0.1  # Temporarily disabled due to compatibility issues
+  image_cropper: ^9.1.0
   
   # Maps
   google_maps_flutter: ^2.6.0
