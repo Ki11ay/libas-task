@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../models/cart_item_model.dart';
+import '../models/cart_model.dart';
 import '../utils/constants.dart';
 
 class CartItemCard extends StatelessWidget {
-  final CartItemModel item;
+  final CartItem item;
   final Function(int) onQuantityChanged;
   final VoidCallback onRemove;
 

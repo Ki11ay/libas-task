@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../models/cart_model.dart';
 import '../../providers/cart_provider.dart';
-import '../../providers/auth_provider.dart';
 import '../../utils/constants.dart';
-import '../../widgets/cart_item_card.dart';
 import '../../widgets/custom_button.dart';
+import '../../widgets/cart_item_card.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -17,36 +17,32 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
+    // Initialize cart when screen loads
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final authProvider = Provider.of<AuthProvider>(context, listen: false);
       final cartProvider = Provider.of<CartProvider>(context, listen: false);
-      
-      if (authProvider.isAuthenticated) {
-        cartProvider.loadUserCart(authProvider.user!.uid);
-      }
+      cartProvider.initializeCart();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text(AppStrings.cart),
+        title: const Text('Shopping Cart'),
         backgroundColor: AppColors.surface,
+        foregroundColor: AppColors.textPrimary,
         elevation: 0,
         actions: [
           Consumer<CartProvider>(
             builder: (context, cartProvider, child) {
-              if (cartProvider.isEmpty) return const SizedBox.shrink();
-              
-              return TextButton(
-                onPressed: () => _showClearCartDialog(context),
-                child: Text(
-                  'Clear',
-                  style: TextStyle(color: AppColors.error),
-                ),
-              );
+              if (cartProvider.hasItems) {
+                return IconButton(
+                  onPressed: () => _showClearCartDialog(context),
+                  icon: const Icon(Icons.delete_sweep),
+                  tooltip: 'Clear Cart',
+                );
+              }
+              return const SizedBox.shrink();
             },
           ),
         ],
@@ -61,26 +57,26 @@ class _CartScreenState extends State<CartScreen> {
             );
           }
 
-          if (cartProvider.isEmpty) {
+          if (cartProvider.error != null) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    Icons.shopping_cart_outlined,
-                    size: 80,
-                    color: AppColors.textSecondary,
+                    Icons.error_outline,
+                    size: 64,
+                    color: AppColors.error,
                   ),
-                  const SizedBox(height: AppSizes.lg),
+                  const SizedBox(height: AppSizes.md),
                   Text(
-                    AppStrings.cartEmpty,
-                    style: AppTextStyles.h3.copyWith(
+                    'Error loading cart',
+                    style: AppTextStyles.h4.copyWith(
                       color: AppColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: AppSizes.sm),
                   Text(
-                    AppStrings.cartEmptySubtitle,
+                    cartProvider.error!,
                     style: AppTextStyles.bodyMedium.copyWith(
                       color: AppColors.textSecondary,
                     ),
@@ -88,10 +84,43 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   const SizedBox(height: AppSizes.lg),
                   CustomButton(
-                    onPressed: () {
-                      // Navigate to products
-                    },
-                    text: 'Start Shopping',
+                    onPressed: () => cartProvider.refreshCart(),
+                    text: 'Retry',
+                    isOutlined: true,
+                  ),
+                ],
+              ),
+            );
+          }
+
+          if (cartProvider.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.shopping_cart_outlined,
+                    size: 64,
+                    color: AppColors.textSecondary,
+                  ),
+                  const SizedBox(height: AppSizes.lg),
+                  Text(
+                    'Your cart is empty',
+                    style: AppTextStyles.h3.copyWith(
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: AppSizes.sm),
+                  Text(
+                    'Add some products to get started',
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                  const SizedBox(height: AppSizes.xl),
+                  CustomButton(
+                    onPressed: () => Navigator.pop(context),
+                    text: 'Continue Shopping',
                   ),
                 ],
               ),
@@ -100,7 +129,7 @@ class _CartScreenState extends State<CartScreen> {
 
           return Column(
             children: [
-              // Cart Items
+              // Cart Items List
               Expanded(
                 child: ListView.builder(
                   padding: const EdgeInsets.all(AppSizes.lg),
@@ -111,20 +140,11 @@ class _CartScreenState extends State<CartScreen> {
                       padding: const EdgeInsets.only(bottom: AppSizes.md),
                       child: CartItemCard(
                         item: item,
-                        onQuantityChanged: (quantity) {
-                          final authProvider = Provider.of<AuthProvider>(context, listen: false);
-                          cartProvider.updateQuantity(
-                            authProvider.user!.uid,
-                            item.productId,
-                            quantity,
-                          );
+                        onQuantityChanged: (newQuantity) {
+                          cartProvider.updateItemQuantity(item.id, newQuantity);
                         },
                         onRemove: () {
-                          final authProvider = Provider.of<AuthProvider>(context, listen: false);
-                          cartProvider.removeFromCart(
-                            authProvider.user!.uid,
-                            item.productId,
-                          );
+                          cartProvider.removeFromCart(item.id);
                         },
                       ),
                     );
@@ -148,34 +168,68 @@ class _CartScreenState extends State<CartScreen> {
                 child: SafeArea(
                   child: Column(
                     children: [
-                      // Summary Row
+                      // Summary Details
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '${AppStrings.total} (${cartProvider.totalItems} items):',
+                            'Subtotal:',
                             style: AppTextStyles.bodyMedium.copyWith(
                               color: AppColors.textSecondary,
                             ),
                           ),
+                          const Spacer(),
                           Text(
-                            '\$${cartProvider.totalAmount.toStringAsFixed(2)}',
-                            style: AppTextStyles.h3.copyWith(
-                              color: AppColors.primary,
+                            '\$${cartProvider.subtotal.toStringAsFixed(2)}',
+                            style: AppTextStyles.h4.copyWith(
+                              color: AppColors.textPrimary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],
                       ),
                       
-                      const SizedBox(height: AppSizes.lg),
+                      if (cartProvider.totalSavings > 0) ...[
+                        const SizedBox(height: AppSizes.sm),
+                        Row(
+                          children: [
+                            Text(
+                              'Total Savings:',
+                              style: AppTextStyles.bodyMedium.copyWith(
+                                color: AppColors.success,
+                              ),
+                            ),
+                            const Spacer(),
+                            Text(
+                              '-\$${cartProvider.totalSavings.toStringAsFixed(2)}',
+                              style: AppTextStyles.bodyMedium.copyWith(
+                                color: AppColors.success,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                       
-                      // Checkout Button
+                      const SizedBox(height: AppSizes.md),
+                      
+                      // Proceed to Payment Button
                       SizedBox(
                         width: double.infinity,
                         child: CustomButton(
-                          onPressed: () => _proceedToCheckout(context),
-                          text: AppStrings.checkout,
+                          onPressed: () => _proceedToPayment(context),
+                          text: 'Proceed to Payment',
+                        ),
+                      ),
+                      
+                      const SizedBox(height: AppSizes.sm),
+                      
+                      // Continue Shopping Button
+                      SizedBox(
+                        width: double.infinity,
+                        child: CustomButton(
+                          onPressed: () => Navigator.pop(context),
+                          text: 'Continue Shopping',
+                          isOutlined: true,
                         ),
                       ),
                     ],
@@ -192,38 +246,38 @@ class _CartScreenState extends State<CartScreen> {
   void _showClearCartDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Clear Cart'),
-        content: const Text('Are you sure you want to remove all items from your cart?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(AppStrings.cancel),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              final authProvider = Provider.of<AuthProvider>(context, listen: false);
-              final cartProvider = Provider.of<CartProvider>(context, listen: false);
-              cartProvider.clearCart(authProvider.user!.uid);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.error,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Clear Cart'),
+          content: const Text('Are you sure you want to remove all items from your cart?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel'),
             ),
-            child: Text(AppStrings.delete),
-          ),
-        ],
-      ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                final cartProvider = Provider.of<CartProvider>(context, listen: false);
+                cartProvider.clearCart();
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: AppColors.error,
+              ),
+              child: const Text('Clear'),
+            ),
+          ],
+        );
+      },
     );
   }
 
-  void _proceedToCheckout(BuildContext context) {
-    // Navigate to checkout screen
-    // You can implement checkout navigation here
+  void _proceedToPayment(BuildContext context) {
+    // TODO: Implement payment flow
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Checkout functionality coming soon!'),
-        backgroundColor: AppColors.info,
+        content: Text('Payment functionality coming soon!'),
+        backgroundColor: AppColors.primary,
       ),
     );
   }

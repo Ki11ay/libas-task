@@ -1,41 +1,40 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import '../models/cart_model.dart';
-import '../models/cart_item_model.dart';
 import '../models/product_model.dart';
-import '../services/firebase_service.dart';
+import '../services/cart_service.dart';
 
-class CartProvider extends ChangeNotifier {
-  final FirebaseService _firebaseService = FirebaseService();
-
-  CartModel? _cart;
+class CartProvider with ChangeNotifier {
+  final CartService _cartService = CartService();
+  
+  Cart? _cart;
   bool _isLoading = false;
   String? _error;
 
-  CartModel? get cart => _cart;
+  // Getters
+  Cart? get cart => _cart;
   bool get isLoading => _isLoading;
   String? get error => _error;
+  bool get hasItems => _cart?.hasItems ?? false;
   bool get isEmpty => _cart?.isEmpty ?? true;
   int get totalItems => _cart?.totalItems ?? 0;
-  double get totalAmount => _cart?.totalAmount ?? 0.0;
+  double get subtotal => _cart?.subtotal ?? 0.0;
+  double get totalSavings => _cart?.totalSavings ?? 0.0;
+  int get uniqueProductsCount => _cart?.uniqueProductsCount ?? 0;
 
-  CartProvider();
-
-  Future<void> loadUserCart(String userId) async {
+  // Initialize cart
+  Future<void> initializeCart() async {
     try {
       _setLoading(true);
       _clearError();
       
-      _cart = await _firebaseService.getUserCart(userId);
-      if (_cart == null) {
-        // Create new cart if none exists
-        _cart = CartModel(
-          id: userId,
-          userId: userId,
-          items: [],
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-        );
-      }
+      _cart = await _cartService.getUserCart();
+      
+      // Listen to cart changes
+      _cartService.cartStream.listen((updatedCart) {
+        _cart = updatedCart;
+        notifyListeners();
+      });
+      
     } catch (e) {
       _setError(e.toString());
     } finally {
@@ -43,46 +42,15 @@ class CartProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> addToCart(String userId, ProductModel product, {int quantity = 1}) async {
+  // Add product to cart
+  Future<void> addToCart(ProductModel product, {int quantity = 1, String? size, String? color}) async {
     try {
       _setLoading(true);
       _clearError();
       
-      if (_cart == null) {
-        await loadUserCart(userId);
-      }
+      await _cartService.addToCart(product, quantity: quantity, size: size, color: color);
       
-      if (_cart != null) {
-        final existingItemIndex = _cart!.items.indexWhere((item) => item.productId == product.id);
-        
-        if (existingItemIndex != -1) {
-          // Update existing item quantity
-          final existingItem = _cart!.items[existingItemIndex];
-          final updatedItem = existingItem.copyWith(
-            quantity: existingItem.quantity + quantity,
-            addedAt: DateTime.now(),
-          );
-          _cart!.items[existingItemIndex] = updatedItem;
-        } else {
-          // Add new item
-          final newItem = CartItemModel(
-            id: DateTime.now().millisecondsSinceEpoch.toString(),
-            productId: product.id,
-            productName: product.name,
-            productImage: product.images.isNotEmpty ? product.images.first : '',
-            price: product.price,
-            quantity: quantity,
-            addedAt: DateTime.now(),
-          );
-          _cart!.items.add(newItem);
-        }
-        
-        _cart = _cart!.copyWith(
-          updatedAt: DateTime.now(),
-        );
-        
-        await _saveCart(userId);
-      }
+      // Cart will be updated via stream
     } catch (e) {
       _setError(e.toString());
     } finally {
@@ -90,19 +58,15 @@ class CartProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> removeFromCart(String userId, String productId) async {
+  // Update item quantity
+  Future<void> updateItemQuantity(String itemId, int newQuantity) async {
     try {
       _setLoading(true);
       _clearError();
       
-      if (_cart != null) {
-        _cart!.items.removeWhere((item) => item.productId == productId);
-        _cart = _cart!.copyWith(
-          updatedAt: DateTime.now(),
-        );
-        
-        await _saveCart(userId);
-      }
+      await _cartService.updateItemQuantity(itemId, newQuantity);
+      
+      // Cart will be updated via stream
     } catch (e) {
       _setError(e.toString());
     } finally {
@@ -110,31 +74,15 @@ class CartProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> updateQuantity(String userId, String productId, int quantity) async {
+  // Remove item from cart
+  Future<void> removeFromCart(String itemId) async {
     try {
       _setLoading(true);
       _clearError();
       
-      if (_cart != null) {
-        final itemIndex = _cart!.items.indexWhere((item) => item.productId == productId);
-        if (itemIndex != -1) {
-          if (quantity <= 0) {
-            _cart!.items.removeAt(itemIndex);
-          } else {
-            final item = _cart!.items[itemIndex];
-            _cart!.items[itemIndex] = item.copyWith(
-              quantity: quantity,
-              addedAt: DateTime.now(),
-            );
-          }
-          
-          _cart = _cart!.copyWith(
-            updatedAt: DateTime.now(),
-          );
-          
-          await _saveCart(userId);
-        }
-      }
+      await _cartService.removeFromCart(itemId);
+      
+      // Cart will be updated via stream
     } catch (e) {
       _setError(e.toString());
     } finally {
@@ -142,19 +90,15 @@ class CartProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> clearCart(String userId) async {
+  // Clear cart
+  Future<void> clearCart() async {
     try {
       _setLoading(true);
       _clearError();
       
-      if (_cart != null) {
-        _cart = _cart!.copyWith(
-          items: [],
-          updatedAt: DateTime.now(),
-        );
-        
-        await _saveCart(userId);
-      }
+      await _cartService.clearCart();
+      
+      // Cart will be updated via stream
     } catch (e) {
       _setError(e.toString());
     } finally {
@@ -162,31 +106,47 @@ class CartProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> _saveCart(String userId) async {
-    if (_cart != null) {
-      await _firebaseService.updateUserCart(userId, _cart!);
-      notifyListeners();
+  // Check if product is in cart
+  Future<bool> isProductInCart(String productId, {String? size, String? color}) async {
+    try {
+      return await _cartService.isProductInCart(productId, size: size, color: color);
+    } catch (e) {
+      print('Error checking if product in cart: $e');
+      return false;
     }
   }
 
-  CartItemModel? getCartItem(String productId) {
-    if (_cart == null) return null;
+  // Get cart item by product
+  Future<CartItem?> getCartItemByProduct(String productId, {String? size, String? color}) async {
     try {
-      return _cart!.items.firstWhere((item) => item.productId == productId);
+      return await _cartService.getCartItemByProduct(productId, size: size, color: color);
     } catch (e) {
+      print('Error getting cart item by product: $e');
       return null;
     }
   }
 
-  bool isInCart(String productId) {
-    return getCartItem(productId) != null;
+  // Get cart total
+  Future<double> getCartTotal() async {
+    try {
+      return await _cartService.getCartTotal();
+    } catch (e) {
+      print('Error getting cart total: $e');
+      return 0.0;
+    }
   }
 
-  int getItemQuantity(String productId) {
-    final item = getCartItem(productId);
-    return item?.quantity ?? 0;
+  // Get cart items count
+  Future<int> getCartItemsCount() async {
+    try {
+      return await _cartService.getCartItemsCount();
+    } catch (e) {
+      print('Error getting cart items count: $e');
+      return 0;
+    }
   }
 
+  // Private methods
   void _setLoading(bool loading) {
     _isLoading = loading;
     notifyListeners();
@@ -199,14 +159,16 @@ class CartProvider extends ChangeNotifier {
 
   void _clearError() {
     _error = null;
-    notifyListeners();
   }
 
+  // Clear error manually
   void clearError() {
     _clearError();
+    notifyListeners();
   }
 
-  void refresh() {
-    notifyListeners();
+  // Refresh cart
+  Future<void> refreshCart() async {
+    await initializeCart();
   }
 }

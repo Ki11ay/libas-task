@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
     
     if (authProvider.isAuthenticated) {
-      cartProvider.loadUserCart(authProvider.user!.uid);
+      cartProvider.initializeCart();
     }
   }
 

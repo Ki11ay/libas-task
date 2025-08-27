@@ -8,6 +8,7 @@ import 'providers/cart_provider.dart';
 import 'screens/splash_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/auth/auth_screen.dart';
+import 'screens/cart/cart_screen.dart';
 import 'services/notification_service.dart';
 import 'utils/constants.dart';
 
@@ -105,6 +106,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/home': (context) => const HomeScreen(),
           '/auth': (context) => const AuthScreen(),
+          '/cart': (context) => const CartScreen(),
         },
       ),
     );

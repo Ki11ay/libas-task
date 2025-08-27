@@ -129,25 +129,14 @@ class FirebaseService {
     }
   }
 
-  // Cart Management
-  Future<CartModel?> getUserCart(String userId) async {
-    try {
-      final doc = await _firestore.collection('carts').doc(userId).get();
-      if (doc.exists) {
-        return CartModel.fromJson({...doc.data()!, 'id': doc.id});
-      }
-      return null;
-    } catch (e) {
-      throw 'Failed to get user cart: $e';
-    }
+  // Cart Management - Note: Cart functionality moved to CartService
+  // This method is kept for backward compatibility but will be removed
+  Future<dynamic?> getUserCart(String userId) async {
+    throw 'Cart functionality has been moved to CartService. Please use CartProvider instead.';
   }
 
-  Future<void> updateUserCart(String userId, CartModel cart) async {
-    try {
-      await _firestore.collection('carts').doc(userId).set(cart.toJson());
-    } catch (e) {
-      throw 'Failed to update user cart: $e';
-    }
+  Future<void> updateUserCart(String userId, dynamic cart) async {
+    throw 'Cart functionality has been moved to CartService. Please use CartProvider instead.';
   }
 
   // Order Management

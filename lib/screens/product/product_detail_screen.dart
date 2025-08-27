@@ -46,7 +46,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     });
   }
 
-  void _addToCart() {
+  void _addToCart() async {
     if (_product == null) return;
     
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
@@ -62,23 +62,32 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       return;
     }
     
-    cartProvider.addToCart(authProvider.user!.uid, _product!, quantity: _quantity);
-    
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('${_product!.name} added to cart'),
-        backgroundColor: AppColors.success,
-        action: SnackBarAction(
-          label: 'View Cart',
-          textColor: AppColors.surface,
-          onPressed: () {
-            // Navigate to cart
-            Navigator.pop(context);
-            // You can add navigation logic here
-          },
+    try {
+      await cartProvider.addToCart(_product!, quantity: _quantity);
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${_product!.name} added to cart'),
+          backgroundColor: AppColors.success,
+          action: SnackBarAction(
+            label: 'View Cart',
+            textColor: AppColors.surface,
+            onPressed: () {
+              // Navigate to cart
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/cart');
+            },
+          ),
         ),
-      ),
-    );
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error adding to cart: $e'),
+          backgroundColor: AppColors.error,
+        ),
+      );
+    }
   }
 
   void _buyNow() {
@@ -128,6 +137,21 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.background,
+      floatingActionButton: Consumer<CartProvider>(
+        builder: (context, cartProvider, child) {
+          if (cartProvider.totalItems > 0) {
+            return FloatingActionButton.extended(
+              onPressed: () => Navigator.pushNamed(context, '/cart'),
+              backgroundColor: AppColors.primary,
+              foregroundColor: AppColors.surface,
+              icon: const Icon(Icons.shopping_cart),
+              label: Text('${cartProvider.totalItems}'),
+              heroTag: 'cart_fab',
+            );
+          }
+          return const SizedBox.shrink();
+        },
+      ),
       body: CustomScrollView(
         slivers: [
           // App Bar
@@ -148,11 +172,45 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               onPressed: () => Navigator.pop(context),
             ),
             actions: [
+              // Quick Add to Cart
+              Consumer<CartProvider>(
+                builder: (context, cartProvider, child) {
+                  return FutureBuilder<bool>(
+                    future: cartProvider.isProductInCart(_product!.id),
+                    builder: (context, snapshot) {
+                      final isInCart = snapshot.hasData && snapshot.data == true;
+                      return IconButton(
+                        icon: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: AppColors.surface.withValues(alpha: 0.8),
+                            borderRadius: BorderRadius.circular(AppSizes.radiusFull),
+                          ),
+                          child: Icon(
+                            isInCart ? Icons.shopping_cart : Icons.shopping_cart_outlined,
+                            color: isInCart ? AppColors.success : AppColors.textPrimary,
+                          ),
+                        ),
+                        onPressed: () {
+                          if (isInCart) {
+                            // Navigate to cart
+                            Navigator.pushNamed(context, '/cart');
+                          } else {
+                            // Quick add to cart
+                            _addToCart();
+                          }
+                        },
+                        tooltip: isInCart ? 'View Cart' : 'Add to Cart',
+                      );
+                    },
+                  );
+                },
+              ),
               IconButton(
                 icon: Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: AppColors.surface.withOpacity(0.8),
+                    color: AppColors.surface.withValues(alpha: 0.8),
                     borderRadius: BorderRadius.circular(AppSizes.radiusFull),
                   ),
                   child: const Icon(Icons.favorite_border),
@@ -165,7 +223,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 icon: Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: AppColors.surface.withOpacity(0.8),
+                    color: AppColors.surface.withValues(alpha: 0.8),
                     borderRadius: BorderRadius.circular(AppSizes.radiusFull),
                   ),
                   child: const Icon(Icons.share),
@@ -281,12 +339,59 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Product Name
-                  Text(
-                    _product!.name,
-                    style: AppTextStyles.h2.copyWith(
-                      color: AppColors.textPrimary,
-                    ),
+                  // Product Name and Cart Status
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          _product!.name,
+                          style: AppTextStyles.h2.copyWith(
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                      ),
+                      // Cart Status Badge
+                      Consumer<CartProvider>(
+                        builder: (context, cartProvider, child) {
+                          return FutureBuilder<bool>(
+                            future: cartProvider.isProductInCart(_product!.id),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData && snapshot.data == true) {
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: AppSizes.sm,
+                                    vertical: AppSizes.xs,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.success,
+                                    borderRadius: BorderRadius.circular(AppSizes.radiusSm),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.shopping_cart,
+                                        color: AppColors.surface,
+                                        size: 16,
+                                      ),
+                                      const SizedBox(width: AppSizes.xs),
+                                      Text(
+                                        'In Cart',
+                                        style: AppTextStyles.caption.copyWith(
+                                          color: AppColors.surface,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                              return const SizedBox.shrink();
+                            },
+                          );
+                        },
+                      ),
+                    ],
                   ),
                   
                   const SizedBox(height: AppSizes.sm),
@@ -387,8 +492,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       const SizedBox(width: AppSizes.sm),
                       Text(
                         _product!.isAvailable
-                            ? '${AppStrings.inStock} (${_product!.stockQuantity})'
-                            : AppStrings.outOfStock,
+                            ? 'In Stock (${_product!.stockQuantity} available)'
+                            : 'Out of Stock',
                         style: AppTextStyles.bodyMedium.copyWith(
                           color: _product!.isAvailable ? AppColors.success : AppColors.error,
                           fontWeight: FontWeight.w600,
@@ -396,6 +501,45 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                     ],
                   ),
+                  
+                  // Product Tags
+                  if (_product!.tags.isNotEmpty) ...[
+                    const SizedBox(height: AppSizes.lg),
+                    Text(
+                      'Tags:',
+                      style: AppTextStyles.bodyMedium.copyWith(
+                        color: AppColors.textPrimary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: AppSizes.sm),
+                    Wrap(
+                      spacing: AppSizes.xs,
+                      runSpacing: AppSizes.xs,
+                      children: _product!.tags.map((tag) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSizes.sm,
+                            vertical: AppSizes.xs,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(AppSizes.radiusSm),
+                            border: Border.all(
+                              color: AppColors.primary.withValues(alpha: 0.3),
+                            ),
+                          ),
+                          child: Text(
+                            '#$tag',
+                            style: AppTextStyles.caption.copyWith(
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ],
                   
                   const SizedBox(height: AppSizes.lg),
                   
@@ -418,52 +562,104 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   const SizedBox(height: AppSizes.lg),
                   
                   // Quantity Selector
-                  Row(
-                    children: [
-                      Text(
-                        'Quantity:',
-                        style: AppTextStyles.bodyMedium.copyWith(
-                          color: AppColors.textPrimary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.surface,
-                          borderRadius: BorderRadius.circular(AppSizes.radiusMd),
-                          border: Border.all(color: AppColors.divider),
-                        ),
-                        child: Row(
+                  Container(
+                    padding: const EdgeInsets.all(AppSizes.md),
+                    decoration: BoxDecoration(
+                      color: AppColors.surface,
+                      borderRadius: BorderRadius.circular(AppSizes.radiusMd),
+                      border: Border.all(color: AppColors.divider),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
                           children: [
-                            IconButton(
-                              onPressed: _quantity > 1
-                                  ? () => setState(() => _quantity--)
-                                  : null,
-                              icon: const Icon(Icons.remove),
-                              iconSize: 20,
-                            ),
-                            Container(
-                              width: 40,
-                              alignment: Alignment.center,
-                              child: Text(
-                                '$_quantity',
-                                style: AppTextStyles.bodyMedium.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                ),
+                            Text(
+                              'Quantity:',
+                              style: AppTextStyles.bodyMedium.copyWith(
+                                color: AppColors.textPrimary,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
-                            IconButton(
-                              onPressed: _quantity < _product!.stockQuantity
-                                  ? () => setState(() => _quantity++)
-                                  : null,
-                              icon: const Icon(Icons.add),
-                              iconSize: 20,
+                            const Spacer(),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: AppColors.background,
+                                borderRadius: BorderRadius.circular(AppSizes.radiusSm),
+                                border: Border.all(color: AppColors.divider),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    onPressed: _quantity > 1
+                                        ? () => setState(() => _quantity--)
+                                        : null,
+                                    icon: const Icon(Icons.remove),
+                                    iconSize: 20,
+                                    constraints: const BoxConstraints(
+                                      minWidth: 40,
+                                      minHeight: 40,
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 50,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      '$_quantity',
+                                      style: AppTextStyles.bodyMedium.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: _quantity < _product!.stockQuantity
+                                        ? () => setState(() => _quantity++)
+                                        : null,
+                                    icon: const Icon(Icons.add),
+                                    iconSize: 20,
+                                    constraints: const BoxConstraints(
+                                      minWidth: 40,
+                                      minHeight: 40,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: AppSizes.sm),
+                        // Cart Status
+                        Consumer<CartProvider>(
+                          builder: (context, cartProvider, child) {
+                            return FutureBuilder<bool>(
+                              future: cartProvider.isProductInCart(_product!.id),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData && snapshot.data == true) {
+                                  return Row(
+                                    children: [
+                                      Icon(
+                                        Icons.shopping_cart,
+                                        color: AppColors.success,
+                                        size: 16,
+                                      ),
+                                      const SizedBox(width: AppSizes.xs),
+                                      Text(
+                                        'Already in cart',
+                                        style: AppTextStyles.caption.copyWith(
+                                          color: AppColors.success,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }
+                                return const SizedBox.shrink();
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                   
                   const SizedBox(height: AppSizes.xxl),
@@ -479,28 +675,56 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           color: AppColors.surface,
           boxShadow: [
             BoxShadow(
-              color: AppColors.textPrimary.withOpacity(0.1),
+              color: AppColors.textPrimary.withValues(alpha: 0.1),
               blurRadius: 10,
               offset: const Offset(0, -2),
             ),
           ],
         ),
         child: SafeArea(
-          child: Row(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Expanded(
-                child: CustomButton(
-                  onPressed: _product!.isAvailable ? _addToCart : null,
-                  text: AppStrings.addToCart,
-                  isOutlined: true,
-                ),
+              // Price Summary
+              Row(
+                children: [
+                  Text(
+                    'Total:',
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    '\$${(_product!.price * _quantity).toStringAsFixed(2)}',
+                    style: AppTextStyles.h3.copyWith(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: AppSizes.md),
-              Expanded(
-                child: CustomButton(
-                  onPressed: _product!.isAvailable ? _buyNow : null,
-                  text: AppStrings.buyNow,
-                ),
+              const SizedBox(height: AppSizes.md),
+              // Action Buttons
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomButton(
+                      onPressed: _product!.isAvailable ? _addToCart : null,
+                      text: 'Add to Cart',
+                      isOutlined: true,
+                      icon: Icons.shopping_cart_outlined,
+                    ),
+                  ),
+                  const SizedBox(width: AppSizes.md),
+                  Expanded(
+                    child: CustomButton(
+                      onPressed: _product!.isAvailable ? _buyNow : null,
+                      text: 'Buy Now',
+                      icon: Icons.flash_on,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
