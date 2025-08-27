@@ -7,10 +7,16 @@ import '../../widgets/profile_menu_item.dart';
 import '../../l10n/app_localizations.dart';
 import '../../services/location_service.dart'; // Added import for LocationService
 import '../../providers/locale_provider.dart'; // Added import for LocaleProvider
+import '../../screens/profile/profile_edit_screen.dart'; // Added import for ProfileEditScreen
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,9 +132,19 @@ class ProfileScreen extends StatelessWidget {
                         width: double.infinity,
                         child: CustomButton(
                           onPressed: () {
-                            // Navigate to edit profile
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ProfileEditScreen(),
+                              ),
+                            ).then((updated) {
+                              if (updated == true) {
+                                // Refresh the profile data
+                                setState(() {});
+                              }
+                            });
                           },
-                          text: AppStrings.editProfile,
+                          text: AppLocalizations.of(context)!.editProfile,
                           isOutlined: true,
                         ),
                       ),
@@ -152,7 +168,12 @@ class ProfileScreen extends StatelessWidget {
                         title: AppStrings.orders,
                         subtitle: AppLocalizations.of(context)!.viewOrderHistory,
                         onTap: () {
-                          // Navigate to orders
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Orders feature coming soon!'),
+                              backgroundColor: AppColors.primary,
+                            ),
+                          );
                         },
                       ),
                       ProfileMenuItem(
@@ -160,15 +181,25 @@ class ProfileScreen extends StatelessWidget {
                         title: AppStrings.favorites,
                         subtitle: AppLocalizations.of(context)!.savedProducts,
                         onTap: () {
-                          // Navigate to favorites
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Favorites feature coming soon!'),
+                              backgroundColor: AppColors.primary,
+                            ),
+                          );
                         },
                       ),
                       ProfileMenuItem(
                         icon: Icons.location_on_outlined,
                         title: AppStrings.shippingAddress,
-                        subtitle: 'Manage delivery addresses',
+                        subtitle: AppLocalizations.of(context)!.manageDeliveryAddresses,
                         onTap: () {
-                          // Navigate to shipping address
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Shipping address feature coming soon!'),
+                              backgroundColor: AppColors.primary,
+                            ),
+                          );
                         },
                       ),
                       ProfileMenuItem(
@@ -217,17 +248,27 @@ class ProfileScreen extends StatelessWidget {
                       ProfileMenuItem(
                         icon: Icons.payment_outlined,
                         title: AppStrings.paymentMethods,
-                        subtitle: 'Saved payment methods',
+                        subtitle: AppLocalizations.of(context)!.savedPaymentMethods,
                         onTap: () {
-                          // Navigate to payment methods
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Payment methods feature coming soon!'),
+                              backgroundColor: AppColors.primary,
+                            ),
+                          );
                         },
                       ),
                       ProfileMenuItem(
                         icon: Icons.notifications_outlined,
                         title: AppStrings.notifications,
-                        subtitle: 'Manage notification preferences',
+                        subtitle: AppLocalizations.of(context)!.manageNotificationPreferences,
                         onTap: () {
-                          // Navigate to notifications
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Notifications feature coming soon!'),
+                              backgroundColor: AppColors.primary,
+                            ),
+                          );
                         },
                       ),
                       ProfileMenuItem(
@@ -241,25 +282,40 @@ class ProfileScreen extends StatelessWidget {
                       ProfileMenuItem(
                         icon: Icons.privacy_tip_outlined,
                         title: AppStrings.privacy,
-                        subtitle: 'Privacy and security settings',
+                        subtitle: AppLocalizations.of(context)!.privacyAndSecuritySettings,
                         onTap: () {
-                          // Navigate to privacy
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Privacy settings feature coming soon!'),
+                              backgroundColor: AppColors.primary,
+                            ),
+                          );
                         },
                       ),
                       ProfileMenuItem(
                         icon: Icons.help_outline,
                         title: AppStrings.help,
-                        subtitle: 'Get help and support',
+                        subtitle: AppLocalizations.of(context)!.getHelpAndSupport,
                         onTap: () {
-                          // Navigate to help
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Help & Support feature coming soon!'),
+                              backgroundColor: AppColors.primary,
+                            ),
+                          );
                         },
                       ),
                       ProfileMenuItem(
                         icon: Icons.info_outline,
                         title: AppStrings.about,
-                        subtitle: 'App information and version',
+                        subtitle: AppLocalizations.of(context)!.appInformationAndVersion,
                         onTap: () {
-                          // Navigate to about
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('About feature coming soon!'),
+                              backgroundColor: AppColors.primary,
+                            ),
+                          );
                         },
                       ),
                     ],

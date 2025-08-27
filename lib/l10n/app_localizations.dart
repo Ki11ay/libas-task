@@ -260,7 +260,7 @@ abstract class AppLocalizations {
   /// No description provided for @subtotal.
   ///
   /// In en, this message translates to:
-  /// **'Subtotal'**
+  /// **'Subtotal:'**
   String get subtotal;
 
   /// No description provided for @shipping.
@@ -742,6 +742,264 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'App information and version'**
   String get appInformationAndVersion;
+
+  /// No description provided for @alreadyInCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Already in cart'**
+  String get alreadyInCart;
+
+  /// No description provided for @testNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Test notifications sent! Check your notification panel.'**
+  String get testNotifications;
+
+  /// No description provided for @clear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clear;
+
+  /// No description provided for @clearCartConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove all items from your cart?'**
+  String get clearCartConfirmation;
+
+  /// No description provided for @errorLoadingCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading cart'**
+  String get errorLoadingCart;
+
+  /// No description provided for @pleaseSignInFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign in first to test notifications.'**
+  String get pleaseSignInFirst;
+
+  /// No description provided for @shoppingCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping Cart'**
+  String get shoppingCart;
+
+  /// No description provided for @clearCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Cart'**
+  String get clearCart;
+
+  /// No description provided for @continueShopping.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue Shopping'**
+  String get continueShopping;
+
+  /// No description provided for @totalSavings.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Savings:'**
+  String get totalSavings;
+
+  /// No description provided for @proceedToPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Proceed to Payment'**
+  String get proceedToPayment;
+
+  /// No description provided for @paymentComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment functionality coming soon!'**
+  String get paymentComingSoon;
+
+  /// No description provided for @pleaseSignInToAddToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign in to add items to cart'**
+  String get pleaseSignInToAddToCart;
+
+  /// No description provided for @productAddedToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'{productName} added to cart'**
+  String productAddedToCart(Object productName);
+
+  /// No description provided for @viewCart.
+  ///
+  /// In en, this message translates to:
+  /// **'View Cart'**
+  String get viewCart;
+
+  /// No description provided for @errorAddingToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Error adding to cart: {error}'**
+  String errorAddingToCart(Object error);
+
+  /// No description provided for @pleaseSignInToPurchase.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign in to purchase'**
+  String get pleaseSignInToPurchase;
+
+  /// No description provided for @productNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Product Not Found'**
+  String get productNotFound;
+
+  /// No description provided for @productNotFoundMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Product not found'**
+  String get productNotFoundMessage;
+
+  /// No description provided for @loadingImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading image...'**
+  String get loadingImage;
+
+  /// No description provided for @imageUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Image unavailable'**
+  String get imageUnavailable;
+
+  /// No description provided for @inCart.
+  ///
+  /// In en, this message translates to:
+  /// **'In Cart'**
+  String get inCart;
+
+  /// No description provided for @firstName.
+  ///
+  /// In en, this message translates to:
+  /// **'First Name'**
+  String get firstName;
+
+  /// No description provided for @lastName.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Name'**
+  String get lastName;
+
+  /// No description provided for @phoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get phoneNumber;
+
+  /// No description provided for @dateOfBirth.
+  ///
+  /// In en, this message translates to:
+  /// **'Date of Birth'**
+  String get dateOfBirth;
+
+  /// No description provided for @gender.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender'**
+  String get gender;
+
+  /// No description provided for @male.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get male;
+
+  /// No description provided for @female.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get female;
+
+  /// No description provided for @saveChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get saveChanges;
+
+  /// No description provided for @changesSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes saved successfully!'**
+  String get changesSaved;
+
+  /// No description provided for @errorSavingChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Error saving changes'**
+  String get errorSavingChanges;
+
+  /// No description provided for @selectProfilePicture.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Profile Picture'**
+  String get selectProfilePicture;
+
+  /// No description provided for @takePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Take Photo'**
+  String get takePhoto;
+
+  /// No description provided for @chooseFromGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from Gallery'**
+  String get chooseFromGallery;
+
+  /// No description provided for @cropImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Crop Image'**
+  String get cropImage;
+
+  /// No description provided for @removePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Photo'**
+  String get removePhoto;
+
+  /// No description provided for @profilePictureUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile picture updated successfully!'**
+  String get profilePictureUpdated;
+
+  /// No description provided for @errorUpdatingPicture.
+  ///
+  /// In en, this message translates to:
+  /// **'Error updating profile picture'**
+  String get errorUpdatingPicture;
+
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
+  /// No description provided for @areYouSure.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure?'**
+  String get areYouSure;
+
+  /// No description provided for @removeProfilePictureConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove your profile picture?'**
+  String get removeProfilePictureConfirmation;
+
+  /// No description provided for @profilePictureRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile picture removed successfully!'**
+  String get profilePictureRemoved;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

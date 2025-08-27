@@ -7,6 +7,7 @@ import '../../providers/cart_provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../utils/constants.dart';
 import '../../widgets/custom_button.dart';
+import '../../l10n/app_localizations.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final String productId;
@@ -54,8 +55,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     
     if (!authProvider.isAuthenticated) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please sign in to add items to cart'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.pleaseSignInToAddToCart),
           backgroundColor: AppColors.error,
         ),
       );
@@ -70,7 +71,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           content: Text('${_product!.name} added to cart'),
           backgroundColor: AppColors.success,
           action: SnackBarAction(
-            label: 'View Cart',
+            label: AppLocalizations.of(context)!.viewCart,
             textColor: AppColors.surface,
             onPressed: () {
               // Navigate to cart
@@ -97,8 +98,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     
     if (!authProvider.isAuthenticated) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please sign in to purchase'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.pleaseSignInToPurchase),
           backgroundColor: AppColors.error,
         ),
       );
@@ -126,11 +127,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       return Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(
-          title: const Text('Product Not Found'),
+          title: Text(AppLocalizations.of(context)!.productNotFound),
           backgroundColor: AppColors.surface,
         ),
-        body: const Center(
-          child: Text('Product not found'),
+        body: Center(
+          child: Text(AppLocalizations.of(context)!.productNotFound),
         ),
       );
     }
@@ -200,7 +201,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             _addToCart();
                           }
                         },
-                        tooltip: isInCart ? 'View Cart' : 'Add to Cart',
+                        tooltip: isInCart ? AppLocalizations.of(context)!.viewCart : AppLocalizations.of(context)!.addToCart,
                       );
                     },
                   );
@@ -257,17 +258,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         // Better placeholder
                         placeholder: (context, url) => Container(
                           color: AppColors.divider,
-                          child: const Center(
+                          child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                CircularProgressIndicator(
+                                const CircularProgressIndicator(
                                   color: AppColors.primary,
                                 ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Text(
-                                  'Loading image...',
-                                  style: TextStyle(
+                                  AppLocalizations.of(context)!.loadingImage,
+                                  style: const TextStyle(
                                     color: AppColors.textSecondary,
                                     fontSize: 12,
                                   ),
@@ -289,8 +290,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                'Image unavailable',
-                                style: TextStyle(
+                                AppLocalizations.of(context)!.imageUnavailable,
+                                style: const TextStyle(
                                   color: AppColors.textSecondary,
                                   fontSize: 14,
                                 ),
@@ -376,7 +377,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       ),
                                       const SizedBox(width: AppSizes.xs),
                                       Text(
-                                        'In Cart',
+                                        AppLocalizations.of(context)!.inCart,
                                         style: AppTextStyles.caption.copyWith(
                                           color: AppColors.surface,
                                           fontWeight: FontWeight.bold,
@@ -492,8 +493,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       const SizedBox(width: AppSizes.sm),
                       Text(
                         _product!.isAvailable
-                            ? 'In Stock (${_product!.stockQuantity} available)'
-                            : 'Out of Stock',
+                            ? AppLocalizations.of(context)!.inStock
+                            : AppLocalizations.of(context)!.outOfStock,
                         style: AppTextStyles.bodyMedium.copyWith(
                           color: _product!.isAvailable ? AppColors.success : AppColors.error,
                           fontWeight: FontWeight.w600,
@@ -506,7 +507,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   if (_product!.tags.isNotEmpty) ...[
                     const SizedBox(height: AppSizes.lg),
                     Text(
-                      'Tags:',
+                      AppLocalizations.of(context)!.tags,
                       style: AppTextStyles.bodyMedium.copyWith(
                         color: AppColors.textPrimary,
                         fontWeight: FontWeight.w600,
@@ -545,7 +546,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   
                   // Description
                   Text(
-                    'Description',
+                    AppLocalizations.of(context)!.description,
                     style: AppTextStyles.h4.copyWith(
                       color: AppColors.textPrimary,
                     ),
@@ -575,7 +576,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         Row(
                           children: [
                             Text(
-                              'Quantity:',
+                              AppLocalizations.of(context)!.quantity,
                               style: AppTextStyles.bodyMedium.copyWith(
                                 color: AppColors.textPrimary,
                                 fontWeight: FontWeight.w600,
@@ -645,7 +646,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       ),
                                       const SizedBox(width: AppSizes.xs),
                                       Text(
-                                        'Already in cart',
+                                        AppLocalizations.of(context)!.alreadyInCart,
                                         style: AppTextStyles.caption.copyWith(
                                           color: AppColors.success,
                                         ),
@@ -689,7 +690,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               Row(
                 children: [
                   Text(
-                    'Total:',
+                    AppLocalizations.of(context)!.total,
                     style: AppTextStyles.bodyMedium.copyWith(
                       color: AppColors.textSecondary,
                     ),
@@ -711,7 +712,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   Expanded(
                     child: CustomButton(
                       onPressed: _product!.isAvailable ? _addToCart : null,
-                      text: 'Add to Cart',
+                      text: AppLocalizations.of(context)!.addToCart,
                       isOutlined: true,
                       icon: Icons.shopping_cart_outlined,
                     ),
@@ -720,7 +721,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   Expanded(
                     child: CustomButton(
                       onPressed: _product!.isAvailable ? _buyNow : null,
-                      text: 'Buy Now',
+                        text: AppLocalizations.of(context)!.buyNow,
                       icon: Icons.flash_on,
                     ),
                   ),

@@ -90,7 +90,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get total => 'Total';
 
   @override
-  String get subtotal => 'Subtotal';
+  String get subtotal => 'Subtotal:';
 
   @override
   String get shipping => 'Shipping';
@@ -351,4 +351,137 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get appInformationAndVersion => 'App information and version';
+
+  @override
+  String get alreadyInCart => 'Already in cart';
+
+  @override
+  String get testNotifications => 'Test notifications sent! Check your notification panel.';
+
+  @override
+  String get clear => 'Clear';
+
+  @override
+  String get clearCartConfirmation => 'Are you sure you want to remove all items from your cart?';
+
+  @override
+  String get errorLoadingCart => 'Error loading cart';
+
+  @override
+  String get pleaseSignInFirst => 'Please sign in first to test notifications.';
+
+  @override
+  String get shoppingCart => 'Shopping Cart';
+
+  @override
+  String get clearCart => 'Clear Cart';
+
+  @override
+  String get continueShopping => 'Continue Shopping';
+
+  @override
+  String get totalSavings => 'Total Savings:';
+
+  @override
+  String get proceedToPayment => 'Proceed to Payment';
+
+  @override
+  String get paymentComingSoon => 'Payment functionality coming soon!';
+
+  @override
+  String get pleaseSignInToAddToCart => 'Please sign in to add items to cart';
+
+  @override
+  String productAddedToCart(Object productName) {
+    return '$productName added to cart';
+  }
+
+  @override
+  String get viewCart => 'View Cart';
+
+  @override
+  String errorAddingToCart(Object error) {
+    return 'Error adding to cart: $error';
+  }
+
+  @override
+  String get pleaseSignInToPurchase => 'Please sign in to purchase';
+
+  @override
+  String get productNotFound => 'Product Not Found';
+
+  @override
+  String get productNotFoundMessage => 'Product not found';
+
+  @override
+  String get loadingImage => 'Loading image...';
+
+  @override
+  String get imageUnavailable => 'Image unavailable';
+
+  @override
+  String get inCart => 'In Cart';
+
+  @override
+  String get firstName => 'First Name';
+
+  @override
+  String get lastName => 'Last Name';
+
+  @override
+  String get phoneNumber => 'Phone Number';
+
+  @override
+  String get dateOfBirth => 'Date of Birth';
+
+  @override
+  String get gender => 'Gender';
+
+  @override
+  String get male => 'Male';
+
+  @override
+  String get female => 'Other';
+
+  @override
+  String get saveChanges => 'Save Changes';
+
+  @override
+  String get changesSaved => 'Changes saved successfully!';
+
+  @override
+  String get errorSavingChanges => 'Error saving changes';
+
+  @override
+  String get selectProfilePicture => 'Select Profile Picture';
+
+  @override
+  String get takePhoto => 'Take Photo';
+
+  @override
+  String get chooseFromGallery => 'Choose from Gallery';
+
+  @override
+  String get cropImage => 'Crop Image';
+
+  @override
+  String get removePhoto => 'Remove Photo';
+
+  @override
+  String get profilePictureUpdated => 'Profile picture updated successfully!';
+
+  @override
+  String get errorUpdatingPicture => 'Error updating profile picture';
+
+  @override
+  String get confirm => 'Confirm';
+
+  @override
+  String get areYouSure => 'Are you sure?';
+
+  @override
+  String get removeProfilePictureConfirmation => 'Are you sure you want to remove your profile picture?';
+
+  @override
+  String get profilePictureRemoved => 'Profile picture removed successfully!';
 }

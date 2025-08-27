@@ -5,6 +5,7 @@ import '../../providers/cart_provider.dart';
 import '../../utils/constants.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/cart_item_card.dart';
+import '../../l10n/app_localizations.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -28,7 +29,7 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Shopping Cart'),
+        title: Text(AppLocalizations.of(context)!.shoppingCart),
         backgroundColor: AppColors.surface,
         foregroundColor: AppColors.textPrimary,
         elevation: 0,
@@ -39,7 +40,7 @@ class _CartScreenState extends State<CartScreen> {
                 return IconButton(
                   onPressed: () => _showClearCartDialog(context),
                   icon: const Icon(Icons.delete_sweep),
-                  tooltip: 'Clear Cart',
+                  tooltip: AppLocalizations.of(context)!.clearCart,
                 );
               }
               return const SizedBox.shrink();
@@ -69,7 +70,7 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   const SizedBox(height: AppSizes.md),
                   Text(
-                    'Error loading cart',
+                    AppLocalizations.of(context)!.errorLoadingCart,
                     style: AppTextStyles.h4.copyWith(
                       color: AppColors.textPrimary,
                     ),
@@ -85,7 +86,7 @@ class _CartScreenState extends State<CartScreen> {
                   const SizedBox(height: AppSizes.lg),
                   CustomButton(
                     onPressed: () => cartProvider.refreshCart(),
-                    text: 'Retry',
+                    text: AppLocalizations.of(context)!.retry,
                     isOutlined: true,
                   ),
                 ],
@@ -105,14 +106,14 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   const SizedBox(height: AppSizes.lg),
                   Text(
-                    'Your cart is empty',
+                    AppLocalizations.of(context)!.cartEmpty,
                     style: AppTextStyles.h3.copyWith(
                       color: AppColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: AppSizes.sm),
                   Text(
-                    'Add some products to get started',
+                    AppLocalizations.of(context)!.cartEmptySubtitle,
                     style: AppTextStyles.bodyMedium.copyWith(
                       color: AppColors.textSecondary,
                     ),
@@ -120,7 +121,7 @@ class _CartScreenState extends State<CartScreen> {
                   const SizedBox(height: AppSizes.xl),
                   CustomButton(
                     onPressed: () => Navigator.pop(context),
-                    text: 'Continue Shopping',
+                    text: AppLocalizations.of(context)!.continueShopping,
                   ),
                 ],
               ),
@@ -172,7 +173,7 @@ class _CartScreenState extends State<CartScreen> {
                       Row(
                         children: [
                           Text(
-                            'Subtotal:',
+                            AppLocalizations.of(context)!.subtotal,
                             style: AppTextStyles.bodyMedium.copyWith(
                               color: AppColors.textSecondary,
                             ),
@@ -193,7 +194,7 @@ class _CartScreenState extends State<CartScreen> {
                         Row(
                           children: [
                             Text(
-                              'Total Savings:',
+                              AppLocalizations.of(context)!.totalSavings,
                               style: AppTextStyles.bodyMedium.copyWith(
                                 color: AppColors.success,
                               ),
@@ -217,7 +218,7 @@ class _CartScreenState extends State<CartScreen> {
                         width: double.infinity,
                         child: CustomButton(
                           onPressed: () => _proceedToPayment(context),
-                          text: 'Proceed to Payment',
+                          text: AppLocalizations.of(context)!.proceedToPayment,
                         ),
                       ),
                       
@@ -228,7 +229,7 @@ class _CartScreenState extends State<CartScreen> {
                         width: double.infinity,
                         child: CustomButton(
                           onPressed: () => Navigator.pop(context),
-                          text: 'Continue Shopping',
+                          text: AppLocalizations.of(context)!.continueShopping,
                           isOutlined: true,
                         ),
                       ),
@@ -248,12 +249,12 @@ class _CartScreenState extends State<CartScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Clear Cart'),
-          content: const Text('Are you sure you want to remove all items from your cart?'),
+          title: Text(AppLocalizations.of(context)!.clearCart),
+          content: Text(AppLocalizations.of(context)!.clearCartConfirmation),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancel'),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
             TextButton(
               onPressed: () {
@@ -264,7 +265,7 @@ class _CartScreenState extends State<CartScreen> {
               style: TextButton.styleFrom(
                 foregroundColor: AppColors.error,
               ),
-              child: const Text('Clear'),
+              child: Text(AppLocalizations.of(context)!.clear),
             ),
           ],
         );
@@ -275,8 +276,8 @@ class _CartScreenState extends State<CartScreen> {
   void _proceedToPayment(BuildContext context) {
     // TODO: Implement payment flow
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Payment functionality coming soon!'),
+      SnackBar(
+        content: Text(AppLocalizations.of(context)!.paymentComingSoon),
         backgroundColor: AppColors.primary,
       ),
     );

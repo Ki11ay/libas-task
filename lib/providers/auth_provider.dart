@@ -393,6 +393,41 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  Future<bool> updateUserProfile({
+    String? displayName,
+    String? photoURL,
+    String? phoneNumber,
+    String? gender,
+    DateTime? dateOfBirth,
+  }) async {
+    try {
+      _setLoading(true);
+      _clearError();
+      
+      if (_user != null) {
+        final updateData = <String, dynamic>{};
+        
+        if (displayName != null) updateData['displayName'] = displayName;
+        if (photoURL != null) updateData['photoURL'] = photoURL;
+        if (phoneNumber != null) updateData['phoneNumber'] = phoneNumber;
+        if (gender != null) updateData['gender'] = gender;
+        if (dateOfBirth != null) updateData['dateOfBirth'] = dateOfBirth.toIso8601String();
+        
+        updateData['updatedAt'] = DateTime.now().toIso8601String();
+        
+        await _firebaseService.updateUserProfile(_user!.uid, updateData);
+        await _loadUserProfile();
+        return true;
+      }
+      return false;
+    } catch (e) {
+      _setError(e.toString());
+      return false;
+    } finally {
+      _setLoading(false);
+    }
+  }
+
   void _setLoading(bool loading) {
     _isLoading = loading;
     notifyListeners();

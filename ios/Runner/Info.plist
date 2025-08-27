@@ -58,5 +58,17 @@
 	</array>
 	<key>GIDClientID</key>
 	<string>744195389184-4m3q0b45vfd5aesc0pqur25e139qriia.apps.googleusercontent.com</string>
+	
+	<!-- Location permissions -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to your location to provide accurate shipping addresses and delivery services.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app needs access to your location to provide accurate shipping addresses and delivery services.</string>
+	
+	<!-- Camera and photo library permissions -->
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs access to your camera to take profile pictures.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to your photo library to select profile pictures.</string>
 </dict>
 </plist>

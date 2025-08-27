@@ -7,6 +7,7 @@ import '../products/products_screen.dart';
 import '../cart/cart_screen.dart';
 import '../profile/profile_screen.dart';
 import '../search/search_screen.dart';
+import '../../l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -65,8 +66,8 @@ class _HomeScreenState extends State<HomeScreen> {
       authProvider.sendPeriodicDiscountNotification();
       
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Test notifications sent! Check your notification panel.'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.testNotifications),
           backgroundColor: Colors.green,
         ),
       );

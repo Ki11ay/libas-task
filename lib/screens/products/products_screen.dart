@@ -5,6 +5,7 @@ import '../../providers/cart_provider.dart';
 import '../../utils/constants.dart';
 import '../../widgets/product_card.dart';
 import '../../services/data_seeding_service.dart';
+import '../../l10n/app_localizations.dart';
 
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({super.key});
@@ -120,7 +121,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   controller: _searchController,
                   onChanged: _onSearchChanged,
                   decoration: InputDecoration(
-                    hintText: 'Search products...',
+                                         hintText: AppLocalizations.of(context)!.searchProducts,
                     prefixIcon: const Icon(Icons.search),
                     suffixIcon: _searchController.text.isNotEmpty
                         ? IconButton(
@@ -148,15 +149,15 @@ class _ProductsScreenState extends State<ProductsScreen> {
                           return DropdownButtonFormField<String>(
                             value: _selectedCategory.isEmpty ? null : _selectedCategory,
                             decoration: InputDecoration(
-                              labelText: 'Category',
+                                                             labelText: AppLocalizations.of(context)!.category,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(AppSizes.radiusMd),
                               ),
                             ),
                             items: [
-                              const DropdownMenuItem(
+                              DropdownMenuItem(
                                 value: '',
-                                child: Text('All Categories'),
+                                child: Text(AppLocalizations.of(context)!.allCategories),
                               ),
                               ...productProvider.categories.map((category) {
                                 return DropdownMenuItem(
@@ -239,7 +240,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         ),
                         const SizedBox(height: AppSizes.md),
                         Text(
-                          'Error loading products',
+                          AppLocalizations.of(context)!.errorLoadingProducts,
                           style: AppTextStyles.h3.copyWith(
                             color: AppColors.error,
                           ),
@@ -257,7 +258,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                           onPressed: () {
                             productProvider.refreshProducts();
                           },
-                          child: const Text('Retry'),
+                          child: Text(AppLocalizations.of(context)!.retry),
                         ),
                       ],
                     ),
@@ -278,14 +279,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         ),
                         const SizedBox(height: AppSizes.md),
                         Text(
-                          'No products found',
+                          AppLocalizations.of(context)!.noProductsFound,
                           style: AppTextStyles.h3.copyWith(
                             color: AppColors.textSecondary,
                           ),
                         ),
                         const SizedBox(height: AppSizes.sm),
                         Text(
-                          'Try adjusting your search or filters',
+                          'try_adjusting_search_or_filters',
                           style: AppTextStyles.body1.copyWith(
                             color: AppColors.textSecondary,
                           ),

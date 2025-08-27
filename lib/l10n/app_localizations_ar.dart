@@ -78,7 +78,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get freeShipping => 'شحن مجاني';
 
   @override
-  String get cartEmpty => 'عربة التسوق فارغة';
+  String get cartEmpty => 'سلة التسوق فارغة';
 
   @override
   String get cartEmptySubtitle => 'أضف بعض المنتجات للبدء';
@@ -90,7 +90,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get total => 'المجموع';
 
   @override
-  String get subtotal => 'المجموع الفرعي';
+  String get subtotal => 'المجموع الفرعي:';
 
   @override
   String get shipping => 'الشحن';
@@ -129,10 +129,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get cancel => 'إلغاء';
 
   @override
-  String get delete => 'حذف';
+  String get delete => 'Delete';
 
   @override
-  String get edit => 'تعديل';
+  String get edit => 'Edit';
 
   @override
   String get done => 'تم';
@@ -351,4 +351,137 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get appInformationAndVersion => 'معلومات التطبيق والإصدار';
+
+  @override
+  String get alreadyInCart => 'موجود بالفعل في السلة';
+
+  @override
+  String get testNotifications => 'تم إرسال إشعارات الاختبار! تحقق من لوحة الإشعارات.';
+
+  @override
+  String get clear => 'إفراغ';
+
+  @override
+  String get clearCartConfirmation => 'هل أنت متأكد من أنك تريد إزالة جميع العناصر من سلة التسوق؟';
+
+  @override
+  String get errorLoadingCart => 'خطأ في تحميل السلة';
+
+  @override
+  String get pleaseSignInFirst => 'يرجى تسجيل الدخول أولاً لاختبار الإشعارات.';
+
+  @override
+  String get shoppingCart => 'سلة التسوق';
+
+  @override
+  String get clearCart => 'إفراغ السلة';
+
+  @override
+  String get continueShopping => 'مواصلة التسوق';
+
+  @override
+  String get totalSavings => 'إجمالي التوفير:';
+
+  @override
+  String get proceedToPayment => 'المتابعة إلى الدفع';
+
+  @override
+  String get paymentComingSoon => 'وظيفة الدفع قادمة قريباً!';
+
+  @override
+  String get pleaseSignInToAddToCart => 'يرجى تسجيل الدخول لإضافة العناصر إلى السلة';
+
+  @override
+  String productAddedToCart(Object productName) {
+    return 'تمت إضافة $productName إلى السلة';
+  }
+
+  @override
+  String get viewCart => 'عرض السلة';
+
+  @override
+  String errorAddingToCart(Object error) {
+    return 'خطأ في إضافة العنصر إلى السلة: $error';
+  }
+
+  @override
+  String get pleaseSignInToPurchase => 'يرجى تسجيل الدخول للشراء';
+
+  @override
+  String get productNotFound => 'المنتج غير موجود';
+
+  @override
+  String get productNotFoundMessage => 'المنتج غير موجود';
+
+  @override
+  String get loadingImage => 'جاري تحميل الصورة...';
+
+  @override
+  String get imageUnavailable => 'الصورة غير متاحة';
+
+  @override
+  String get inCart => 'في السلة';
+
+  @override
+  String get firstName => 'الاسم الأول';
+
+  @override
+  String get lastName => 'اسم العائلة';
+
+  @override
+  String get phoneNumber => 'رقم الهاتف';
+
+  @override
+  String get dateOfBirth => 'تاريخ الميلاد';
+
+  @override
+  String get gender => 'الجنس';
+
+  @override
+  String get male => 'ذكر';
+
+  @override
+  String get female => 'أنثى';
+
+  @override
+  String get saveChanges => 'حفظ التغييرات';
+
+  @override
+  String get changesSaved => 'تم حفظ التغييرات بنجاح!';
+
+  @override
+  String get errorSavingChanges => 'خطأ في حفظ التغييرات';
+
+  @override
+  String get selectProfilePicture => 'اختر صورة الملف الشخصي';
+
+  @override
+  String get takePhoto => 'التقاط صورة';
+
+  @override
+  String get chooseFromGallery => 'اختر من المعرض';
+
+  @override
+  String get cropImage => 'قص الصورة';
+
+  @override
+  String get removePhoto => 'إزالة الصورة';
+
+  @override
+  String get profilePictureUpdated => 'تم تحديث صورة الملف الشخصي بنجاح!';
+
+  @override
+  String get errorUpdatingPicture => 'خطأ في تحديث صورة الملف الشخصي';
+
+  @override
+  String get confirm => 'تأكيد';
+
+  @override
+  String get areYouSure => 'هل أنت متأكد؟';
+
+  @override
+  String get removeProfilePictureConfirmation => 'هل أنت متأكد من أنك تريد إزالة صورة ملفك الشخصي؟';
+
+  @override
+  String get profilePictureRemoved => 'تم إزالة صورة الملف الشخصي بنجاح!';
 }
