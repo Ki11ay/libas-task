@@ -389,45 +389,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get paymentComingSoon => 'وظيفة الدفع قادمة قريباً!';
 
   @override
-  String get payment => 'الدفع';
-
-  @override
-  String get paymentDetails => 'تفاصيل الدفع';
-
-  @override
-  String get orderSummary => 'ملخص الطلب';
-
-  @override
-  String get cardholderName => 'اسم حامل البطاقة';
-
-  @override
-  String get cardNumber => 'رقم البطاقة';
-
-  @override
-  String get expiryDate => 'تاريخ الانتهاء';
-
-  @override
-  String get cvv => 'رمز الأمان';
-
-  @override
-  String get payNow => 'ادفع الآن';
-
-  @override
-  String get processing => 'جاري المعالجة...';
-
-  @override
-  String get pleaseEnterCardholderName => 'يرجى إدخال اسم حامل البطاقة';
-
-  @override
-  String get pleaseEnterCardNumber => 'يرجى إدخال رقم البطاقة';
-
-  @override
-  String get pleaseEnterExpiryDate => 'يرجى إدخال تاريخ الانتهاء';
-
-  @override
-  String get pleaseEnterCvv => 'يرجى إدخال رمز الأمان';
-
-  @override
   String get pleaseSignInToAddToCart => 'يرجى تسجيل الدخول لإضافة العناصر إلى السلة';
 
   @override
@@ -523,4 +484,142 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get profilePictureRemoved => 'تم إزالة صورة الملف الشخصي بنجاح!';
+
+  @override
+  String get shippingAddressDetails => 'تفاصيل عنوان الشحن';
+
+  @override
+  String get streetAddress => 'عنوان الشارع';
+
+  @override
+  String get city => 'المدينة';
+
+  @override
+  String get state => 'الولاية';
+
+  @override
+  String get zipCode => 'الرمز البريدي';
+
+  @override
+  String get country => 'البلد';
+
+  @override
+  String get noAddressSet => 'لم يتم تعيين عنوان شحن';
+
+  @override
+  String get setShippingAddress => 'تعيين عنوان الشحن';
+
+  @override
+  String get rateProducts => 'تقييم المنتجات';
+
+  @override
+  String get rateProductsAfterPurchase => 'قيم المنتجات التي اشتريتها للتو';
+
+  @override
+  String get rateProduct => 'تقييم المنتج';
+
+  @override
+  String get selectRating => 'اختر التقييم';
+
+  @override
+  String get writeReview => 'اكتب مراجعة (اختياري)';
+
+  @override
+  String get submitRating => 'إرسال التقييم';
+
+  @override
+  String get ratingSubmitted => 'تم إرسال التقييم بنجاح!';
+
+  @override
+  String get errorSubmittingRating => 'خطأ في إرسال التقييم';
+
+  @override
+  String get rateAllProducts => 'تقييم جميع المنتجات';
+
+  @override
+  String get skipRating => 'تخطي التقييم';
+
+  @override
+  String get thankYouForRating => 'شكراً لك على ملاحظاتك!';
+
+  @override
+  String get paymentSuccessful => 'تم الدفع بنجاح!';
+
+  @override
+  String get pushNotifications => 'الإشعارات الفورية';
+
+  @override
+  String get enablePushNotifications => 'تفعيل الإشعارات الفورية';
+
+  @override
+  String get notificationTopics => 'مواضيع الإشعارات';
+
+  @override
+  String get orderUpdates => 'تحديثات الطلبات';
+
+  @override
+  String get orderUpdatesSubtitle => 'احصل على إشعارات حول حالة طلبك';
+
+  @override
+  String get specialOffers => 'العروض الخاصة';
+
+  @override
+  String get specialOffersSubtitle => 'احصل على خصومات وعروض حصرية';
+
+  @override
+  String get newArrivals => 'الوافدون الجدد';
+
+  @override
+  String get newArrivalsSubtitle => 'كن أول من يعرف عن المنتجات الجديدة';
+
+  @override
+  String get categoryUpdates => 'تحديثات الفئات';
+
+  @override
+  String get categoryUpdatesSubtitle => 'تحديثات حول فئاتك المفضلة';
+
+  @override
+  String get appReview => 'تقييم التطبيق';
+
+  @override
+  String get rateOurApp => 'قيم تطبيقنا';
+
+  @override
+  String get rateOurAppSubtitle => 'ساعدنا في التحسين من خلال تقييم التطبيق';
+
+  @override
+  String get inAppReviewNotAvailable => 'تقييم التطبيق غير متاح على هذا الجهاز';
+
+  @override
+  String get openStoreListing => 'فتح قائمة المتجر';
+
+  @override
+  String get openStoreListingSubtitle => 'عرض التطبيق في متجر Google Play';
+
+  @override
+  String get notificationHistory => 'سجل الإشعارات';
+
+  @override
+  String get noNotificationsYet => 'لا توجد إشعارات بعد';
+
+  @override
+  String get markAllAsRead => 'تحديد الكل كمقروء';
+
+  @override
+  String get clearAll => 'مسح الكل';
+
+  @override
+  String get payment => 'الدفع';
+
+  @override
+  String get orderSummary => 'ملخص الطلب';
+
+  @override
+  String get paymentDetails => 'تفاصيل الدفع';
+
+  @override
+  String get processing => 'جاري المعالجة...';
+
+  @override
+  String get payNow => 'ادفع الآن';
 }

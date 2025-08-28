@@ -4,6 +4,7 @@ import '../../providers/auth_provider.dart';
 import '../../utils/constants.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/profile_menu_item.dart';
+import '../../widgets/shipping_address_dialog.dart';
 import '../../l10n/app_localizations.dart';
 import '../../services/location_service.dart'; // Added import for LocationService
 import '../../providers/locale_provider.dart'; // Added import for LocaleProvider
@@ -164,41 +165,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Column(
                     children: [
                       ProfileMenuItem(
-                        icon: Icons.shopping_bag_outlined,
-                        title: AppStrings.orders,
-                        subtitle: AppLocalizations.of(context)!.viewOrderHistory,
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Orders feature coming soon!'),
-                              backgroundColor: AppColors.primary,
-                            ),
-                          );
-                        },
-                      ),
-                      ProfileMenuItem(
-                        icon: Icons.favorite_outline,
-                        title: AppStrings.favorites,
-                        subtitle: AppLocalizations.of(context)!.savedProducts,
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Favorites feature coming soon!'),
-                              backgroundColor: AppColors.primary,
-                            ),
-                          );
-                        },
-                      ),
-                      ProfileMenuItem(
                         icon: Icons.location_on_outlined,
-                        title: AppStrings.shippingAddress,
+                        title: AppLocalizations.of(context)!.shippingAddress,
                         subtitle: AppLocalizations.of(context)!.manageDeliveryAddresses,
                         onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Shipping address feature coming soon!'),
-                              backgroundColor: AppColors.primary,
-                            ),
+                          showDialog(
+                            context: context,
+                            builder: (context) => ShippingAddressDialog(user: user),
                           );
                         },
                       ),
@@ -246,29 +219,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         },
                       ),
                       ProfileMenuItem(
-                        icon: Icons.payment_outlined,
-                        title: AppStrings.paymentMethods,
-                        subtitle: AppLocalizations.of(context)!.savedPaymentMethods,
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Payment methods feature coming soon!'),
-                              backgroundColor: AppColors.primary,
-                            ),
-                          );
-                        },
-                      ),
-                      ProfileMenuItem(
                         icon: Icons.notifications_outlined,
-                        title: AppStrings.notifications,
+                        title: AppLocalizations.of(context)!.notifications,
                         subtitle: AppLocalizations.of(context)!.manageNotificationPreferences,
                         onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Notifications feature coming soon!'),
-                              backgroundColor: AppColors.primary,
-                            ),
-                          );
+                          Navigator.pushNamed(context, '/notifications');
                         },
                       ),
                       ProfileMenuItem(
@@ -277,45 +232,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         subtitle: AppLocalizations.of(context)!.languageSelection,
                         onTap: () {
                           _showLanguageSelectionDialog(context);
-                        },
-                      ),
-                      ProfileMenuItem(
-                        icon: Icons.privacy_tip_outlined,
-                        title: AppStrings.privacy,
-                        subtitle: AppLocalizations.of(context)!.privacyAndSecuritySettings,
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Privacy settings feature coming soon!'),
-                              backgroundColor: AppColors.primary,
-                            ),
-                          );
-                        },
-                      ),
-                      ProfileMenuItem(
-                        icon: Icons.help_outline,
-                        title: AppStrings.help,
-                        subtitle: AppLocalizations.of(context)!.getHelpAndSupport,
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Help & Support feature coming soon!'),
-                              backgroundColor: AppColors.primary,
-                            ),
-                          );
-                        },
-                      ),
-                      ProfileMenuItem(
-                        icon: Icons.info_outline,
-                        title: AppStrings.about,
-                        subtitle: AppLocalizations.of(context)!.appInformationAndVersion,
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('About feature coming soon!'),
-                              backgroundColor: AppColors.primary,
-                            ),
-                          );
                         },
                       ),
                     ],

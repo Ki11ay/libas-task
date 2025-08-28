@@ -815,84 +815,6 @@ abstract class AppLocalizations {
   /// **'Payment functionality coming soon!'**
   String get paymentComingSoon;
 
-  /// No description provided for @payment.
-  ///
-  /// In en, this message translates to:
-  /// **'Payment'**
-  String get payment;
-
-  /// No description provided for @paymentDetails.
-  ///
-  /// In en, this message translates to:
-  /// **'Payment Details'**
-  String get paymentDetails;
-
-  /// No description provided for @orderSummary.
-  ///
-  /// In en, this message translates to:
-  /// **'Order Summary'**
-  String get orderSummary;
-
-  /// No description provided for @cardholderName.
-  ///
-  /// In en, this message translates to:
-  /// **'Cardholder Name'**
-  String get cardholderName;
-
-  /// No description provided for @cardNumber.
-  ///
-  /// In en, this message translates to:
-  /// **'Card Number'**
-  String get cardNumber;
-
-  /// No description provided for @expiryDate.
-  ///
-  /// In en, this message translates to:
-  /// **'Expiry Date'**
-  String get expiryDate;
-
-  /// No description provided for @cvv.
-  ///
-  /// In en, this message translates to:
-  /// **'CVV'**
-  String get cvv;
-
-  /// No description provided for @payNow.
-  ///
-  /// In en, this message translates to:
-  /// **'Pay Now'**
-  String get payNow;
-
-  /// No description provided for @processing.
-  ///
-  /// In en, this message translates to:
-  /// **'Processing...'**
-  String get processing;
-
-  /// No description provided for @pleaseEnterCardholderName.
-  ///
-  /// In en, this message translates to:
-  /// **'Please enter cardholder name'**
-  String get pleaseEnterCardholderName;
-
-  /// No description provided for @pleaseEnterCardNumber.
-  ///
-  /// In en, this message translates to:
-  /// **'Please enter card number'**
-  String get pleaseEnterCardNumber;
-
-  /// No description provided for @pleaseEnterExpiryDate.
-  ///
-  /// In en, this message translates to:
-  /// **'Please enter expiry date'**
-  String get pleaseEnterExpiryDate;
-
-  /// No description provided for @pleaseEnterCvv.
-  ///
-  /// In en, this message translates to:
-  /// **'Please enter CVV'**
-  String get pleaseEnterCvv;
-
   /// No description provided for @pleaseSignInToAddToCart.
   ///
   /// In en, this message translates to:
@@ -1078,6 +1000,282 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Profile picture removed successfully!'**
   String get profilePictureRemoved;
+
+  /// No description provided for @shippingAddressDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Shipping Address Details'**
+  String get shippingAddressDetails;
+
+  /// No description provided for @streetAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Street Address'**
+  String get streetAddress;
+
+  /// No description provided for @city.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get city;
+
+  /// No description provided for @state.
+  ///
+  /// In en, this message translates to:
+  /// **'State'**
+  String get state;
+
+  /// No description provided for @zipCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Zip Code'**
+  String get zipCode;
+
+  /// No description provided for @country.
+  ///
+  /// In en, this message translates to:
+  /// **'Country'**
+  String get country;
+
+  /// No description provided for @noAddressSet.
+  ///
+  /// In en, this message translates to:
+  /// **'No shipping address set'**
+  String get noAddressSet;
+
+  /// No description provided for @setShippingAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Shipping Address'**
+  String get setShippingAddress;
+
+  /// No description provided for @rateProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate Products'**
+  String get rateProducts;
+
+  /// No description provided for @rateProductsAfterPurchase.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate the products you just purchased'**
+  String get rateProductsAfterPurchase;
+
+  /// No description provided for @rateProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate Product'**
+  String get rateProduct;
+
+  /// No description provided for @selectRating.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Rating'**
+  String get selectRating;
+
+  /// No description provided for @writeReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Write Review (Optional)'**
+  String get writeReview;
+
+  /// No description provided for @submitRating.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Rating'**
+  String get submitRating;
+
+  /// No description provided for @ratingSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating submitted successfully!'**
+  String get ratingSubmitted;
+
+  /// No description provided for @errorSubmittingRating.
+  ///
+  /// In en, this message translates to:
+  /// **'Error submitting rating'**
+  String get errorSubmittingRating;
+
+  /// No description provided for @rateAllProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate All Products'**
+  String get rateAllProducts;
+
+  /// No description provided for @skipRating.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip Rating'**
+  String get skipRating;
+
+  /// No description provided for @thankYouForRating.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for your feedback!'**
+  String get thankYouForRating;
+
+  /// No description provided for @paymentSuccessful.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Successful!'**
+  String get paymentSuccessful;
+
+  /// No description provided for @pushNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Push Notifications'**
+  String get pushNotifications;
+
+  /// No description provided for @enablePushNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Push Notifications'**
+  String get enablePushNotifications;
+
+  /// No description provided for @notificationTopics.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification Topics'**
+  String get notificationTopics;
+
+  /// No description provided for @orderUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Order Updates'**
+  String get orderUpdates;
+
+  /// No description provided for @orderUpdatesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get notified about your order status'**
+  String get orderUpdatesSubtitle;
+
+  /// No description provided for @specialOffers.
+  ///
+  /// In en, this message translates to:
+  /// **'Special Offers'**
+  String get specialOffers;
+
+  /// No description provided for @specialOffersSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive exclusive discounts and promotions'**
+  String get specialOffersSubtitle;
+
+  /// No description provided for @newArrivals.
+  ///
+  /// In en, this message translates to:
+  /// **'New Arrivals'**
+  String get newArrivals;
+
+  /// No description provided for @newArrivalsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Be the first to know about new products'**
+  String get newArrivalsSubtitle;
+
+  /// No description provided for @categoryUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Category Updates'**
+  String get categoryUpdates;
+
+  /// No description provided for @categoryUpdatesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Updates about your favorite categories'**
+  String get categoryUpdatesSubtitle;
+
+  /// No description provided for @appReview.
+  ///
+  /// In en, this message translates to:
+  /// **'App Review'**
+  String get appReview;
+
+  /// No description provided for @rateOurApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate Our App'**
+  String get rateOurApp;
+
+  /// No description provided for @rateOurAppSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Help us improve by rating the app'**
+  String get rateOurAppSubtitle;
+
+  /// No description provided for @inAppReviewNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'In-app review not available on this device'**
+  String get inAppReviewNotAvailable;
+
+  /// No description provided for @openStoreListing.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Store Listing'**
+  String get openStoreListing;
+
+  /// No description provided for @openStoreListingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'View app on Google Play Store'**
+  String get openStoreListingSubtitle;
+
+  /// No description provided for @notificationHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification History'**
+  String get notificationHistory;
+
+  /// No description provided for @noNotificationsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications yet'**
+  String get noNotificationsYet;
+
+  /// No description provided for @markAllAsRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark All as Read'**
+  String get markAllAsRead;
+
+  /// No description provided for @clearAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All'**
+  String get clearAll;
+
+  /// No description provided for @payment.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment'**
+  String get payment;
+
+  /// No description provided for @orderSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Order Summary'**
+  String get orderSummary;
+
+  /// No description provided for @paymentDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Details'**
+  String get paymentDetails;
+
+  /// No description provided for @processing.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing...'**
+  String get processing;
+
+  /// No description provided for @payNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay Now'**
+  String get payNow;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -1,9 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../utils/constants.dart';
 import '../../widgets/custom_button.dart';
+import '../../widgets/product_rating_dialog.dart';
+import '../../models/cart_model.dart';
+import '../../providers/cart_provider.dart';
+import '../../l10n/app_localizations.dart';
 
-class PaymentSuccessScreen extends StatelessWidget {
-  const PaymentSuccessScreen({super.key});
+class PaymentSuccessScreen extends StatefulWidget {
+  final List<CartItem>? purchasedItems;
+  
+  const PaymentSuccessScreen({
+    super.key,
+    this.purchasedItems,
+  });
+
+  @override
+  State<PaymentSuccessScreen> createState() => _PaymentSuccessScreenState();
+}
+
+class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Clear cart when payment is successful
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final cartProvider = Provider.of<CartProvider>(context, listen: false);
+      cartProvider.clearCart();
+      print('Cart cleared after successful payment');
+      print('Purchased items: ${widget.purchasedItems?.length ?? 0}');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +60,7 @@ class PaymentSuccessScreen extends StatelessWidget {
               
               // Success Title
               Text(
-                'Payment Successful!',
+                AppLocalizations.of(context)!.paymentSuccessful ?? 'Payment Successful!',
                 style: AppTextStyles.h2.copyWith(
                   color: AppColors.success,
                   fontWeight: FontWeight.bold,
@@ -136,6 +163,20 @@ class PaymentSuccessScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: AppSizes.md),
+                  if (widget.purchasedItems != null && widget.purchasedItems!.isNotEmpty)
+                    SizedBox(
+                      width: double.infinity,
+                      child: CustomButton(
+                        onPressed: () {
+                          _showRatingDialog(context);
+                        },
+                        text: AppLocalizations.of(context)!.rateProducts ?? 'Rate Products',
+                        backgroundColor: AppColors.accent,
+                        icon: Icons.star,
+                      ),
+                    ),
+                  if (widget.purchasedItems != null && widget.purchasedItems!.isNotEmpty)
+                    const SizedBox(height: AppSizes.md),
                   SizedBox(
                     width: double.infinity,
                     child: CustomButton(
@@ -154,5 +195,25 @@ class PaymentSuccessScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _showRatingDialog(BuildContext context) {
+    if (widget.purchasedItems != null && widget.purchasedItems!.isNotEmpty) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => ProductRatingDialog(
+          purchasedItems: widget.purchasedItems!,
+          onRatingSubmitted: (productId, rating, review) {
+            // Here you would typically save the rating to your backend
+            // For now, we'll just print it
+            print('Product $productId rated $rating stars with review: $review');
+            
+            // You can implement rating submission logic here
+            // Example: save to Firestore, update product rating, etc.
+          },
+        ),
+      );
+    }
   }
 }

@@ -78,8 +78,11 @@ class AuthProvider extends ChangeNotifier {
             'lastLoginAt': DateTime.now().toIso8601String(),
           });
           
-          // Send welcome back notification
+          // Send welcome back notification immediately
           sendWelcomeBackNotification();
+          
+          // Send delayed welcome message after 2 minutes
+          _scheduleDelayedWelcomeMessage();
         }
       }
     } catch (e) {
@@ -88,10 +91,35 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  void _scheduleDelayedWelcomeMessage() {
+    // Schedule welcome message after 2 minutes
+    Future.delayed(const Duration(minutes: 2), () {
+      if (_user != null && _userProfile != null) {
+        _sendDelayedWelcomeMessage();
+      }
+    });
+  }
+
+  Future<void> _sendDelayedWelcomeMessage() async {
+    try {
+      if (_user != null && _userProfile != null) {
+        // Send a different type of welcome message after delay
+        await NotificationService().sendWelcomeBackNotification(
+          _user!.uid,
+          _userProfile!.displayName ?? 'there',
+        );
+        
+        print('Delayed welcome message sent after 2 minutes');
+      }
+    } catch (e) {
+      print('Error sending delayed welcome message: $e');
+    }
+  }
+
   Future<void> sendWelcomeBackNotification() async {
     try {
-      if (_userProfile?.displayName != null) {
-        await NotificationService().sendWelcomeBackNotification(_userProfile!.displayName!);
+      if (_userProfile?.displayName != null && _user != null) {
+        await NotificationService().sendWelcomeBackNotification(_user!.uid, _userProfile!.displayName!);
       }
     } catch (e) {
       print('Error sending welcome back notification: $e');
@@ -242,7 +270,7 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> sendWelcomeNotification(String email, String displayName) async {
     try {
-      await NotificationService().sendWelcomeNotification(displayName);
+      await NotificationService().sendWelcomeNotification(displayName, email);
     } catch (e) {
       print('Error sending welcome notification: $e');
     }
@@ -251,7 +279,7 @@ class AuthProvider extends ChangeNotifier {
   // Method to send discount notifications (can be called from other parts of the app)
   Future<void> sendDiscountNotification(String userId, String discountCode, double discountPercent) async {
     try {
-      await NotificationService().sendDiscountNotification(discountCode, discountPercent);
+      await NotificationService().sendDiscountNotification(userId, discountCode, discountPercent);
     } catch (e) {
       print('Error sending discount notification: $e');
     }
@@ -266,7 +294,7 @@ class AuthProvider extends ChangeNotifier {
         final discountPercent = 15.0 + (DateTime.now().millisecondsSinceEpoch % 20); // 15-35% off
         
         // Send local notification
-        await NotificationService().sendDiscountNotification(discountCode, discountPercent);
+        await NotificationService().sendDiscountNotification(_user!.uid, discountCode, discountPercent);
         
         // Save to Firestore for tracking
         await _firebaseService.updateUserProfile(_user!.uid, {
@@ -282,7 +310,7 @@ class AuthProvider extends ChangeNotifier {
   // Method to send purchase completion notification
   Future<void> sendPurchaseCompletionNotification(String userId, String orderId, double totalAmount) async {
     try {
-      await NotificationService().sendPurchaseCompletionNotification(orderId, totalAmount);
+      await NotificationService().sendPurchaseCompletionNotification(userId, orderId, totalAmount);
     } catch (e) {
       print('Error sending purchase completion notification: $e');
     }

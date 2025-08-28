@@ -7,11 +7,14 @@ import 'providers/auth_provider.dart';
 import 'providers/product_provider.dart';
 import 'providers/cart_provider.dart';
 import 'providers/locale_provider.dart';
+import 'providers/notification_provider.dart';
+import 'providers/review_provider.dart';
 import 'screens/splash_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/auth/auth_screen.dart';
 import 'screens/cart/cart_screen.dart';
 import 'screens/product/product_detail_screen.dart';
+import 'screens/settings/notification_settings_screen.dart';
 import 'services/notification_service.dart';
 import 'utils/constants.dart';
 import 'screens/payment/payment_screen.dart';
@@ -45,6 +48,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProductProvider()),
         ChangeNotifierProvider(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => LocaleProvider()),
+        ChangeNotifierProvider(create: (_) => NotificationProvider()),
+        ChangeNotifierProvider(create: (_) => ReviewProvider()),
       ],
       child: Consumer<LocaleProvider>(
         builder: (context, localeProvider, child) {
@@ -123,6 +128,7 @@ class MyApp extends StatelessWidget {
               '/home': (context) => const HomeScreen(),
               '/auth': (context) => const AuthScreen(),
               '/cart': (context) => const CartScreen(),
+              '/notifications': (context) => const NotificationSettingsScreen(),
               '/payment': (context) {
                 final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
                 return PaymentScreen(
@@ -130,7 +136,12 @@ class MyApp extends StatelessWidget {
                   total: args['total'] as double,
                 );
               },
-              '/payment-success': (context) => const PaymentSuccessScreen(),
+              '/payment-success': (context) {
+                final args = ModalRoute.of(context)!.settings.arguments as List<CartItem>?;
+                return PaymentSuccessScreen(
+                  purchasedItems: args,
+                );
+              },
               '/product-detail': (context) => ProductDetailScreen(
                     productId: ModalRoute.of(context)!.settings.arguments as String,
                   ),

@@ -389,45 +389,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paymentComingSoon => 'Payment functionality coming soon!';
 
   @override
-  String get payment => 'Payment';
-
-  @override
-  String get paymentDetails => 'Payment Details';
-
-  @override
-  String get orderSummary => 'Order Summary';
-
-  @override
-  String get cardholderName => 'Cardholder Name';
-
-  @override
-  String get cardNumber => 'Card Number';
-
-  @override
-  String get expiryDate => 'Expiry Date';
-
-  @override
-  String get cvv => 'CVV';
-
-  @override
-  String get payNow => 'Pay Now';
-
-  @override
-  String get processing => 'Processing...';
-
-  @override
-  String get pleaseEnterCardholderName => 'Please enter cardholder name';
-
-  @override
-  String get pleaseEnterCardNumber => 'Please enter card number';
-
-  @override
-  String get pleaseEnterExpiryDate => 'Please enter expiry date';
-
-  @override
-  String get pleaseEnterCvv => 'Please enter CVV';
-
-  @override
   String get pleaseSignInToAddToCart => 'Please sign in to add items to cart';
 
   @override
@@ -523,4 +484,142 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profilePictureRemoved => 'Profile picture removed successfully!';
+
+  @override
+  String get shippingAddressDetails => 'Shipping Address Details';
+
+  @override
+  String get streetAddress => 'Street Address';
+
+  @override
+  String get city => 'City';
+
+  @override
+  String get state => 'State';
+
+  @override
+  String get zipCode => 'Zip Code';
+
+  @override
+  String get country => 'Country';
+
+  @override
+  String get noAddressSet => 'No shipping address set';
+
+  @override
+  String get setShippingAddress => 'Set Shipping Address';
+
+  @override
+  String get rateProducts => 'Rate Products';
+
+  @override
+  String get rateProductsAfterPurchase => 'Rate the products you just purchased';
+
+  @override
+  String get rateProduct => 'Rate Product';
+
+  @override
+  String get selectRating => 'Select Rating';
+
+  @override
+  String get writeReview => 'Write Review (Optional)';
+
+  @override
+  String get submitRating => 'Submit Rating';
+
+  @override
+  String get ratingSubmitted => 'Rating submitted successfully!';
+
+  @override
+  String get errorSubmittingRating => 'Error submitting rating';
+
+  @override
+  String get rateAllProducts => 'Rate All Products';
+
+  @override
+  String get skipRating => 'Skip Rating';
+
+  @override
+  String get thankYouForRating => 'Thank you for your feedback!';
+
+  @override
+  String get paymentSuccessful => 'Payment Successful!';
+
+  @override
+  String get pushNotifications => 'Push Notifications';
+
+  @override
+  String get enablePushNotifications => 'Enable Push Notifications';
+
+  @override
+  String get notificationTopics => 'Notification Topics';
+
+  @override
+  String get orderUpdates => 'Order Updates';
+
+  @override
+  String get orderUpdatesSubtitle => 'Get notified about your order status';
+
+  @override
+  String get specialOffers => 'Special Offers';
+
+  @override
+  String get specialOffersSubtitle => 'Receive exclusive discounts and promotions';
+
+  @override
+  String get newArrivals => 'New Arrivals';
+
+  @override
+  String get newArrivalsSubtitle => 'Be the first to know about new products';
+
+  @override
+  String get categoryUpdates => 'Category Updates';
+
+  @override
+  String get categoryUpdatesSubtitle => 'Updates about your favorite categories';
+
+  @override
+  String get appReview => 'App Review';
+
+  @override
+  String get rateOurApp => 'Rate Our App';
+
+  @override
+  String get rateOurAppSubtitle => 'Help us improve by rating the app';
+
+  @override
+  String get inAppReviewNotAvailable => 'In-app review not available on this device';
+
+  @override
+  String get openStoreListing => 'Open Store Listing';
+
+  @override
+  String get openStoreListingSubtitle => 'View app on Google Play Store';
+
+  @override
+  String get notificationHistory => 'Notification History';
+
+  @override
+  String get noNotificationsYet => 'No notifications yet';
+
+  @override
+  String get markAllAsRead => 'Mark All as Read';
+
+  @override
+  String get clearAll => 'Clear All';
+
+  @override
+  String get payment => 'Payment';
+
+  @override
+  String get orderSummary => 'Order Summary';
+
+  @override
+  String get paymentDetails => 'Payment Details';
+
+  @override
+  String get processing => 'Processing...';
+
+  @override
+  String get payNow => 'Pay Now';
 }

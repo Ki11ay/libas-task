@@ -65,11 +65,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
     });
 
     try {
-      // Present payment sheet
-      await StripeService.presentPaymentSheet();
+      print('Starting payment process...');
       
-      // Confirm payment
-      await StripeService.confirmPaymentSheetPayment();
+      // Present payment sheet
+      print('Presenting payment sheet...');
+      await StripeService.presentPaymentSheet();
+      print('Payment sheet presented successfully');
+      
+      // Payment is automatically confirmed when using payment sheet
+      // No need to manually call confirmPaymentSheetPayment()
+      print('Payment automatically confirmed by Stripe payment sheet');
 
       // Payment successful - create order
       await _createOrder();
@@ -77,13 +82,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
       // Clear cart
       final cartProvider = Provider.of<CartProvider>(context, listen: false);
       await cartProvider.clearCart();
+      
+      print('Payment completed successfully!');
+      print('Cart cleared, navigating to success screen with ${widget.items.length} items');
 
-      // Navigate to success screen
+      // Navigate to success screen with purchased items
       if (mounted) {
-        Navigator.pushReplacementNamed(context, '/payment-success');
+        Navigator.pushReplacementNamed(
+          context, 
+          '/payment-success',
+          arguments: widget.items,
+        );
       }
       
     } catch (e) {
+      print('Payment failed with error: $e');
       setState(() {
         _errorMessage = 'Payment failed: $e';
       });

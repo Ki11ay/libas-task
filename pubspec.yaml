@@ -38,6 +38,7 @@ dependencies:
   cloud_firestore: ^5.0.0
   firebase_messaging: ^15.2.10
   firebase_storage: ^12.0.0
+  cloud_functions: ^5.0.0
   
   # State Management
   provider: ^6.1.0
@@ -82,6 +83,11 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   json_serializable: ^6.8.0
   build_runner: ^2.4.0
+  flutter_launcher_icons: ^0.13.1
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/app_icon.png"
 
 flutter:
   uses-material-design: true
