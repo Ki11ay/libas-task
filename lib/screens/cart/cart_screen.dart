@@ -274,12 +274,26 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void _proceedToPayment(BuildContext context) {
-    // TODO: Implement payment flow
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(AppLocalizations.of(context)!.paymentComingSoon),
-        backgroundColor: AppColors.primary,
-      ),
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    
+    if (cartProvider.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.cartEmpty),
+          backgroundColor: AppColors.error,
+        ),
+      );
+      return;
+    }
+
+    // Navigate to payment screen with cart items
+    Navigator.pushNamed(
+      context,
+      '/payment',
+      arguments: {
+        'items': cartProvider.cart!.items,
+        'total': cartProvider.subtotal,
+      },
     );
   }
 }
