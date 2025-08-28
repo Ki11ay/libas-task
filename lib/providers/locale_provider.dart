@@ -19,7 +19,7 @@ class LocaleProvider extends ChangeNotifier {
         notifyListeners();
       }
     } catch (e) {
-      print('Error loading saved locale: $e');
+      //print('Error loading saved locale: $e');
     }
   }
   
@@ -32,7 +32,7 @@ class LocaleProvider extends ChangeNotifier {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('language_code', newLocale.languageCode);
       } catch (e) {
-        print('Error saving locale: $e');
+        //print('Error saving locale: $e');
       }
       
       notifyListeners();

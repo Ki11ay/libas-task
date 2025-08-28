@@ -6,19 +6,18 @@ class ProductService {
   factory ProductService() => _instance;
   ProductService._internal();
 
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final CollectionReference _productsCollection = FirebaseFirestore.instance.collection('products');
 
   // Get all products
   Future<List<ProductModel>> getAllProducts() async {
     try {
-      print('🔍 Querying Firestore for products...');
+      //print('🔍 Querying Firestore for products...');
       final QuerySnapshot snapshot = await _productsCollection
           .where('isAvailable', isEqualTo: true)
           .orderBy('createdAt', descending: true)
           .get();
 
-      print('📊 Found ${snapshot.docs.length} product documents');
+      //print('📊 Found ${snapshot.docs.length} product documents');
       
       final products = snapshot.docs.map((doc) {
         final data = doc.data() as Map<String, dynamic>;
@@ -26,10 +25,10 @@ class ProductService {
         return ProductModel.fromJson(data);
       }).toList();
       
-      print('✅ Successfully parsed ${products.length} products');
+      //print('✅ Successfully parsed ${products.length} products');
       return products;
     } catch (e) {
-      print('❌ Error fetching products: $e');
+      //print('❌ Error fetching products: $e');
       return [];
     }
   }
@@ -49,7 +48,7 @@ class ProductService {
         return ProductModel.fromJson(data);
       }).toList();
     } catch (e) {
-      print('Error fetching products by category: $e');
+      //print('Error fetching products by category: $e');
       return [];
     }
   }
@@ -76,7 +75,7 @@ class ProductService {
                product.tags.any((tag) => tag.toLowerCase().contains(searchQuery));
       }).toList();
     } catch (e) {
-      print('Error searching products: $e');
+      //print('Error searching products: $e');
       return [];
     }
   }
@@ -92,7 +91,7 @@ class ProductService {
       }
       return null;
     } catch (e) {
-      print('Error fetching product by ID: $e');
+      //print('Error fetching product by ID: $e');
       return null;
     }
   }
@@ -101,9 +100,9 @@ class ProductService {
   Future<void> addProduct(ProductModel product) async {
     try {
       await _productsCollection.add(product.toJson());
-      print('Product added successfully: ${product.name}');
+      //print('Product added successfully: ${product.name}');
     } catch (e) {
-      print('Error adding product: $e');
+      //print('Error adding product: $e');
       rethrow;
     }
   }
@@ -113,9 +112,9 @@ class ProductService {
     try {
       data['updatedAt'] = DateTime.now().toIso8601String();
       await _productsCollection.doc(productId).update(data);
-      print('Product updated successfully: $productId');
+      //print('Product updated successfully: $productId');
     } catch (e) {
-      print('Error updating product: $e');
+      //print('Error updating product: $e');
       rethrow;
     }
   }
@@ -124,9 +123,9 @@ class ProductService {
   Future<void> deleteProduct(String productId) async {
     try {
       await _productsCollection.doc(productId).delete();
-      print('Product deleted successfully: $productId');
+      //print('Product deleted successfully: $productId');
     } catch (e) {
-      print('Error deleting product: $e');
+      //print('Error deleting product: $e');
       rethrow;
     }
   }
@@ -146,7 +145,7 @@ class ProductService {
         return ProductModel.fromJson(data);
       }).toList();
     } catch (e) {
-      print('Error fetching featured products: $e');
+      //print('Error fetching featured products: $e');
       return [];
     }
   }
@@ -167,7 +166,7 @@ class ProductService {
       // Filter products that are on sale
       return products.where((product) => product.isOnSale).toList();
     } catch (e) {
-      print('Error fetching products on sale: $e');
+      //print('Error fetching products on sale: $e');
       return [];
     }
   }
@@ -188,7 +187,7 @@ class ProductService {
         return ProductModel.fromJson(data);
       }).toList();
     } catch (e) {
-      print('Error fetching products by price range: $e');
+      //print('Error fetching products by price range: $e');
       return [];
     }
   }
@@ -210,7 +209,7 @@ class ProductService {
 
       return categories.toList()..sort();
     } catch (e) {
-      print('Error fetching categories: $e');
+      //print('Error fetching categories: $e');
       return [];
     }
   }
@@ -237,7 +236,7 @@ class ProductService {
 
       return tags.toList()..sort();
     } catch (e) {
-      print('Error fetching tags: $e');
+      //print('Error fetching tags: $e');
       return [];
     }
   }

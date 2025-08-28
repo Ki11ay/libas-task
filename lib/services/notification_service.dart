@@ -55,7 +55,7 @@ class NotificationService {
         await Future.delayed(const Duration(seconds: 2));
       }
     } catch (e) {
-      print('Error initializing notification service: $e');
+      //print('Error initializing notification service: $e');
     }
   }
 
@@ -73,7 +73,7 @@ class NotificationService {
 
   // Handle foreground messages
   void _handleForegroundMessage(RemoteMessage message) {
-    print('Foreground message received: ${message.notification?.title}');
+    //print('Foreground message received: ${message.notification?.title}');
     
     // Create notification model
     final notification = NotificationModel(
@@ -96,14 +96,14 @@ class NotificationService {
 
   // Handle background messages
   static Future<void> _handleBackgroundMessage(RemoteMessage message) async {
-    print('Background message received: ${message.notification?.title}');
+    //print('Background message received: ${message.notification?.title}');
     // Handle background message logic here
     // You can save to local storage or Firestore
   }
 
   // Handle when app is opened from notification
   void _handleMessageOpenedApp(RemoteMessage message) {
-    print('App opened from notification: ${message.notification?.title}');
+    //print('App opened from notification: ${message.notification?.title}');
     // Navigate to specific screen based on message data
     _handleNotificationTap(message.data);
   }
@@ -150,7 +150,7 @@ class NotificationService {
         userName: userName,
       );
     } catch (e) {
-      print('Error sending welcome notification: $e');
+      //print('Error sending welcome notification: $e');
       // Fallback to local notification
       await _showLocalNotification(
         title: 'Welcome to Libas! 🎉',
@@ -168,7 +168,7 @@ class NotificationService {
         userName: userName,
       );
     } catch (e) {
-      print('Error sending welcome back notification: $e');
+      //print('Error sending welcome back notification: $e');
       // Fallback to local notification
       await _showLocalNotification(
         title: 'Welcome back! 👋',
@@ -187,7 +187,7 @@ class NotificationService {
         discountPercent: discountPercent,
       );
     } catch (e) {
-      print('Error sending discount notification: $e');
+      //print('Error sending discount notification: $e');
       // Fallback to local notification
       await _showLocalNotification(
         title: 'Special Offer! 💰',
@@ -206,7 +206,7 @@ class NotificationService {
         totalAmount: totalAmount,
       );
     } catch (e) {
-      print('Error sending purchase completion notification: $e');
+      //print('Error sending purchase completion notification: $e');
       // Fallback to local notification
       await _showLocalNotification(
         title: 'Order Confirmed! ✅',
@@ -225,7 +225,7 @@ class NotificationService {
         status: status,
       );
     } catch (e) {
-      print('Error sending shipping update notification: $e');
+      //print('Error sending shipping update notification: $e');
       // Fallback to local notification
       await _showLocalNotification(
         title: 'Shipping Update 📦',
@@ -257,10 +257,7 @@ class NotificationService {
 
   // Handle notification tap based on payload
   void _handleNotificationTap(Map<String, dynamic> data) {
-    final payload = data['payload'];
-    final action = data['action'];
-    
     // You can implement navigation logic here based on the payload or action
-    print('Notification tapped with payload: $payload, action: $action');
+    //print('Notification tapped with data: $data');
   }
 }

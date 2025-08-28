@@ -124,7 +124,7 @@ class CartProvider with ChangeNotifier {
     try {
       return await _cartService.isProductInCart(productId, size: size, color: color);
     } catch (e) {
-      print('Error checking if product in cart: $e');
+      //print('Error checking if product in cart: $e');
       return false;
     }
   }
@@ -134,7 +134,7 @@ class CartProvider with ChangeNotifier {
     try {
       return await _cartService.getCartItemByProduct(productId, size: size, color: color);
     } catch (e) {
-      print('Error getting cart item by product: $e');
+      //print('Error getting cart item by product: $e');
       return null;
     }
   }
@@ -144,7 +144,7 @@ class CartProvider with ChangeNotifier {
     try {
       return await _cartService.getCartTotal();
     } catch (e) {
-      print('Error getting cart total: $e');
+      //print('Error getting cart total: $e');
       return 0.0;
     }
   }
@@ -154,7 +154,7 @@ class CartProvider with ChangeNotifier {
     try {
       return await _cartService.getCartItemsCount();
     } catch (e) {
-      print('Error getting cart items count: $e');
+      //print('Error getting cart items count: $e');
       return 0;
     }
   }

@@ -44,14 +44,14 @@ class ProductProvider extends ChangeNotifier {
       _setLoading(true);
       _clearError();
       
-      print('🔄 Loading products from Firestore...');
+      //print('🔄 Loading products from Firestore...');
       _products = await _productService.getAllProducts();
-      print('✅ Loaded ${_products.length} products from Firestore');
+      //print('✅ Loaded ${_products.length} products from Firestore');
       
       _applyFilters();
       
     } catch (e) {
-      print('❌ Error loading products: $e');
+      //print('❌ Error loading products: $e');
       _setError(e.toString());
     } finally {
       _setLoading(false);
@@ -64,7 +64,7 @@ class ProductProvider extends ChangeNotifier {
       _categories = await _productService.getCategories();
       notifyListeners();
     } catch (e) {
-      print('Error loading categories: $e');
+      //print('Error loading categories: $e');
     }
   }
 
@@ -74,7 +74,7 @@ class ProductProvider extends ChangeNotifier {
       _tags = await _productService.getTags();
       notifyListeners();
     } catch (e) {
-      print('Error loading tags: $e');
+      //print('Error loading tags: $e');
     }
   }
 

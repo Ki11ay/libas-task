@@ -27,8 +27,8 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final cartProvider = Provider.of<CartProvider>(context, listen: false);
       cartProvider.clearCart();
-      print('Cart cleared after successful payment');
-      print('Purchased items: ${widget.purchasedItems?.length ?? 0}');
+      //print('Cart cleared after successful payment');
+      //print('Purchased items: ${widget.purchasedItems?.length ?? 0}');
     });
   }
 
@@ -60,7 +60,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
               
               // Success Title
               Text(
-                AppLocalizations.of(context)!.paymentSuccessful ?? 'Payment Successful!',
+                AppLocalizations.of(context)!.paymentSuccessful,
                 style: AppTextStyles.h2.copyWith(
                   color: AppColors.success,
                   fontWeight: FontWeight.bold,
@@ -170,7 +170,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
                         onPressed: () {
                           _showRatingDialog(context);
                         },
-                        text: AppLocalizations.of(context)!.rateProducts ?? 'Rate Products',
+                        text: AppLocalizations.of(context)!.rateProducts,
                         backgroundColor: AppColors.accent,
                         icon: Icons.star,
                       ),
@@ -207,7 +207,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
           onRatingSubmitted: (productId, rating, review) {
             // Here you would typically save the rating to your backend
             // For now, we'll just print it
-            print('Product $productId rated $rating stars with review: $review');
+            //print('Product $productId rated $rating stars with review: $review');
             
             // You can implement rating submission logic here
             // Example: save to Firestore, update product rating, etc.

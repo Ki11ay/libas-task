@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../models/user_model.dart';
 import '../models/product_model.dart';
-import '../models/cart_model.dart';
 import '../models/order_model.dart';
 
 class FirebaseService {
@@ -110,7 +109,7 @@ class FirebaseService {
       }
       return null;
     } catch (e) {
-      throw 'Failed to get product: $e';
+      throw 'Failed to get product: ${e.toString()}';
     }
   }
 

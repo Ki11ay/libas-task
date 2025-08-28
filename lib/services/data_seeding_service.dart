@@ -13,17 +13,17 @@ class DataSeedingService {
   // Seed products from web scraping
   Future<void> seedProductsFromWeb() async {
     try {
-      print('Starting product seeding from web...');
+      //print('Starting product seeding from web...');
       
       // Scrape products from Libas Collective website
       final List<ProductModel> scrapedProducts = await _webScraperService.scrapeNewArrivals();
       
       if (scrapedProducts.isEmpty) {
-        print('No products were scraped, using sample products instead');
+        //print('No products were scraped, using sample products instead');
         return;
       }
 
-      print('Scraped ${scrapedProducts.length} products from website');
+      //print('Scraped ${scrapedProducts.length} products from website');
       
       // Add each product to Firestore
       int successCount = 0;
@@ -33,31 +33,31 @@ class DataSeedingService {
         try {
           await _productService.addProduct(product);
           successCount++;
-          print('Added product: ${product.name}');
+          //print('Added product: ${product.name}');
         } catch (e) {
           errorCount++;
-          print('Error adding product ${product.name}: $e');
+          //print('Error adding product ${product.name}: $e');
         }
         
         // Add a small delay to avoid overwhelming Firestore
         await Future.delayed(const Duration(milliseconds: 100));
       }
       
-      print('Product seeding completed!');
-      print('Successfully added: $successCount products');
+      //print('Product seeding completed!');
+      //print('Successfully added: $successCount products');
       if (errorCount > 0) {
-        print('Failed to add: $errorCount products');
+        //print('Failed to add: $errorCount products');
       }
       
     } catch (e) {
-      print('Error during product seeding: $e');
+      //print('Error during product seeding: $e');
     }
   }
 
   // Seed sample products (fallback)
   Future<void> seedSampleProducts() async {
     try {
-      print('Starting sample product seeding...');
+      //print('Starting sample product seeding...');
       
       final List<ProductModel> sampleProducts = _createSampleProducts();
       
@@ -68,24 +68,24 @@ class DataSeedingService {
         try {
           await _productService.addProduct(product);
           successCount++;
-          print('Added sample product: ${product.name}');
+          //print('Added sample product: ${product.name}');
         } catch (e) {
           errorCount++;
-          print('Error adding sample product ${product.name}: $e');
+          //print('Error adding sample product ${product.name}: $e');
         }
         
         // Add a small delay to avoid overwhelming Firestore
         await Future.delayed(const Duration(milliseconds: 100));
       }
       
-      print('Sample product seeding completed!');
-      print('Successfully added: $successCount products');
+      //print('Sample product seeding completed!');
+      //print('Successfully added: $successCount products');
       if (errorCount > 0) {
-        print('Failed to add: $errorCount products');
+        //print('Failed to add: $errorCount products');
       }
       
     } catch (e) {
-      print('Error during sample product seeding: $e');
+      //print('Error during sample product seeding: $e');
     }
   }
 
@@ -299,7 +299,7 @@ class DataSeedingService {
   // Clear all products (for testing)
   Future<void> clearAllProducts() async {
     try {
-      print('Clearing all products...');
+      //print('Clearing all products...');
       
       final products = await _productService.getAllProducts();
       int deletedCount = 0;
@@ -309,14 +309,14 @@ class DataSeedingService {
           await _productService.deleteProduct(product.id);
           deletedCount++;
         } catch (e) {
-          print('Error deleting product ${product.name}: $e');
+          //print('Error deleting product ${product.name}: $e');
         }
       }
       
-      print('Cleared $deletedCount products');
+      //print('Cleared $deletedCount products');
       
     } catch (e) {
-      print('Error clearing products: $e');
+      //print('Error clearing products: $e');
     }
   }
 
@@ -326,7 +326,7 @@ class DataSeedingService {
       final products = await _productService.getAllProducts();
       return products.isNotEmpty;
     } catch (e) {
-      print('Error checking products: $e');
+      //print('Error checking products: $e');
       return false;
     }
   }
@@ -337,7 +337,7 @@ class DataSeedingService {
       final products = await _productService.getAllProducts();
       return products.length;
     } catch (e) {
-      print('Error getting product count: $e');
+      //print('Error getting product count: $e');
       return 0;
     }
   }

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/product_model.dart';
 
@@ -13,7 +12,7 @@ class WebScraperService {
   // Scrape new arrivals from Libas Collective
   Future<List<ProductModel>> scrapeNewArrivals() async {
     try {
-      print('Scraping new arrivals from: $_newArrivalsUrl');
+      //print('Scraping new arrivals from: $_newArrivalsUrl');
       
       final response = await http.get(
         Uri.parse(_newArrivalsUrl),
@@ -31,11 +30,11 @@ class WebScraperService {
         final html = response.body;
         return _parseProductsFromHtml(html);
       } else {
-        print('Failed to fetch page: ${response.statusCode}');
+        //print('Failed to fetch page: ${response.statusCode}');
         return [];
       }
     } catch (e) {
-      print('Error scraping new arrivals: $e');
+      //print('Error scraping new arrivals: $e');
       return [];
     }
   }
@@ -98,11 +97,11 @@ class WebScraperService {
         products.addAll(_createSampleProducts());
       }
       
-      print('Successfully parsed ${products.length} products');
+      //print('Successfully parsed ${products.length} products');
       return products;
       
     } catch (e) {
-      print('Error parsing HTML: $e');
+      //print('Error parsing HTML: $e');
       // Return sample products as fallback
       return _createSampleProducts();
     }
@@ -128,7 +127,7 @@ class WebScraperService {
         return double.parse(priceMatch.group(1) ?? '0');
       }
     } catch (e) {
-      print('Error extracting price from: $priceText');
+      //print('Error extracting price from: $priceText');
     }
     return 0.0;
   }

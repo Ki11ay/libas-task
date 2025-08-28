@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../models/product_model.dart';
 
 class RatingService {
   static final RatingService _instance = RatingService._internal();
@@ -31,9 +30,9 @@ class RatingService {
       // Update product's average rating
       await _updateProductRating(productId);
 
-      print('Rating submitted successfully for product $productId');
+      //print('Rating submitted successfully for product $productId');
     } catch (e) {
-      print('Error submitting rating: $e');
+      //print('Error submitting rating: $e');
       throw Exception('Failed to submit rating: $e');
     }
   }
@@ -71,10 +70,10 @@ class RatingService {
           'lastRatingUpdate': FieldValue.serverTimestamp(),
         });
 
-        print('Product $productId rating updated: $averageRating ($ratingCount ratings)');
+        //print('Product $productId rating updated: $averageRating ($ratingCount ratings)');
       }
     } catch (e) {
-      print('Error updating product rating: $e');
+      //print('Error updating product rating: $e');
     }
   }
 
@@ -91,7 +90,7 @@ class RatingService {
       }
       return null;
     } catch (e) {
-      print('Error getting product rating: $e');
+      //print('Error getting product rating: $e');
       return null;
     }
   }
@@ -111,7 +110,7 @@ class RatingService {
       }
       return null;
     } catch (e) {
-      print('Error getting user rating: $e');
+      //print('Error getting user rating: $e');
       return null;
     }
   }
@@ -136,7 +135,7 @@ class RatingService {
         };
       }).toList();
     } catch (e) {
-      print('Error getting product ratings: $e');
+      //print('Error getting product ratings: $e');
       return [];
     }
   }
@@ -153,7 +152,7 @@ class RatingService {
 
       return querySnapshot.docs.isNotEmpty;
     } catch (e) {
-      print('Error checking if user has rated: $e');
+      //print('Error checking if user has rated: $e');
       return false;
     }
   }

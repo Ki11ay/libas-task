@@ -325,9 +325,9 @@ class _ProductRatingDialogState extends State<ProductRatingDialog> {
       try {
         final productProvider = Provider.of<ProductProvider>(context, listen: false);
         await productProvider.refreshProducts();
-        print('✅ Products refreshed after rating submission');
+        //print('✅ Products refreshed after rating submission');
       } catch (e) {
-        print('⚠️ Error refreshing products: $e');
+        //print('⚠️ Error refreshing products: $e');
       }
       
       Navigator.of(context).pop();

@@ -32,7 +32,7 @@ class CartService {
       }
       return null;
     } catch (e) {
-      print('Error getting user cart: $e');
+      //print('Error getting user cart: $e');
       return null;
     }
   }
@@ -48,7 +48,7 @@ class CartService {
       
       await _userCartRef.set(cartData);
     } catch (e) {
-      print('Error saving cart: $e');
+      //print('Error saving cart: $e');
       rethrow;
     }
   }
@@ -61,14 +61,12 @@ class CartService {
       Cart? currentCart = await getUserCart();
       
       // Create new cart if doesn't exist
-      if (currentCart == null) {
-        currentCart = Cart(
-          userId: _auth.currentUser!.uid,
-          items: [],
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-        );
-      }
+      currentCart ??= Cart(
+        userId: _auth.currentUser!.uid,
+        items: [],
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
 
       // Create cart item
       final cartItem = CartItem(
@@ -87,7 +85,7 @@ class CartService {
       final updatedCart = currentCart.addItem(cartItem);
       await saveCart(updatedCart);
     } catch (e) {
-      print('Error adding to cart: $e');
+      //print('Error adding to cart: $e');
       rethrow;
     }
   }
@@ -103,7 +101,7 @@ class CartService {
       final updatedCart = currentCart.updateItemQuantity(itemId, newQuantity);
       await saveCart(updatedCart);
     } catch (e) {
-      print('Error updating item quantity: $e');
+      //print('Error updating item quantity: $e');
       rethrow;
     }
   }
@@ -119,7 +117,7 @@ class CartService {
       final updatedCart = currentCart.removeItem(itemId);
       await saveCart(updatedCart);
     } catch (e) {
-      print('Error removing from cart: $e');
+      //print('Error removing from cart: $e');
       rethrow;
     }
   }
@@ -135,7 +133,7 @@ class CartService {
       final updatedCart = currentCart.clear();
       await saveCart(updatedCart);
     } catch (e) {
-      print('Error clearing cart: $e');
+      //print('Error clearing cart: $e');
       rethrow;
     }
   }
@@ -150,7 +148,7 @@ class CartService {
 
       return currentCart.containsProduct(productId, size: size, color: color);
     } catch (e) {
-      print('Error checking if product in cart: $e');
+      //print('Error checking if product in cart: $e');
       return false;
     }
   }
@@ -165,7 +163,7 @@ class CartService {
 
       return currentCart.getItemByProduct(productId, size: size, color: color);
     } catch (e) {
-      print('Error getting cart item by product: $e');
+      //print('Error getting cart item by product: $e');
       return null;
     }
   }
@@ -190,7 +188,7 @@ class CartService {
       Cart? cart = await getUserCart();
       return cart?.subtotal ?? 0.0;
     } catch (e) {
-      print('Error getting cart total: $e');
+      //print('Error getting cart total: $e');
       return 0.0;
     }
   }
@@ -201,7 +199,7 @@ class CartService {
       Cart? cart = await getUserCart();
       return cart?.totalItems ?? 0;
     } catch (e) {
-      print('Error getting cart items count: $e');
+      //print('Error getting cart items count: $e');
       return 0;
     }
   }

@@ -1,5 +1,4 @@
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../utils/config.dart';
@@ -61,15 +60,15 @@ class LocationService {
     double longitude,
   ) async {
     try {
-      print('🌍 Starting geocoding for coordinates: $latitude, $longitude');
+      //print('🌍 Starting geocoding for coordinates: $latitude, $longitude');
       
       // Check if API key is configured
       if (!AppConfig.isGoogleMapsConfigured) {
-        print('❌ Warning: Google Maps API key not configured. Please update the API key in config.dart');
+        //print('❌ Warning: Google Maps API key not configured. Please update the API key in config.dart');
         return null;
       }
 
-      print('🔑 Using API key: ${_googleMapsApiKey.substring(0, 10)}...');
+      //print('🔑 Using API key: ${_googleMapsApiKey.substring(0, 10)}...');
 
       final url = Uri.parse(
         'https://maps.googleapis.com/maps/api/geocode/json?'
@@ -77,12 +76,12 @@ class LocationService {
         '&key=$_googleMapsApiKey'
       );
 
-      print('🌐 Making request to: ${url.toString().replaceAll(_googleMapsApiKey, 'API_KEY_HIDDEN')}');
+      //print('🌐 Making request to: ${url.toString().replaceAll(_googleMapsApiKey, 'API_KEY_HIDDEN')}');
 
       final response = await http.get(url);
       
-      print('📡 Response status: ${response.statusCode}');
-      print('📡 Response body: ${response.body.substring(0, 200)}...');
+      //print('📡 Response status: ${response.statusCode}');
+      //print('📡 Response body: ${response.body.substring(0, 200)}...');
       
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -115,20 +114,20 @@ class LocationService {
                      // Add formatted address
            addressData['formattedAddress'] = result['formatted_address'];
            
-           print('✅ Geocoding successful: $addressData');
+           //print('✅ Geocoding successful: $addressData');
            return addressData;
         } else if (data['status'] == 'REQUEST_DENIED') {
-          print('Error: Google Maps API request denied. Check your API key and billing.');
+          //print('Error: Google Maps API request denied. Check your API key and billing.');
           return null;
         } else if (data['status'] == 'OVER_QUERY_LIMIT') {
-          print('Error: Google Maps API quota exceeded.');
+          //print('Error: Google Maps API quota exceeded.');
           return null;
         }
       }
       
       return null;
     } catch (e) {
-      print('Error getting address from coordinates: $e');
+      //print('Error getting address from coordinates: $e');
       return null;
     }
   }
@@ -162,7 +161,7 @@ class LocationService {
         'timestamp': position.timestamp?.toIso8601String(),
       };
     } catch (e) {
-      print('Error getting location data: $e');
+      //print('Error getting location data: $e');
       return null;
     }
   }
@@ -170,26 +169,26 @@ class LocationService {
   /// Capture and save user location to Firebase
   static Future<bool> captureAndSaveUserLocation(String userId) async {
     try {
-      print('📍 Starting location capture for user: $userId');
+      //print('📍 Starting location capture for user: $userId');
       
       // Request permission first
       final hasPermission = await requestLocationPermission();
       if (!hasPermission) {
-        print('❌ Location permission denied');
+        //print('❌ Location permission denied');
         return false;
       }
       
-      print('✅ Location permission granted');
+      //print('✅ Location permission granted');
       
       // Get location data
       final locationData = await getLocationData();
       if (locationData == null) {
-        print('❌ Failed to get location data');
+        //print('❌ Failed to get location data');
         return false;
       }
       
-      print('📍 Location captured: ${locationData['latitude']}, ${locationData['longitude']}');
-      print('📍 Location data keys: ${locationData.keys.toList()}');
+      //print('📍 Location captured: ${locationData['latitude']}, ${locationData['longitude']}');
+      //print('📍 Location data keys: ${locationData.keys.toList()}');
       
       // Update user profile in Firebase
       final firebaseService = FirebaseService();
@@ -214,15 +213,15 @@ class LocationService {
         updateData['address'] = locationData['formattedAddress']; // Also update the main address field
       }
       
-      print('📝 Updating user profile with data: $updateData');
+      //print('📝 Updating user profile with data: $updateData');
       
       await firebaseService.updateUserProfile(userId, updateData);
       
-      print('✅ Location data saved to Firebase successfully');
+      //print('✅ Location data saved to Firebase successfully');
       return true;
       
     } catch (e) {
-      print('❌ Error capturing and saving location: $e');
+      //print('❌ Error capturing and saving location: $e');
       return false;
     }
   }
@@ -230,10 +229,10 @@ class LocationService {
   /// Manually trigger location capture for existing users
   static Future<bool> refreshUserLocation(String userId) async {
     try {
-      print('🔄 Refreshing location for existing user: $userId');
+      //print('🔄 Refreshing location for existing user: $userId');
       return await captureAndSaveUserLocation(userId);
     } catch (e) {
-      print('❌ Error refreshing user location: $e');
+      //print('❌ Error refreshing user location: $e');
       return false;
     }
   }
@@ -245,7 +244,7 @@ class LocationService {
       final user = await firebaseService.getUserProfile(userId);
       return user?.latitude != null && user?.longitude != null;
     } catch (e) {
-      print('❌ Error checking location data: $e');
+      //print('❌ Error checking location data: $e');
       return false;
     }
   }
@@ -270,7 +269,7 @@ class LocationService {
     try {
       return await Geolocator.getLastKnownPosition();
     } catch (e) {
-      print('Error getting last known position: $e');
+      //print('Error getting last known position: $e');
       return null;
     }
   }

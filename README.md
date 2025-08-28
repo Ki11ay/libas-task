@@ -1,336 +1,387 @@
-# Libas - Modern E-Commerce App
+# 🛍️ Libas - Modern E-Commerce App
 
-A beautiful, modern e-commerce mobile application built with Flutter, featuring Firebase backend services and Stripe payment integration. The app follows iOS 26 design principles and provides a seamless shopping experience.
+A feature-rich, modern e-commerce mobile application built with Flutter, featuring Firebase backend, Stripe payments, push notifications, and comprehensive user management.
 
-## 🚀 Features
+## 📱 App Overview
 
-### Core Functionality
-- **User Authentication**: Email/password and Google Sign-In support
-- **Product Management**: Browse, search, and filter products by category
-- **Shopping Cart**: Add, remove, and manage cart items
-- **User Profiles**: View and edit personal information
-- **Order Management**: Track order status and history
+**Libas** (meaning "Style" in Arabic) is a comprehensive e-commerce platform that provides users with a seamless shopping experience, from product discovery to secure checkout, with advanced features like real-time notifications, location-based services, and multi-language support.
 
-### Advanced Features
-- **Real-time Search**: Search products by name, description, and tags
-- **Image Caching**: Efficient product image loading with cached_network_image
-- **Push Notifications**: Firebase Cloud Messaging integration
-- **Payment Processing**: Stripe integration for secure payments
-- **Maps Integration**: Google Maps for location services
-- **Image Editing**: Profile picture cropping and editing
-- **In-App Reviews**: User review system
+## ✨ Key Features
 
-### Design & UX
-- **Modern UI**: iOS 26 inspired design with Material 3
-- **Responsive Layout**: Adaptive design for different screen sizes
-- **Smooth Animations**: Beautiful transitions and micro-interactions
-- **Dark/Light Theme**: Theme switching support
-- **Localization**: Multi-language support with intl package
+### 🏠 **Core Shopping Experience**
+- **Product Catalog**: Browse products by category, search functionality, and advanced filtering
+- **Shopping Cart**: Add/remove items, quantity management, and cart persistence
+- **Secure Checkout**: Stripe-powered payment processing with order confirmation
+- **Order Management**: Track orders, view order history, and shipping updates
 
-## 🛠 Tech Stack
+### 🔐 **Authentication & User Management**
+- **Multi-Provider Auth**: Email/password and Google Sign-In support
+- **User Profiles**: Editable profiles with avatar upload and personal information
+- **Address Management**: Shipping address storage and management
+- **Location Services**: GPS-based location capture for delivery optimization
 
-### Frontend
-- **Flutter**: Cross-platform mobile development framework
-- **Provider**: State management solution
-- **Material Design**: UI component library
+### 🔔 **Smart Notifications**
+- **Push Notifications**: Firebase Cloud Messaging (FCM) integration
+- **Welcome Messages**: Automated welcome notifications for new users
+- **Order Updates**: Real-time shipping and order status notifications
+- **Promotional Alerts**: Targeted marketing notifications
+- **Notification Preferences**: User-configurable notification settings
 
-### Backend Services
-- **Firebase Authentication**: User authentication and management
-- **Cloud Firestore**: NoSQL database for data storage
-- **Firebase Storage**: File and image storage
-- **Firebase Messaging**: Push notifications
+### ⭐ **Product Reviews & Ratings**
+- **Post-Purchase Rating**: Rate products immediately after successful payment
+- **Review System**: Text reviews with star ratings
+- **Rating Aggregation**: Automatic calculation of product average ratings
+- **Rating History**: Track user rating contributions
 
-### Payment & External Services
-- **Stripe**: Payment processing and checkout
-- **Google Maps**: Location and mapping services
-- **Google Sign-In**: Social authentication
+### 🌍 **Localization & Accessibility**
+- **Multi-Language Support**: English and Arabic with RTL support
+- **Dynamic Language Switching**: In-app language selection
+- **Cultural Adaptation**: Region-specific content and formatting
 
-### Development Tools
-- **JSON Serialization**: Automatic JSON parsing with build_runner
-- **Code Generation**: Automated code generation for models
-- **Linting**: Flutter lints for code quality
+### 💳 **Payment & Security**
+- **Stripe Integration**: Secure payment processing with multiple card support
+- **Payment Sheet**: Modern, user-friendly payment interface
+- **Order Confirmation**: Immediate payment success feedback
+- **Secure Transactions**: PCI-compliant payment handling
 
-## 📱 Screenshots
+## 🏗️ Technical Architecture
 
-[Add screenshots here when available]
+### **Frontend (Flutter)**
+- **Framework**: Flutter 3.9+ with Dart 3.9+
+- **State Management**: Provider pattern for reactive state management
+- **UI Components**: Custom Material Design 3 components
+- **Navigation**: Bottom navigation with tab-based routing
+- **Responsive Design**: Adaptive layouts for different screen sizes
 
-## 🚀 Getting Started
+### **Backend (Firebase)**
+- **Authentication**: Firebase Auth with custom user profiles
+- **Database**: Cloud Firestore for real-time data synchronization
+- **Storage**: Firebase Storage for image and file management
+- **Functions**: Cloud Functions for server-side logic
+- **Messaging**: Firebase Cloud Messaging for push notifications
 
-### Prerequisites
-- Flutter SDK (3.9.0 or higher)
-- Dart SDK (3.9.0 or higher)
-- Android Studio / VS Code
-- Firebase project setup
-- Stripe account (for payments)
+### **External Services**
+- **Payments**: Stripe API for secure payment processing
+- **Maps**: Google Maps integration for location services
+- **Reviews**: In-app review system for app store ratings
 
-### Installation
+## 📱 User Stories & Workflows
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/libas.git
-   cd libas
-   ```
+### **New User Onboarding**
+1. **App Launch**: User opens app and sees splash screen
+2. **Authentication**: User signs up with email/password or Google account
+3. **Profile Setup**: User completes profile with personal information
+4. **Location Permission**: App requests location access for better service
+5. **Welcome Message**: User receives welcome notification after 2 minutes
+6. **Product Discovery**: User explores product catalog and categories
 
-2. **Install dependencies**
-   ```bash
-   flutter pub get
-   ```
+### **Shopping Experience**
+1. **Product Browsing**: User navigates through products with search and filters
+2. **Product Details**: User views detailed product information and images
+3. **Add to Cart**: User adds products to cart with size/color selection
+4. **Cart Management**: User reviews cart, adjusts quantities, and proceeds to checkout
+5. **Payment Process**: User completes secure payment via Stripe
+6. **Order Confirmation**: User receives payment success confirmation
+7. **Product Rating**: User rates purchased products immediately after payment
 
-3. **Firebase Setup**
-   - Create a new Firebase project
-   - Enable Authentication, Firestore, Storage, and Messaging
-   - Download `google-services.json` (Android) and `GoogleService-Info.plist` (iOS)
-   - Place them in the respective platform folders
+### **Post-Purchase**
+1. **Order Tracking**: User monitors order status and shipping updates
+2. **Push Notifications**: User receives real-time order updates
+3. **Product Reviews**: User provides feedback on purchased items
+4. **Order History**: User accesses complete order history
 
-4. **Stripe Setup**
-   - Create a Stripe account
-   - Get your publishable and secret keys
-   - Update the keys in `lib/services/stripe_service.dart`
+### **User Management**
+1. **Profile Updates**: User modifies personal information and avatar
+2. **Address Management**: User updates shipping addresses
+3. **Notification Preferences**: User configures notification settings
+4. **Language Selection**: User switches between English and Arabic
 
-5. **Google Sign-In Setup**
-   - Configure OAuth 2.0 in Firebase Console
-   - Add SHA-1 fingerprint for Android
-   - Update iOS bundle identifier
+## 🗂️ Project Structure
 
-6. **Run the app**
-   ```bash
-   flutter run
-   ```
+```
+libas/
+├── android/                 # Android platform-specific code
+├── ios/                    # iOS platform-specific code
+├── lib/                    # Main Flutter application code
+│   ├── l10n/              # Localization files (English & Arabic)
+│   ├── main.dart          # App entry point and configuration
+│   ├── models/            # Data models with JSON serialization
+│   │   ├── user_model.dart
+│   │   ├── product_model.dart
+│   │   ├── cart_model.dart
+│   │   ├── order_model.dart
+│   │   └── notification_model.dart
+│   ├── providers/         # State management providers
+│   │   ├── auth_provider.dart
+│   │   ├── cart_provider.dart
+│   │   ├── product_provider.dart
+│   │   ├── notification_provider.dart
+│   │   ├── review_provider.dart
+│   │   └── locale_provider.dart
+│   ├── services/          # Business logic and external API calls
+│   │   ├── firebase_service.dart
+│   │   ├── stripe_service.dart
+│   │   ├── notification_service.dart
+│   │   ├── rating_service.dart
+│   │   ├── location_service.dart
+│   │   └── cloud_functions_service.dart
+│   ├── screens/           # UI screens and pages
+│   │   ├── auth/          # Authentication screens
+│   │   ├── home/          # Main app screens
+│   │   ├── products/      # Product-related screens
+│   │   ├── cart/          # Shopping cart screens
+│   │   ├── payment/       # Payment and checkout screens
+│   │   ├── profile/       # User profile screens
+│   │   └── settings/      # App settings screens
+│   ├── widgets/           # Reusable UI components
+│   │   ├── custom_button.dart
+│   │   ├── product_card.dart
+│   │   ├── cart_item_card.dart
+│   │   └── notification_badge.dart
+│   └── utils/             # Utility classes and constants
+│       └── constants.dart
+├── functions/              # Firebase Cloud Functions
+│   ├── src/               # TypeScript source code
+│   │   └── index.ts       # Cloud functions implementation
+│   ├── package.json       # Node.js dependencies
+│   └── tsconfig.json      # TypeScript configuration
+├── assets/                 # Static assets
+│   ├── images/            # App images and graphics
+│   └── icons/             # App icons and logos
+├── pubspec.yaml           # Flutter dependencies and configuration
+├── firebase.json          # Firebase project configuration
+└── README.md              # This documentation file
+```
 
-### Environment Configuration
+## 🔧 Setup & Installation
+
+### **Prerequisites**
+- Flutter SDK 3.9.0 or higher
+- Dart SDK 3.9.0 or higher
+- Android Studio / Xcode for platform-specific development
+- Firebase project with enabled services
+- Stripe account for payment processing
+- Google Cloud project for Maps API
+
+### **1. Clone the Repository**
+```bash
+git clone https://github.com/yourusername/libas.git
+cd libas
+```
+
+### **2. Install Dependencies**
+```bash
+flutter pub get
+```
+
+### **3. Firebase Setup**
+1. Create a Firebase project at [Firebase Console](https://console.firebase.google.com/)
+2. Enable Authentication, Firestore, Storage, and Cloud Functions
+3. Download `google-services.json` (Android) and `GoogleService-Info.plist` (iOS)
+4. Place them in `android/app/` and `ios/Runner/` respectively
+5. Update `lib/firebase_options.dart` with your project configuration
+
+### **4. Stripe Configuration**
+1. Create a Stripe account at [Stripe Dashboard](https://dashboard.stripe.com/)
+2. Get your publishable and secret keys
+3. Update `lib/services/stripe_service.dart` with your keys
+
+### **5. Google Maps Setup**
+1. Enable Google Maps API in Google Cloud Console
+2. Get API key and update platform-specific configurations
+
+### **6. Cloud Functions Deployment**
+```bash
+cd functions
+npm install
+npm run build
+firebase deploy --only functions
+```
+
+### **7. Run the Application**
+```bash
+flutter run
+```
+
+## 🚀 Deployment
+
+### **Android Build**
+```bash
+flutter build apk --release
+# or for app bundle
+flutter build appbundle --release
+```
+
+### **iOS Build**
+```bash
+flutter build ios --release
+# Open ios/Runner.xcworkspace in Xcode for final build
+```
+
+### **Firebase Functions**
+```bash
+cd functions
+npm run deploy
+```
+
+## 🔐 Environment Variables
 
 Create a `.env` file in the root directory:
 ```env
 STRIPE_PUBLISHABLE_KEY=pk_test_your_key_here
 STRIPE_SECRET_KEY=sk_test_your_key_here
-FIREBASE_PROJECT_ID=your_project_id
+FIREBASE_PROJECT_ID=your-project-id
+GOOGLE_MAPS_API_KEY=your_maps_api_key
 ```
 
-## 🏗 Project Structure
+## 📊 Data Models
 
-```
-lib/
-├── models/           # Data models with JSON serialization
-├── providers/        # State management providers
-├── screens/          # App screens and pages
-│   ├── auth/        # Authentication screens
-│   ├── home/        # Main app screens
-│   ├── product/     # Product-related screens
-│   ├── cart/        # Shopping cart screens
-│   ├── profile/     # User profile screens
-│   └── search/      # Search functionality
-├── services/         # Business logic and API services
-├── utils/           # Constants, helpers, and utilities
-└── widgets/         # Reusable UI components
-```
+### **User Model**
+- Basic info (name, email, phone)
+- Profile picture and preferences
+- Shipping addresses
+- Location coordinates
+- FCM token for notifications
 
-## 🔧 Configuration
+### **Product Model**
+- Product details (name, description, price)
+- Images and specifications
+- Category and tags
+- Stock information
+- Rating and review count
 
-### Firebase Configuration
-1. Enable required services in Firebase Console
-2. Set up Firestore security rules
-3. Configure Storage rules for image uploads
-4. Set up Authentication providers
+### **Cart Model**
+- User ID and items
+- Quantity and variant selection
+- Timestamps for cart management
+- Total calculation methods
 
-### Stripe Configuration
-1. Create webhook endpoints
-2. Configure payment methods
-3. Set up customer management
-4. Test with test cards
+### **Order Model**
+- Order details and status
+- Payment information
+- Shipping details
+- Order history tracking
 
-### Platform-Specific Setup
+### **Notification Model**
+- Notification content and type
+- User targeting and delivery
+- Read status and timestamps
+- Action payloads
 
-#### Android
-- Update `android/app/build.gradle.kts`
-- Configure signing for release builds
-- Set up ProGuard rules
+## 🔄 State Management
 
-#### iOS
-- Update `ios/Runner/Info.plist`
-- Configure signing and capabilities
-- Set up URL schemes for deep linking
+The app uses the **Provider pattern** for state management:
 
-## 📊 Database Schema
+- **AuthProvider**: User authentication and profile management
+- **CartProvider**: Shopping cart state and operations
+- **ProductProvider**: Product catalog and filtering
+- **NotificationProvider**: Push notification management
+- **ReviewProvider**: Product rating and review system
+- **LocaleProvider**: Language and localization settings
 
-### Collections
+## 🔔 Notification System
 
-#### Users
-```json
-{
-  "id": "user_id",
-  "email": "user@example.com",
-  "displayName": "John Doe",
-  "photoURL": "https://...",
-  "phoneNumber": "+1234567890",
-  "address": "123 Main St",
-  "createdAt": "2024-01-01T00:00:00Z",
-  "updatedAt": "2024-01-01T00:00:00Z",
-  "isEmailVerified": true,
-  "favoriteProducts": ["product_id_1", "product_id_2"],
-  "preferences": {}
-}
-```
+### **Types of Notifications**
+1. **Welcome Messages**: New user onboarding
+2. **Order Updates**: Shipping and delivery status
+3. **Promotional**: Marketing and offers
+4. **System**: App updates and maintenance
 
-#### Products
-```json
-{
-  "id": "product_id",
-  "name": "Product Name",
-  "description": "Product description",
-  "price": 99.99,
-  "originalPrice": 129.99,
-  "images": ["https://...", "https://..."],
-  "category": "Electronics",
-  "tags": ["wireless", "bluetooth"],
-  "stockQuantity": 50,
-  "rating": 4.5,
-  "reviewCount": 25,
-  "isAvailable": true,
-  "isFeatured": false,
-  "specifications": {},
-  "createdAt": "2024-01-01T00:00:00Z",
-  "updatedAt": "2024-01-01T00:00:00Z"
-}
-```
+### **Delivery Methods**
+- **Push Notifications**: FCM for real-time delivery
+- **Local Notifications**: Fallback for offline scenarios
+- **In-App Notifications**: Notification center within the app
 
-#### Carts
-```json
-{
-  "id": "cart_id",
-  "userId": "user_id",
-  "items": [
-    {
-      "id": "item_id",
-      "productId": "product_id",
-      "productName": "Product Name",
-      "productImage": "https://...",
-      "price": 99.99,
-      "quantity": 2,
-      "addedAt": "2024-01-01T00:00:00Z"
-    }
-  ],
-  "createdAt": "2024-01-01T00:00:00Z",
-  "updatedAt": "2024-01-01T00:00:00Z"
-}
-```
+## 🌍 Localization
 
-#### Orders
-```json
-{
-  "id": "order_id",
-  "userId": "user_id",
-  "items": [...],
-  "totalAmount": 199.98,
-  "status": "pending",
-  "trackingNumber": "TRK123456",
-  "notes": "Delivery instructions",
-  "createdAt": "2024-01-01T00:00:00Z",
-  "updatedAt": "2024-01-01T00:00:00Z",
-  "estimatedDelivery": "2024-01-05T00:00:00Z",
-  "shippingAddress": "123 Main St",
-  "paymentMethod": "card",
-  "stripePaymentIntentId": "pi_..."
-}
-```
+### **Supported Languages**
+- **English**: Primary language with LTR layout
+- **Arabic**: Secondary language with RTL layout support
+
+### **Localization Features**
+- Dynamic language switching
+- RTL layout support for Arabic
+- Culturally appropriate content
+- Localized date and number formats
 
 ## 🧪 Testing
 
-### Unit Tests
+### **Unit Tests**
 ```bash
 flutter test
 ```
 
-### Widget Tests
-```bash
-flutter test test/widget_test.dart
-```
-
-### Integration Tests
+### **Integration Tests**
 ```bash
 flutter test integration_test/
 ```
 
-## 📦 Building for Production
-
-### Android APK
+### **Widget Tests**
 ```bash
-flutter build apk --release
+flutter test test/widget_test.dart
 ```
 
-### Android App Bundle
-```bash
-flutter build appbundle --release
-```
+## 📱 Platform Support
 
-### iOS Archive
-```bash
-flutter build ios --release
-```
+- **Android**: API level 21+ (Android 5.0+)
+- **iOS**: iOS 12.0+
+- **Web**: Flutter web support (experimental)
+- **Desktop**: Windows, macOS, Linux (experimental)
 
-## 🔒 Security Considerations
+## 🔒 Security Features
 
-- Firebase Security Rules for data access control
-- Input validation and sanitization
-- Secure API key management
-- HTTPS for all network requests
-- User authentication and authorization
-- Data encryption in transit and at rest
+- **Authentication**: Firebase Auth with JWT tokens
+- **Data Validation**: Input sanitization and validation
+- **Secure Storage**: Encrypted local storage
+- **API Security**: Firebase Security Rules
+- **Payment Security**: Stripe PCI compliance
 
-## 🚀 Deployment
+## 📈 Performance Optimizations
 
-### Firebase Hosting (Web)
-```bash
-flutter build web
-firebase deploy
-```
+- **Image Caching**: Cached network images for faster loading
+- **Lazy Loading**: On-demand data loading
+- **State Persistence**: Efficient state management
+- **Background Processing**: Optimized notification handling
+- **Memory Management**: Proper resource cleanup
 
-### App Store Deployment
-1. Build release versions
-2. Test thoroughly on devices
-3. Submit to App Store Connect
-4. Submit to Google Play Console
+## 🐛 Troubleshooting
+
+### **Common Issues**
+
+1. **Firebase Connection Issues**
+   - Verify Firebase configuration files
+   - Check internet connectivity
+   - Validate Firebase project settings
+
+2. **Stripe Payment Failures**
+   - Verify Stripe API keys
+   - Check test card numbers
+   - Validate payment sheet configuration
+
+3. **Notification Issues**
+   - Check FCM token generation
+   - Verify notification permissions
+   - Check Cloud Functions deployment
+
+4. **Build Errors**
+   - Run `flutter clean` and `flutter pub get`
+   - Verify platform-specific configurations
+   - Check dependency versions
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-### Code Style
-- Follow Flutter/Dart style guide
-- Use meaningful variable names
-- Add comments for complex logic
-- Keep functions small and focused
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
-
-- Flutter team for the amazing framework
-- Firebase for backend services
-- Stripe for payment processing
-- The open-source community for various packages
-
 ## 📞 Support
 
 For support and questions:
-- Create an issue in the repository
-- Contact the development team
-- Check the documentation
-
-## 🔄 Changelog
-
-### Version 1.0.0
-- Initial release
-- Core e-commerce functionality
-- Firebase integration
-- Stripe payment processing
-- Modern UI/UX design
-
----
-
-**Note**: This is a development version. Some features may be in progress or require additional configuration.
+- **Email**: mohammedaliedriis@gmail.com
+- **Issues**: [GitHub Issues](https://github.com/Ki11ay/libas/issues)

@@ -7,7 +7,6 @@ import '../products/products_screen.dart';
 import '../cart/cart_screen.dart';
 import '../profile/profile_screen.dart';
 import '../search/search_screen.dart';
-import '../../l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -47,39 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void _testNotifications() {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    
-    // Test different notification types
-    if (authProvider.userProfile != null) {
-      // Test welcome back notification
-      authProvider.sendWelcomeBackNotification();
-      
-      // Test discount notification
-      authProvider.sendDiscountNotification(
-        authProvider.user!.uid,
-        'TEST123',
-        25.0,
-      );
-      
-      // Test periodic discount notification
-      authProvider.sendPeriodicDiscountNotification();
-      
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.testNotifications),
-          backgroundColor: Colors.green,
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please sign in first to test notifications.'),
-          backgroundColor: Colors.orange,
-        ),
-      );
-    }
-  }
+
 
   @override
   void dispose() {

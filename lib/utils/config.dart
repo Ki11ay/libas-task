@@ -33,9 +33,9 @@ class AppConfig {
   
   static void validateConfiguration() {
     if (!isGoogleMapsConfigured) {
-      print('⚠️  Warning: Google Maps API key not configured!');
-      print('   Please update the googleMapsApiKey in lib/utils/config.dart');
-      print('   Location services will not work properly without this key.');
+      //print('⚠️  Warning: Google Maps API key not configured!');
+      //print('   Please update the googleMapsApiKey in lib/utils/config.dart');
+      //print('   Location services will not work properly without this key.');
     }
   }
 }

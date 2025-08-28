@@ -86,7 +86,7 @@ class AuthProvider extends ChangeNotifier {
         }
       }
     } catch (e) {
-      print('Error capturing FCM token: $e');
+      //print('Error capturing FCM token: $e');
       // Don't fail the entire auth process if FCM token capture fails
     }
   }
@@ -109,10 +109,10 @@ class AuthProvider extends ChangeNotifier {
           _userProfile!.displayName ?? 'there',
         );
         
-        print('Delayed welcome message sent after 2 minutes');
+        //print('Delayed welcome message sent after 2 minutes');
       }
     } catch (e) {
-      print('Error sending delayed welcome message: $e');
+      //print('Error sending delayed welcome message: $e');
     }
   }
 
@@ -122,19 +122,19 @@ class AuthProvider extends ChangeNotifier {
         await NotificationService().sendWelcomeBackNotification(_user!.uid, _userProfile!.displayName!);
       }
     } catch (e) {
-      print('Error sending welcome back notification: $e');
+      //print('Error sending welcome back notification: $e');
     }
   }
 
   Future<void> _loadUserProfile() async {
     if (_user != null) {
       try {
-        print('Loading user profile for: ${_user!.uid}');
+        //print('Loading user profile for: ${_user!.uid}');
         _userProfile = await _firebaseService.getUserProfile(_user!.uid);
         
         // If profile doesn't exist, create a default one
         if (_userProfile == null) {
-          print('User profile not found, creating default profile');
+          //print('User profile not found, creating default profile');
           _userProfile = UserModel(
             id: _user!.uid,
             email: _user!.email ?? '',
@@ -146,14 +146,14 @@ class AuthProvider extends ChangeNotifier {
           );
           
           await _firebaseService.createUserProfile(_userProfile!);
-          print('Default user profile created');
+          //print('Default user profile created');
         } else {
-          print('User profile loaded: ${_userProfile?.displayName}');
+          //print('User profile loaded: ${_userProfile?.displayName}');
         }
         
         notifyListeners();
       } catch (e) {
-        print('Error loading user profile: $e');
+        //print('Error loading user profile: $e');
         _error = e.toString();
         notifyListeners();
       }
@@ -211,7 +211,7 @@ class AuthProvider extends ChangeNotifier {
             fcmToken = await messaging.getToken();
           }
         } catch (e) {
-          print('Error getting FCM token during signup: $e');
+          //print('Error getting FCM token during signup: $e');
           // Don't fail the entire signup process if FCM token capture fails
         }
 
@@ -220,7 +220,7 @@ class AuthProvider extends ChangeNotifier {
         try {
           locationData = await LocationService.getLocationData();
         } catch (e) {
-          print('Error capturing location during signup: $e');
+          //print('Error capturing location during signup: $e');
           // Don't fail the entire signup process if location capture fails
         }
 
@@ -272,7 +272,7 @@ class AuthProvider extends ChangeNotifier {
     try {
       await NotificationService().sendWelcomeNotification(displayName, email);
     } catch (e) {
-      print('Error sending welcome notification: $e');
+      //print('Error sending welcome notification: $e');
     }
   }
 
@@ -281,7 +281,7 @@ class AuthProvider extends ChangeNotifier {
     try {
       await NotificationService().sendDiscountNotification(userId, discountCode, discountPercent);
     } catch (e) {
-      print('Error sending discount notification: $e');
+      //print('Error sending discount notification: $e');
     }
   }
 
@@ -303,7 +303,7 @@ class AuthProvider extends ChangeNotifier {
         });
       }
     } catch (e) {
-      print('Error sending periodic discount notification: $e');
+      //print('Error sending periodic discount notification: $e');
     }
   }
 
@@ -312,7 +312,7 @@ class AuthProvider extends ChangeNotifier {
     try {
       await NotificationService().sendPurchaseCompletionNotification(userId, orderId, totalAmount);
     } catch (e) {
-      print('Error sending purchase completion notification: $e');
+      //print('Error sending purchase completion notification: $e');
     }
   }
 
@@ -351,7 +351,7 @@ class AuthProvider extends ChangeNotifier {
           try {
             await LocationService.captureAndSaveUserLocation(userCredential.user!.uid);
           } catch (e) {
-            print('Error capturing location during Google signin: $e');
+            //print('Error capturing location during Google signin: $e');
             // Don't fail the entire signin process if location capture fails
           }
         } else {
@@ -360,7 +360,7 @@ class AuthProvider extends ChangeNotifier {
             try {
               await LocationService.captureAndSaveUserLocation(userCredential.user!.uid);
             } catch (e) {
-              print('Error updating location for existing user: $e');
+              //print('Error updating location for existing user: $e');
             }
           }
         }

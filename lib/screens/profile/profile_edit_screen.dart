@@ -23,7 +23,6 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   final _lastNameController = TextEditingController();
   final _phoneController = TextEditingController();
   
-  DateTime? _selectedDate;
   String? _selectedGender;
   File? _selectedImage;
   bool _isLoading = false;

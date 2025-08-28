@@ -4,7 +4,6 @@ import '../../providers/product_provider.dart';
 import '../../providers/cart_provider.dart';
 import '../../utils/constants.dart';
 import '../../widgets/product_card.dart';
-import '../../services/data_seeding_service.dart';
 import '../../l10n/app_localizations.dart';
 
 class ProductsScreen extends StatefulWidget {
@@ -17,7 +16,6 @@ class ProductsScreen extends StatefulWidget {
 class _ProductsScreenState extends State<ProductsScreen> {
   final TextEditingController _searchController = TextEditingController();
   String _selectedCategory = '';
-  String _selectedSort = 'newest';
 
   @override
   void initState() {
@@ -45,12 +43,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
     context.read<ProductProvider>().filterByCategory(category);
   }
 
-  void _onSortChanged(String sortBy) {
-    setState(() {
-      _selectedSort = sortBy;
-    });
-    context.read<ProductProvider>().sortProducts(sortBy);
-  }
+
 
   @override
   Widget build(BuildContext context) {

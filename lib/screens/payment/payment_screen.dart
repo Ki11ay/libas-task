@@ -65,16 +65,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
     });
 
     try {
-      print('Starting payment process...');
+      //print('Starting payment process...');
       
       // Present payment sheet
-      print('Presenting payment sheet...');
+      //print('Presenting payment sheet...');
       await StripeService.presentPaymentSheet();
-      print('Payment sheet presented successfully');
+      //print('Payment sheet presented successfully');
       
       // Payment is automatically confirmed when using payment sheet
       // No need to manually call confirmPaymentSheetPayment()
-      print('Payment automatically confirmed by Stripe payment sheet');
+      //print('Payment automatically confirmed by Stripe payment sheet');
 
       // Payment successful - create order
       await _createOrder();
@@ -83,8 +83,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
       final cartProvider = Provider.of<CartProvider>(context, listen: false);
       await cartProvider.clearCart();
       
-      print('Payment completed successfully!');
-      print('Cart cleared, navigating to success screen with ${widget.items.length} items');
+      //print('Payment completed successfully!');
+      //print('Cart cleared, navigating to success screen with ${widget.items.length} items');
 
       // Navigate to success screen with purchased items
       if (mounted) {
@@ -96,7 +96,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       }
       
     } catch (e) {
-      print('Payment failed with error: $e');
+      //print('Payment failed with error: $e');
       setState(() {
         _errorMessage = 'Payment failed: $e';
       });
@@ -116,7 +116,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     if (userId == null) throw Exception('User not authenticated');
 
     // Create order (for now, just log it - implement order provider later)
-    print('Order created: ${DateTime.now().millisecondsSinceEpoch}');
+    //print('Order created: ${DateTime.now().millisecondsSinceEpoch}');
     
     // TODO: Implement order creation with provider
     // final order = OrderModel(
