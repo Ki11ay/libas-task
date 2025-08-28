@@ -49,3 +49,10 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.development
+.env.backup

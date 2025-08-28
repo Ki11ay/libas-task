@@ -118,7 +118,7 @@ class FirebaseService {
       final querySnapshot = await _firestore
           .collection('products')
           .where('name', isGreaterThanOrEqualTo: query)
-          .where('name', isLessThan: query + '\uf8ff')
+          .where('name', isLessThan: '$query\uf8ff')
           .get();
       return querySnapshot.docs
           .map((doc) => ProductModel.fromJson({...doc.data(), 'id': doc.id}))
@@ -130,7 +130,7 @@ class FirebaseService {
 
   // Cart Management - Note: Cart functionality moved to CartService
   // This method is kept for backward compatibility but will be removed
-  Future<dynamic?> getUserCart(String userId) async {
+  Future<dynamic> getUserCart(String userId) async {
     throw 'Cart functionality has been moved to CartService. Please use CartProvider instead.';
   }
 

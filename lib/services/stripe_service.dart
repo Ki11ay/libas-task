@@ -1,9 +1,13 @@
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class StripeService {
-  // Replace with your actual publishable key (this is safe to have in the app)
-  static const String _publishableKey = 'pk_test_51S0NA4Q471tlxA0yDRCiJSANd9dYZ3aPdZSHMqzSe9xldy1YwoRN53AV12DmugpKwT8lV2eiorTRqPuF6FQYkozY00ccRcoiGr';
+  // Get keys from environment variables
+  static String get _publishableKey => 'pk_test_51S0NA4Q471tlxA0yDRCiJSANd9dYZ3aPdZSHMqzSe9xldy1YwoRN53AV12DmugpKwT8lV2eiorTRqPuF6FQYkozY00ccRcoiGr';
+  static String get _secretKey => 'sk_test_51S0NA4Q471tlxA0yRywl58SVQgjQ42628zlfJMWVB7Gvo6mYlkr0CBZGRPbz83GhNbN4wLDtT837FYlC0sZgwi7P00crI34NU8';
   
   // NOTE: Secret key should NEVER be in your Flutter app!
   // It should only be on your backend server for security reasons.
@@ -35,20 +39,30 @@ class StripeService {
         throw Exception('Currency cannot be empty');
       }
       
-      //print('Creating payment intent for amount: $amount $currency');
-      
-      // TODO: Replace this with a call to your backend server
-      // For now, we'll return a mock response for testing
-      // In production, this should call your Firebase Cloud Function or backend API
-      
-      // Mock response for testing - replace with actual backend call
-      return {
-        'id': 'pi_test_${DateTime.now().millisecondsSinceEpoch}',
-        'client_secret': 'pi_test_secret_${DateTime.now().millisecondsSinceEpoch}',
-        'amount': (amount * 100).round(),
-        'currency': currency,
-        'status': 'requires_payment_method',
-      };
+      // For development/testing, create a real payment intent using Stripe's test mode
+      // WARNING: This is NOT for production use!
+      final response = await http.post(
+        Uri.parse('https://api.stripe.com/v1/payment_intents'),
+        headers: {
+          'Authorization': 'Bearer $_secretKey',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: {
+          'amount': (amount * 100).round().toString(), // Convert to cents
+          'currency': currency,
+          if (customerId != null) 'customer': customerId,
+          'automatic_payment_methods[enabled]': 'true',
+          'metadata[test_mode]': 'true',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        //print('Payment intent created successfully: ${data['id']}');
+        return data;
+      } else {
+        throw Exception('Failed to create payment intent: HTTP ${response.statusCode} - ${response.body}');
+      }
       
       // Example of how this should work in production:
       // final response = await http.post(
@@ -97,8 +111,8 @@ class StripeService {
       await Stripe.instance.presentPaymentSheet();
       //print('Payment sheet presented successfully');
     } catch (e) {
-      //print('Payment sheet presentation failed: $e');
-      throw Exception('Payment sheet presentation failed: $e');
+      //print('Failed to present payment sheet: $e');
+      throw Exception('Failed to present payment sheet: $e');
     }
   }
 
@@ -109,8 +123,8 @@ class StripeService {
       await Stripe.instance.confirmPaymentSheetPayment();
       //print('Payment sheet payment confirmed successfully');
     } catch (e) {
-      //print('Payment sheet confirmation failed: $e');
-      throw Exception('Payment sheet confirmation failed: $e');
+      //print('Failed to confirm payment sheet payment: $e');
+      throw Exception('Failed to confirm payment sheet payment: $e');
     }
   }
 
